@@ -29,5 +29,5 @@ public class Link {
     private Integer clickCount;
 
     @ManyToOne
-    private User user;
+    private Customer customer;
 }
