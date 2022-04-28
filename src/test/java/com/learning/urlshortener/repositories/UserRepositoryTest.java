@@ -1,7 +1,7 @@
 package com.learning.urlshortener.repositories;
 
-import com.learning.urlshortener.domains.Customer;
-import com.learning.urlshortener.domains.Link;
+import com.learning.urlshortener.entities.CustomerEntity;
+import com.learning.urlshortener.entities.LinkEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -11,8 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
-class UserRepositoryTest {
+class UserRepositoryTest extends BaseKabanDBTest {
 
     @Autowired
     TestEntityManager entityManager;
@@ -25,7 +24,7 @@ class UserRepositoryTest {
 
     @Test
     void should_find_no_customer_if_repository_is_empty() {
-        List<Customer> customerList = repositoryUnderTest.findAll();
+        List<CustomerEntity> customerList = repositoryUnderTest.findAll();
 
         assertEquals(0, repositoryUnderTest.count());
         assertTrue(customerList.isEmpty());
@@ -34,12 +33,12 @@ class UserRepositoryTest {
     @Test
     void should_find_customer_by_id() {
         //given
-        entityManager.persist(Customer.builder().nickname("Nickname1").build());
-        Customer savedCustomer = entityManager.persist(Customer.builder().nickname("Nickname2").build());
-        entityManager.persist(Customer.builder().nickname("Nickname3").build());
+        entityManager.persist(CustomerEntity.builder().nickname("Nickname1").build());
+        CustomerEntity savedCustomer = entityManager.persist(CustomerEntity.builder().nickname("Nickname2").build());
+        entityManager.persist(CustomerEntity.builder().nickname("Nickname3").build());
 
         //when
-        Customer foundCustomer = repositoryUnderTest.findById(savedCustomer.getId()).orElse(null);
+        CustomerEntity foundCustomer = repositoryUnderTest.findById(savedCustomer.getId()).orElse(null);
 
         //then
         assertNotNull(foundCustomer);
@@ -48,9 +47,9 @@ class UserRepositoryTest {
 
     @Test
     void should_find_all_customers() {
-        entityManager.persist(new Customer());
-        entityManager.persist(new Customer());
-        entityManager.persist(new Customer());
+        entityManager.persist(new CustomerEntity());
+        entityManager.persist(new CustomerEntity());
+        entityManager.persist(new CustomerEntity());
 
         assertEquals(3, repositoryUnderTest.count());
     }
@@ -58,10 +57,10 @@ class UserRepositoryTest {
     @Test
     void should_save_new_customer() {
         //given
-        Customer newCustomer = Customer.builder().nickname("Nickname").build();
+        CustomerEntity newCustomer = CustomerEntity.builder().nickname("Nickname").build();
 
         //when
-        Customer savedCustomer = repositoryUnderTest.save(newCustomer);
+        CustomerEntity savedCustomer = repositoryUnderTest.save(newCustomer);
 
         //then
         assertNotNull(savedCustomer);
@@ -72,11 +71,11 @@ class UserRepositoryTest {
     @Test
     void should_save_all_customers() {
         //given
-        Customer customer1 = Customer.builder().nickname("Nickname1").build();
-        Customer customer2 = Customer.builder().nickname("Nickname2").build();
+        CustomerEntity customer1 = CustomerEntity.builder().nickname("Nickname1").build();
+        CustomerEntity customer2 = CustomerEntity.builder().nickname("Nickname2").build();
 
         //when
-        List<Customer> savedCustomerList = repositoryUnderTest.saveAll(List.of(customer1, customer2));
+        List<CustomerEntity> savedCustomerList = repositoryUnderTest.saveAll(List.of(customer1, customer2));
 
         //then
         assertNotNull(savedCustomerList);
@@ -86,9 +85,9 @@ class UserRepositoryTest {
     @Test
     void should_delete_customer_by_id() {
         //given
-        entityManager.persist(Customer.builder().nickname("Nickname1").build());
-        Customer customerToDelete = entityManager.persist(Customer.builder().nickname("Nickname2").build());
-        entityManager.persist(Customer.builder().nickname("Nickname3").build());
+        entityManager.persist(CustomerEntity.builder().nickname("Nickname1").build());
+        CustomerEntity customerToDelete = entityManager.persist(CustomerEntity.builder().nickname("Nickname2").build());
+        entityManager.persist(CustomerEntity.builder().nickname("Nickname3").build());
 
         //when
         repositoryUnderTest.deleteById(customerToDelete.getId());
@@ -101,9 +100,9 @@ class UserRepositoryTest {
     @Test
     void should_delete_all_customers() {
         //given
-        entityManager.persist(Customer.builder().nickname("Nickname1").build());
-        entityManager.persist(Customer.builder().nickname("Nickname2").build());
-        entityManager.persist(Customer.builder().nickname("Nickname3").build());
+        entityManager.persist(CustomerEntity.builder().nickname("Nickname1").build());
+        entityManager.persist(CustomerEntity.builder().nickname("Nickname2").build());
+        entityManager.persist(CustomerEntity.builder().nickname("Nickname3").build());
 
         //when
         repositoryUnderTest.deleteAll();
@@ -115,10 +114,10 @@ class UserRepositoryTest {
     @Test
     void should_delete_customer_and_related_links() {
         //given
-        Customer customer = entityManager.persist(new Customer());
+        CustomerEntity customer = entityManager.persist(new CustomerEntity());
 
-        Link link1 = Link.builder().customer(customer).build();
-        Link link2 = Link.builder().customer(customer).build();
+        LinkEntity link1 = LinkEntity.builder().customer(customer).build();
+        LinkEntity link2 = LinkEntity.builder().customer(customer).build();
         linkRepository.saveAll(List.of(link1, link2));
 
         customer.setLinks(List.of(link1, link2));

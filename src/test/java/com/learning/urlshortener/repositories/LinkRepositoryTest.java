@@ -1,18 +1,18 @@
 package com.learning.urlshortener.repositories;
 
-import com.learning.urlshortener.domains.Customer;
-import com.learning.urlshortener.domains.Link;
+import com.learning.urlshortener.entities.LinkEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@DataJpaTest
-class LinkRepositoryTest {
+class LinkRepositoryTest extends BaseKabanDBTest {
 
     @Autowired
     TestEntityManager entityManager;
@@ -22,7 +22,7 @@ class LinkRepositoryTest {
 
     @Test
     void should_find_no_link_if_repository_is_empty() {
-        List<Link> linkList = repositoryUnderTest.findAll();
+        List<LinkEntity> linkList = repositoryUnderTest.findAll();
 
         assertEquals(0, repositoryUnderTest.count());
         assertTrue(linkList.isEmpty());
@@ -31,12 +31,12 @@ class LinkRepositoryTest {
     @Test
     void should_find_link_by_id() {
         //given
-        entityManager.persist(Link.builder().url("Url1").build());
-        Link savedLink = entityManager.persist(Link.builder().url("Url2").build());
-        entityManager.persist(Link.builder().url("Url3").build());
+        entityManager.persist(LinkEntity.builder().url("Url1").build());
+        LinkEntity savedLink = entityManager.persist(LinkEntity.builder().url("Url2").build());
+        entityManager.persist(LinkEntity.builder().url("Url3").build());
 
         //when
-        Link foundLink = repositoryUnderTest.findById(savedLink.getId()).orElse(null);
+        LinkEntity foundLink = repositoryUnderTest.findById(savedLink.getId()).orElse(null);
 
         //then
         assertNotNull(foundLink);
@@ -45,9 +45,9 @@ class LinkRepositoryTest {
 
     @Test
     void should_find_all_links() {
-        entityManager.persist(new Link());
-        entityManager.persist(new Link());
-        entityManager.persist(new Link());
+        entityManager.persist(new LinkEntity());
+        entityManager.persist(new LinkEntity());
+        entityManager.persist(new LinkEntity());
 
         assertEquals(3, repositoryUnderTest.count());
     }
@@ -55,10 +55,10 @@ class LinkRepositoryTest {
     @Test
     void should_save_new_link() {
         //given
-        Link newLink = Link.builder().url("Url").build();
+        LinkEntity newLink = LinkEntity.builder().url("Url").build();
 
         //when
-        Link savedLink = repositoryUnderTest.save(newLink);
+        LinkEntity savedLink = repositoryUnderTest.save(newLink);
 
         //then
         assertNotNull(savedLink);
@@ -69,11 +69,11 @@ class LinkRepositoryTest {
     @Test
     void should_save_all_links() {
         //given
-        Link link1 = Link.builder().url("Url1").build();
-        Link link2 = Link.builder().url("Url2").build();
+        LinkEntity link1 = LinkEntity.builder().url("Url1").build();
+        LinkEntity link2 = LinkEntity.builder().url("Url2").build();
 
         //when
-        List<Link> savedLinkList = repositoryUnderTest.saveAll(List.of(link1, link2));
+        List<LinkEntity> savedLinkList = repositoryUnderTest.saveAll(List.of(link1, link2));
 
         //then
         assertNotNull(savedLinkList);
@@ -83,9 +83,9 @@ class LinkRepositoryTest {
     @Test
     void should_delete_link_by_id() {
         //given
-        entityManager.persist(Link.builder().url("Url1").build());
-        Link linkToDelete = entityManager.persist(Link.builder().url("Url2").build());
-        entityManager.persist(Link.builder().url("Url3").build());
+        entityManager.persist(LinkEntity.builder().url("Url1").build());
+        LinkEntity linkToDelete = entityManager.persist(LinkEntity.builder().url("Url2").build());
+        entityManager.persist(LinkEntity.builder().url("Url3").build());
 
         //when
         repositoryUnderTest.deleteById(linkToDelete.getId());
@@ -98,9 +98,9 @@ class LinkRepositoryTest {
     @Test
     void should_delete_all_links() {
         //given
-        entityManager.persist(Link.builder().url("Url1").build());
-        entityManager.persist(Link.builder().url("Url2").build());
-        entityManager.persist(Link.builder().url("Url3").build());
+        entityManager.persist(LinkEntity.builder().url("Url1").build());
+        entityManager.persist(LinkEntity.builder().url("Url2").build());
+        entityManager.persist(LinkEntity.builder().url("Url3").build());
 
         //when
         repositoryUnderTest.deleteAll();

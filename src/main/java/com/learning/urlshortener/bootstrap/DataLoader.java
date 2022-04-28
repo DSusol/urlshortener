@@ -1,12 +1,10 @@
 package com.learning.urlshortener.bootstrap;
-import com.learning.urlshortener.domains.Link;
-import com.learning.urlshortener.domains.Customer;
+import com.learning.urlshortener.entities.LinkEntity;
+import com.learning.urlshortener.entities.CustomerEntity;
 import com.learning.urlshortener.repositories.LinkRepository;
 import com.learning.urlshortener.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -37,31 +35,31 @@ public class DataLoader implements CommandLineRunner {
         userRepository.deleteAll();
         linkRepository.deleteAll();
 
-        Customer anton = Customer.builder()
+        CustomerEntity anton = CustomerEntity.builder()
                 .nickname("pechenka")
                 .links(new ArrayList<>())
                 .build();
 
-        Customer dima = Customer.builder()
+        CustomerEntity dima = CustomerEntity.builder()
                 .nickname("sd")
                 .links(new ArrayList<>())
                 .build();
 
-        Link antonsLink1 = Link.builder()
+        LinkEntity antonsLink1 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/a1")
                 .shortenedUrl("https://shortversion/a1")
                 .clickCount(2)
                 .customer(anton)
                 .build();
 
-        Link antonsLink2 = Link.builder()
+        LinkEntity antonsLink2 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/a2")
                 .shortenedUrl("https://shortversion/a2")
                 .clickCount(1)
                 .customer(anton)
                 .build();
 
-        Link antonsLink3 = Link.builder()
+        LinkEntity antonsLink3 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/a3")
                 .shortenedUrl("https://shortversion/a3")
                 .clickCount(5)
@@ -70,21 +68,21 @@ public class DataLoader implements CommandLineRunner {
 
         anton.getLinks().addAll(List.of(antonsLink1, antonsLink2, antonsLink2));
 
-        Link dimasLink1 = Link.builder()
+        LinkEntity dimasLink1 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/d1")
                 .shortenedUrl("https://shortversion/d1")
                 .clickCount(2)
                 .customer(dima)
                 .build();
 
-        Link dimasLink2 = Link.builder()
+        LinkEntity dimasLink2 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/d2")
                 .shortenedUrl("https://shortversion/d2")
                 .clickCount(6)
                 .customer(dima)
                 .build();
 
-        Link dimasLink3 = Link.builder()
+        LinkEntity dimasLink3 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/d3")
                 .shortenedUrl("https://shortversion/d3")
                 .clickCount(20)
