@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@ConditionalOnProperty(name="init.dummy.data.on.start")
-@Profile("!prod")
+//@ConditionalOnProperty(name="init.dummy.data.on.start")
+//@Profile("!prod")
 @Component
 public class DataLoader implements CommandLineRunner {
 
