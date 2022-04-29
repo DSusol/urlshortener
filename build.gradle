@@ -61,6 +61,7 @@ jacocoTestReport {
 test {
 	systemProperty 'spring.profiles.active', 'test'
 	useJUnitPlatform()
+	finalizedBy(jacocoTestReport)
 }
 
 apply plugin: 'org.liquibase.gradle'
