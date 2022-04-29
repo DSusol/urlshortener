@@ -5,5 +5,5 @@ import org.springframework.context.annotation.ComponentScan;
 
 @DataJpaTest
 @ComponentScan("com.learning.urlshortener.repositories")
-public class BaseKabanDBTest {
+public class BaseDBTest {
 }

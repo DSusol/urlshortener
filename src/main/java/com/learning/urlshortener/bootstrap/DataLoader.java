@@ -1,18 +1,23 @@
 package com.learning.urlshortener.bootstrap;
-import com.learning.urlshortener.entities.LinkEntity;
-import com.learning.urlshortener.entities.CustomerEntity;
-import com.learning.urlshortener.repositories.LinkRepository;
-import com.learning.urlshortener.repositories.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
+import com.learning.urlshortener.entities.CustomerEntity;
+import com.learning.urlshortener.entities.LinkEntity;
+import com.learning.urlshortener.repositories.LinkRepository;
+import com.learning.urlshortener.repositories.UserRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
-//@ConditionalOnProperty(name="init.dummy.data.on.start")
-//@Profile("!prod")
+@ConditionalOnProperty(name = "init.dummy.data.on.start")
+@Profile("!prod")
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -26,7 +31,7 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if(userRepository.findAll().size() == 0 || linkRepository.findAll().size() == 0) {
+        if (userRepository.findAll().size() == 0 || linkRepository.findAll().size() == 0) {
             addDataToDatabase();
         }
     }

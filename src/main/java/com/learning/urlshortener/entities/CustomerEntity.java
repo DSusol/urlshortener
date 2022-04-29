@@ -1,9 +1,6 @@
 package com.learning.urlshortener.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,10 +10,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
 
-@Data
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -32,6 +34,6 @@ public class CustomerEntity {
     private String nickname;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private List<LinkEntity> links = new ArrayList<>();
+    private List<LinkEntity> links;
 
 }

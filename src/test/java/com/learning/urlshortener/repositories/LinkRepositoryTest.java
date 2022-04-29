@@ -1,18 +1,19 @@
 package com.learning.urlshortener.repositories;
 
-import com.learning.urlshortener.entities.LinkEntity;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class LinkRepositoryTest extends BaseKabanDBTest {
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
+import com.learning.urlshortener.entities.LinkEntity;
+
+class LinkRepositoryTest extends BaseDBTest {
 
     @Autowired
     TestEntityManager entityManager;

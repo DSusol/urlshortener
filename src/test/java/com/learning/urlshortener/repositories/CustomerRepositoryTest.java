@@ -1,17 +1,20 @@
 package com.learning.urlshortener.repositories;
 
-import com.learning.urlshortener.entities.CustomerEntity;
-import com.learning.urlshortener.entities.LinkEntity;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-class UserRepositoryTest extends BaseKabanDBTest {
+import com.learning.urlshortener.entities.CustomerEntity;
+import com.learning.urlshortener.entities.LinkEntity;
+
+class CustomerRepositoryTest extends BaseDBTest {
 
     @Autowired
     TestEntityManager entityManager;
@@ -117,8 +120,9 @@ class UserRepositoryTest extends BaseKabanDBTest {
         CustomerEntity customer = entityManager.persist(new CustomerEntity());
 
         LinkEntity link1 = LinkEntity.builder().customer(customer).build();
+        entityManager.persist(link1);
         LinkEntity link2 = LinkEntity.builder().customer(customer).build();
-        linkRepository.saveAll(List.of(link1, link2));
+        entityManager.persist(link1);
 
         customer.setLinks(List.of(link1, link2));
         entityManager.persist(customer);
