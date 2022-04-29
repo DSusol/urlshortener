@@ -4,6 +4,7 @@ plugins {
 	id 'java'
 	id "org.liquibase.gradle" version "2.1.1"
 	id 'checkstyle'
+	id 'jacoco'
 }
 
 group = 'com.learning'
@@ -32,14 +33,6 @@ task checkstyle(type: Checkstyle) {
 	classpath = files()
 }
 
-//ext {
-//	javaMainClass = "com.learning.urlshortener.UrlShortenerApplication"
-//}
-//
-//application {
-//	mainClassName = "com.learning.urlshortener.UrlShortenerApplication"
-//}
-
 dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -56,6 +49,13 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 
 	testRuntimeOnly 'com.h2database:h2'
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+		html.enabled false
+	}
 }
 
 test {
