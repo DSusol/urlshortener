@@ -32,6 +32,14 @@ task checkstyle(type: Checkstyle) {
 	classpath = files()
 }
 
+//ext {
+//	javaMainClass = "com.learning.urlshortener.UrlShortenerApplication"
+//}
+//
+//application {
+//	mainClassName = "com.learning.urlshortener.UrlShortenerApplication"
+//}
+
 dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
