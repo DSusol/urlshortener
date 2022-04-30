@@ -16,7 +16,7 @@ import com.learning.urlshortener.repositories.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@ConditionalOnProperty(name = "init.dummy.data.on.start")
+@ConditionalOnProperty("init.dummy.data.on.start")
 @Profile("!prod")
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -31,7 +31,7 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (userRepository.findAll().size() == 0 || linkRepository.findAll().size() == 0) {
+        if (userRepository.count() == 0 || linkRepository.count() == 0) {
             addDataToDatabase();
         }
     }
@@ -97,9 +97,9 @@ public class DataLoader implements CommandLineRunner {
         dima.getLinks().addAll(List.of(dimasLink1, dimasLink2, dimasLink3));
 
         userRepository.saveAll(List.of(anton, dima));
-        log.debug("{} users are added to H2 database.", userRepository.count());
+        log.debug("{} users are added to database.", userRepository.count());
 
         linkRepository.saveAll(List.of(antonsLink1, antonsLink2, antonsLink3, dimasLink1, dimasLink2, dimasLink3));
-        log.debug("{} links are added to H2 database.", linkRepository.count());
+        log.debug("{} links are added to database.", linkRepository.count());
     }
 }

@@ -2,7 +2,6 @@ plugins {
 	id 'org.springframework.boot' version '2.6.7'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
-	id "org.liquibase.gradle" version "2.1.1"
 	id 'checkstyle'
 	id 'jacoco'
 }
@@ -22,14 +21,9 @@ repositories {
 }
 
 task checkstyle(type: Checkstyle) {
-	configFile file("${project.rootDir}/path/to/checkstyle/config/checkstyle.xml") // Checkstyle config location
+	configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
 	source 'src/main/java'
 	include '**/*.java'
-	exclude '**/gen/**'
-	reports {
-		html.required = true
-	}
-
 	classpath = files()
 }
 
@@ -64,7 +58,7 @@ test {
 	finalizedBy(jacocoTestReport)
 }
 
-apply plugin: 'org.liquibase.gradle'
+//apply plugin: 'org.liquibase.gradle'
 
 task runDev {
 	group = 'application'
@@ -73,4 +67,3 @@ task runDev {
 	}
 	finalizedBy bootRun
 }
-

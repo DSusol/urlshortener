@@ -7,6 +7,8 @@ CREATE TABLE customer
     nick_name VARCHAR(255),
     PRIMARY KEY (id)
 );
+
+-- changeset liquibase:2
 CREATE TABLE link
 (
     id            bigserial NOT NULL,
@@ -17,5 +19,6 @@ CREATE TABLE link
     PRIMARY KEY (id)
 );
 
-ALTER TABLE IF EXISTS link
+-- changeset liquibase:3
+ALTER TABLE link
     ADD FOREIGN KEY (customer) REFERENCES customer;
