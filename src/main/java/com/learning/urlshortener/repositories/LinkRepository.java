@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.learning.urlshortener.entities.LinkEntity;
 
 public interface LinkRepository extends JpaRepository<LinkEntity, Long> {
+
+    LinkEntity findLinkEntityByShortenedUrl(String shortenedUrl);
 }

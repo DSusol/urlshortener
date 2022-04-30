@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,10 +31,10 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nick_name")
+    @Column(name = "nick_name", unique = true)
     private String nickname;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", fetch = FetchType.EAGER)
     private List<LinkEntity> links;
 
 }

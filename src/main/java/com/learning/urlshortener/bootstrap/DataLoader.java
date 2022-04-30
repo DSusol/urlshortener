@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import com.learning.urlshortener.entities.CustomerEntity;
 import com.learning.urlshortener.entities.LinkEntity;
+import com.learning.urlshortener.repositories.CustomerRepository;
 import com.learning.urlshortener.repositories.LinkRepository;
-import com.learning.urlshortener.repositories.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,9 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 public class DataLoader implements CommandLineRunner {
 
     private final LinkRepository linkRepository;
-    private final UserRepository userRepository;
+    private final CustomerRepository userRepository;
 
-    public DataLoader(LinkRepository linkRepository, UserRepository userRepository) {
+    public DataLoader(LinkRepository linkRepository, CustomerRepository userRepository) {
         this.linkRepository = linkRepository;
         this.userRepository = userRepository;
     }

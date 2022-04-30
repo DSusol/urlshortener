@@ -28,7 +28,7 @@ public class LinkEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "shortened_url")
+    @Column(name = "shortened_url", unique = true)
     private String shortenedUrl;
 
     @Column(name = "url")
