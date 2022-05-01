@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import com.learning.urlshortener.entities.CustomerEntity;
-import com.learning.urlshortener.entities.LinkEntity;
-import com.learning.urlshortener.repositories.CustomerRepository;
-import com.learning.urlshortener.repositories.LinkRepository;
+import com.learning.urlshortener.database.customers.CustomerEntity;
+import com.learning.urlshortener.database.customers.CustomerRepository;
+import com.learning.urlshortener.database.links.LinkEntity;
+import com.learning.urlshortener.database.links.LinkRepository;
 
 import lombok.extern.slf4j.Slf4j;
 

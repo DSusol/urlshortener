@@ -1,4 +1,4 @@
-package com.learning.urlshortener.entities;
+package com.learning.urlshortener.database.links;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.PositiveOrZero;
+
+import org.hibernate.validator.constraints.URL;
+
+import com.learning.urlshortener.database.customers.CustomerEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,12 +34,15 @@ public class LinkEntity {
     private Long id;
 
     @Column(name = "shortened_url", unique = true)
+    @URL
     private String shortenedUrl;
 
     @Column(name = "url")
+    @URL
     private String url;
 
     @Column(name = "click_count")
+    @PositiveOrZero
     private Integer clickCount;
 
     @ManyToOne

@@ -1,4 +1,4 @@
-package com.learning.urlshortener.mappers;
+package com.learning.urlshortener.database.links;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -7,15 +7,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.learning.urlshortener.domain.Link;
-import com.learning.urlshortener.entities.LinkEntity;
 
-class LinkMapperTest {
+class LinkEntityMapperTest {
 
-    LinkMapper mapperUnderTest;
+    LinkEntityMapper underTest;
 
     @BeforeEach
     void setUp() {
-        mapperUnderTest = new LinkMapperImpl();
+        underTest = LinkEntityMapper.INSTANCE;
     }
 
     @Test
@@ -28,7 +27,7 @@ class LinkMapperTest {
                 .build();
 
         //when
-        Link link = mapperUnderTest.linkEntityToLink(linkEntity);
+        Link link = underTest.linkEntityToLink(linkEntity);
 
         //then
         assertNotNull(link);
@@ -47,7 +46,7 @@ class LinkMapperTest {
                 .build();
 
         //when
-        LinkEntity linkEntity = mapperUnderTest.linkToLinkEntity(link);
+        LinkEntity linkEntity = underTest.linkToLinkEntity(link);
 
         //then
         assertNotNull(linkEntity);

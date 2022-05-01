@@ -1,4 +1,4 @@
-package com.learning.urlshortener.mappers;
+package com.learning.urlshortener.database.customers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -7,15 +7,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.learning.urlshortener.domain.Customer;
-import com.learning.urlshortener.entities.CustomerEntity;
 
-class CustomerMapperTest {
+class CustomerEntityMapperTest {
 
-    CustomerMapper mapperUnderTest;
+    CustomerEntityMapper underTest;
 
     @BeforeEach
     void setUp() {
-        mapperUnderTest = new CustomerMapperImpl();
+        underTest = CustomerEntityMapper.INSTANCE;
     }
 
     @Test
@@ -24,7 +23,7 @@ class CustomerMapperTest {
         CustomerEntity customerEntity = CustomerEntity.builder().nickname("test name").build();
 
         //when
-        Customer customer = mapperUnderTest.customerEntityToCustomer(customerEntity);
+        Customer customer = underTest.customerEntityToCustomer(customerEntity);
 
         //then
         assertNotNull(customer);
@@ -37,7 +36,7 @@ class CustomerMapperTest {
         Customer customer = Customer.builder().nickname("test name").build();
 
         //when
-        CustomerEntity customerEntity = mapperUnderTest.customerToCustomerEntity(customer);
+        CustomerEntity customerEntity = underTest.customerToCustomerEntity(customer);
 
         //then
         assertNotNull(customerEntity);

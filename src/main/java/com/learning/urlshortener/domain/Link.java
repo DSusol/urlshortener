@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Link {
 
+    private Long id;
     private String shortenedUrl;
     private String url;
     private Integer clickCount;

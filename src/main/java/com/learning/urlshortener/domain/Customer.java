@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Customer {
 
+    private Long id;
     private String nickname;
 
 }

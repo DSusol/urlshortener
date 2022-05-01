@@ -9,6 +9,10 @@ CREATE TABLE customer
 );
 
 -- changeset liquibase:2
+ALTER TABLE customer
+    ADD CONSTRAINT nickNameConstrain UNIQUE (nick_name);
+
+-- changeset liquibase:3
 CREATE TABLE link
 (
     id            bigserial NOT NULL,
@@ -19,6 +23,10 @@ CREATE TABLE link
     PRIMARY KEY (id)
 );
 
--- changeset liquibase:3
+-- changeset liquibase:4
+ALTER TABLE link
+    ADD CONSTRAINT shortenedUrlConstrain UNIQUE (shortened_url);
+
+-- changeset liquibase:5
 ALTER TABLE link
     ADD FOREIGN KEY (customer) REFERENCES customer;
