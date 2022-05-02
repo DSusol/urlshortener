@@ -1,5 +1,8 @@
 package com.learning.urlshortener.database.links;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Repository;
 
 import com.learning.urlshortener.database.customers.CustomerEntity;
@@ -23,17 +26,34 @@ public class LinkDAOImpl implements LinkDAO {
     }
 
     @Override
-    public Link saveLink(Customer customer, Link link) {
-        CustomerEntity customerEntity = customerRepository.findById(customer.getId()).orElse(null);
-        if (customerEntity == null) {
+    public Link findLinkByShortenedUrl(String shortenedUrl) {
+        LinkEntity foundLinkEntity = linkRepository.findLinkEntityByShortenedUrl(shortenedUrl);
+        if (foundLinkEntity == null) {
             //todo: implement exception handling
-            throw new RuntimeException("Customer was not found");
+            throw new RuntimeException("Link was not found");
         }
+        return linkEntityMapper.linkEntityToLink(foundLinkEntity);
+    }
+
+    @Override
+    public List<Link> findAllLinksByCustomer(Customer customer) {
+        return linkRepository.findLinkEntitiesByCustomer(
+                        findCustomerEntityById(customer.getId()))
+                .stream()
+                .map(linkEntityMapper::linkEntityToLink)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Link saveLink(Customer customer, Link link) {
+        CustomerEntity customerEntity = findCustomerEntityById(customer.getId());
+
         LinkEntity linkEntityToSave = linkEntityMapper.linkToLinkEntity(link);
         linkEntityToSave.setCustomer(customerEntity);
-
         LinkEntity savedLinkEntity = linkRepository.save(linkEntityToSave);
-        customerEntity.getLinks().add(savedLinkEntity);
+
+        List<LinkEntity> customerLinkEntities = linkRepository.findLinkEntitiesByCustomer(customerEntity);
+        customerEntity.setLinks(customerLinkEntities);
 
         return linkEntityMapper.linkEntityToLink(savedLinkEntity);
     }
@@ -53,5 +73,14 @@ public class LinkDAOImpl implements LinkDAO {
             throw new RuntimeException("Link was not found");
         }
         return foundLinkEntity;
+    }
+
+    private CustomerEntity findCustomerEntityById(Long id) {
+        CustomerEntity foundCustomerEntity = customerRepository.findById(id).orElse(null);
+        if (foundCustomerEntity == null) {
+            //todo: implement exception handling
+            throw new RuntimeException("Customer was not found");
+        }
+        return foundCustomerEntity;
     }
 }

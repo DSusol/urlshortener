@@ -36,7 +36,8 @@ public class CustomerEntity {
     @Column(name = "nick_name", unique = true)
     private String nickname;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    @Builder.Default
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "customer")
     private List<LinkEntity> links = new ArrayList<>();
 
 }
