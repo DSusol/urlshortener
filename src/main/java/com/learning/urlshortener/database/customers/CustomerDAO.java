@@ -8,7 +8,5 @@ public interface CustomerDAO {
 
     Customer saveCustomer(Customer customer);
 
-    Customer updateCustomer(Customer customerToUpdate);
-
     void deleteCustomerById(Long id);
 }

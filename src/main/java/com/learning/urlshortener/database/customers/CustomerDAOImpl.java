@@ -12,10 +12,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     private final CustomerRepository customerRepository;
     private final CustomerEntityMapper customerEntityMapper;
+    private final CustomerFinder customerFinder;
 
     @Override
     public Customer findCustomerById(Long id) {
-        return customerEntityMapper.customerEntityToCustomer(findCustomerEntityById(id));
+        return customerEntityMapper.customerEntityToCustomer(customerFinder.findCustomerEntityById(id));
     }
 
     @Override
@@ -27,29 +28,8 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public Customer updateCustomer(Customer customerToUpdate) {
-        if (customerRepository.findById(customerToUpdate.getId()).isEmpty()) {
-            //todo: implement exception handling
-            throw new RuntimeException("Customer was not found");
-        }
-        CustomerEntity customerEntityToUpdate = customerEntityMapper.customerToCustomerEntity(customerToUpdate);
-        return customerEntityMapper.customerEntityToCustomer(
-                customerRepository.save(customerEntityToUpdate)
-        );
-    }
-
-    @Override
     public void deleteCustomerById(Long id) {
-        CustomerEntity customerEntityToDelete = findCustomerEntityById(id);
+        CustomerEntity customerEntityToDelete = customerFinder.findCustomerEntityById(id);
         customerRepository.delete(customerEntityToDelete);
-    }
-
-    private CustomerEntity findCustomerEntityById(Long id) {
-        CustomerEntity foundCustomerEntity = customerRepository.findById(id).orElse(null);
-        if (foundCustomerEntity == null) {
-            //todo: implement exception handling
-            throw new RuntimeException("Customer was not found");
-        }
-        return foundCustomerEntity;
     }
 }

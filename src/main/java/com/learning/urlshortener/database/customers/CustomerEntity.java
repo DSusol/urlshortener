@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.learning.urlshortener.database.links.LinkEntity;
 
@@ -34,6 +35,7 @@ public class CustomerEntity {
     private Long id;
 
     @Column(name = "nick_name", unique = true)
+    @NotNull
     private String nickname;
 
     @Builder.Default
