@@ -1,15 +1,16 @@
 package com.learning.urlshortener.database.links;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 
 public interface LinkDAO {
 
-    Link findLinkById(Long id);
+    Optional<Link> findLinkById(Long id);
 
-    Link findLinkByShortenedUrl(String shortenedUrl);
+    Optional<Link> findLinkByShortenedUrl(String shortenedUrl);
 
     List<Link> findAllLinksByCustomer(Customer customer);
 

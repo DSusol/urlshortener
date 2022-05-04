@@ -10,12 +10,12 @@ import com.learning.urlshortener.domain.Link;
 @Component
 public class SimpleTestObjectFactory {
 
-    public Customer getSimpleCustomer() {
+    public static Customer getSimpleCustomer() {
         String uniqueID = UUID.randomUUID().toString();
         return Customer.builder().nickname("name" + uniqueID).build();
     }
 
-    public Link getSimpleLink() {
+    public static Link getSimpleLink() {
         String uniqueID = UUID.randomUUID().toString();
         return Link.builder()
                 .shortenedUrl("http://example1.com/" + uniqueID)

@@ -1,12 +1,13 @@
 package com.learning.urlshortener.database.links;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
 import com.learning.urlshortener.database.customers.CustomerEntity;
-import com.learning.urlshortener.database.customers.CustomerFinder;
+import com.learning.urlshortener.database.customers.CustomerEntityFinder;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 
@@ -18,24 +19,28 @@ public class LinkDAOImpl implements LinkDAO {
 
     private final LinkRepository linkRepository;
     private final LinkEntityMapper linkEntityMapper;
-    private final CustomerFinder customerFinder;
+    private final CustomerEntityFinder customerEntityFinder;
 
     @Override
-    public Link findLinkById(Long id) {
-        return linkEntityMapper.linkEntityToLink(findLinkEntityById(id));
+    public Optional<Link> findLinkById(Long id) {
+        Optional<LinkEntity> optionalLinkEntity = linkRepository.findById(id);
+
+        return (optionalLinkEntity.isEmpty())
+                ? Optional.empty() : Optional.of(linkEntityMapper.linkEntityToLink(optionalLinkEntity.get()));
     }
 
     @Override
-    public Link findLinkByShortenedUrl(String shortenedUrl) {
-        LinkEntity foundLinkEntity = linkRepository.findLinkEntityByShortenedUrl(shortenedUrl)
-                .orElseThrow(() -> new RuntimeException("Link was not found for provided shortenedUrl"));
-        return linkEntityMapper.linkEntityToLink(foundLinkEntity);
+    public Optional<Link> findLinkByShortenedUrl(String shortenedUrl) {
+        Optional<LinkEntity> optionalLinkEntity = linkRepository.findLinkEntityByShortenedUrl(shortenedUrl);
+
+        return (optionalLinkEntity.isEmpty())
+                ? Optional.empty() : Optional.of(linkEntityMapper.linkEntityToLink(optionalLinkEntity.get()));
     }
 
     @Override
     public List<Link> findAllLinksByCustomer(Customer customer) {
         return linkRepository.findLinkEntitiesByCustomer(
-                        customerFinder.findCustomerEntityById(customer.getId()))
+                        customerEntityFinder.findCustomerEntityById(customer.getId()))
                 .stream()
                 .map(linkEntityMapper::linkEntityToLink)
                 .collect(Collectors.toList());
@@ -43,7 +48,7 @@ public class LinkDAOImpl implements LinkDAO {
 
     @Override
     public Link saveLink(Customer customer, Link link) {
-        CustomerEntity customerEntity = customerFinder.findCustomerEntityById(customer.getId());
+        CustomerEntity customerEntity = customerEntityFinder.findCustomerEntityById(customer.getId());
 
         LinkEntity linkEntityToSave = linkEntityMapper.linkToLinkEntity(link);
         linkEntityToSave.setCustomer(customerEntity);
@@ -57,14 +62,13 @@ public class LinkDAOImpl implements LinkDAO {
 
     @Override
     public void deleteLinkById(Long id) {
-        LinkEntity foundLinkEntity = findLinkEntityById(id);
-        CustomerEntity foundCustomerEntity = foundLinkEntity.getCustomer();
-        foundCustomerEntity.getLinks().remove(foundLinkEntity);
-        linkRepository.delete(foundLinkEntity);
-    }
-
-    private LinkEntity findLinkEntityById(Long id) {
         //todo: implement exception handling
-        return linkRepository.findById(id).orElseThrow(() -> new RuntimeException("Link was not found"));
+        LinkEntity existingLinkEntity = linkRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Link was not found"));
+
+        CustomerEntity existingCustomerEntity = existingLinkEntity.getCustomer();
+        existingCustomerEntity.getLinks().remove(existingLinkEntity);
+
+        linkRepository.delete(existingLinkEntity);
     }
 }

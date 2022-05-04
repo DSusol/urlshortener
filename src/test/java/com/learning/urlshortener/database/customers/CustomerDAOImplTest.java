@@ -17,9 +17,6 @@ import com.learning.urlshortener.domain.Customer;
 class CustomerDAOImplTest extends BaseDBTest {
 
     @Autowired
-    SimpleTestObjectFactory objectFactory;
-
-    @Autowired
     LinkDAO linkDAO;
 
     @Autowired
@@ -57,25 +54,24 @@ class CustomerDAOImplTest extends BaseDBTest {
     @Test
     void should_delete_customer_by_id() {
         //given
-        Long existingCustomerId = underTest.saveCustomer(objectFactory.getSimpleCustomer()).getId();
+        Long existingCustomerId = underTest.saveCustomer(SimpleTestObjectFactory.getSimpleCustomer()).getId();
         assertThat(underTest.findCustomerById(existingCustomerId)).isNotNull();  // check if customer exists in db
 
         //when
         underTest.deleteCustomerById(existingCustomerId);
 
         //then
-        assertThatExceptionOfType(RuntimeException.class)
+        assertThatExceptionOfType(IllegalArgumentException.class)
                 .describedAs("Customer was not found")
-                .isThrownBy(
-                        () -> underTest.findCustomerById(existingCustomerId));
+                .isThrownBy(() -> underTest.findCustomerById(existingCustomerId));
     }
 
     @Test
     void should_delete_customer_and_related_links() {
         //given
-        Customer existingCustomer = underTest.saveCustomer(objectFactory.getSimpleCustomer());
+        Customer existingCustomer = underTest.saveCustomer(SimpleTestObjectFactory.getSimpleCustomer());
 
-        Long link1Id = linkDAO.saveLink(existingCustomer, objectFactory.getSimpleLink()).getId();
+        Long linkId = linkDAO.saveLink(existingCustomer, SimpleTestObjectFactory.getSimpleLink()).getId();
 
         assertThat(underTest.findCustomerById(existingCustomer.getId())).isNotNull();      // customer is saved to db
         assertThat(linkDAO.findAllLinksByCustomer(existingCustomer)).hasSize(1);  // link are saved to db
@@ -84,13 +80,11 @@ class CustomerDAOImplTest extends BaseDBTest {
         underTest.deleteCustomerById(existingCustomer.getId());
 
         //then
-        assertThatExceptionOfType(RuntimeException.class)
+        assertThatExceptionOfType(IllegalArgumentException.class)
                 .describedAs("Customer was not found")
                 .isThrownBy(() -> underTest.findCustomerById(existingCustomer.getId()));
 
-        assertThatExceptionOfType(RuntimeException.class)
-                .describedAs("Link was not found")
-                .isThrownBy(() -> linkDAO.findLinkById(link1Id));
+        assertThat(linkDAO.findLinkById(linkId)).isEmpty();
     }
 
     @Test
@@ -106,7 +100,7 @@ class CustomerDAOImplTest extends BaseDBTest {
 
     @Test
     void when_saving_with_null_nickname_should_throw_exception() {
-        Customer customerToSave = objectFactory.getSimpleCustomer();
+        Customer customerToSave = SimpleTestObjectFactory.getSimpleCustomer();
         customerToSave.setNickname(null);
 
         assertThatExceptionOfType(ConstraintViolationException.class)

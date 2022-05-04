@@ -21,55 +21,66 @@ import com.learning.urlshortener.domain.Link;
 class LinkDAOImplTest extends BaseDBTest {
 
     @Autowired
-    SimpleTestObjectFactory objectFactory;
-
-    @Autowired
     CustomerDAO customerDAO;
 
     @Autowired
     LinkDAO underTest;
 
     Customer existingCustomer;
-    Link existingNotSavedLink;
+    Link linkToSave;
 
     @BeforeEach
     public void setUp() {
-        existingCustomer = customerDAO.saveCustomer(objectFactory.getSimpleCustomer());
-        existingNotSavedLink = objectFactory.getSimpleLink();
+        existingCustomer = customerDAO.saveCustomer(SimpleTestObjectFactory.getSimpleCustomer());
+        linkToSave = SimpleTestObjectFactory.getSimpleLink();
     }
 
     @Test
     void should_find_link_by_id() {
         //given
-        Long existingLinkId = underTest.saveLink(existingCustomer, existingNotSavedLink).getId();
+        Long existingLinkId = underTest.saveLink(existingCustomer, linkToSave).getId();
 
         //when
-        Link foundLink = underTest.findLinkById(existingLinkId);
+        Link foundLink = underTest.findLinkById(existingLinkId).orElse(null);
 
         //then
-        existingNotSavedLink.setId(foundLink.getId());
-        assertThat(foundLink).isNotNull().isEqualTo(existingNotSavedLink);
+        assertThat(foundLink).isNotNull();
+
+        linkToSave.setId(foundLink.getId());
+        assertThat(foundLink).isEqualTo(linkToSave);
+    }
+
+    @Test
+    void when_find_by_incorrect_id_should_return_empty_result() {
+        assertThat(underTest.findLinkById(5L)).isEmpty();
     }
 
     @Test
     void should_find_link_by_shortenedUrl() {
         //given
-        existingNotSavedLink.setShortenedUrl("http://surl.com/test");
-        underTest.saveLink(existingCustomer, existingNotSavedLink);
+        linkToSave.setShortenedUrl("http://surl.com/test");
+        underTest.saveLink(existingCustomer, linkToSave);
 
         //when
-        Link foundLink = underTest.findLinkByShortenedUrl("http://surl.com/test");
+        Link foundLink = underTest.findLinkByShortenedUrl("http://surl.com/test").orElse(null);
 
         //then
-        existingNotSavedLink.setId(foundLink.getId());
-        assertThat(foundLink).isNotNull().isEqualTo(existingNotSavedLink);
+        assertThat(foundLink).isNotNull();
+
+        linkToSave.setId(foundLink.getId());
+        assertThat(foundLink).isEqualTo(linkToSave);
+    }
+
+    @Test
+    void when_find_by_incorrect_shortenedUrl_should_return_empty_result() {
+        assertThat(underTest.findLinkByShortenedUrl("incorrect dada")).isEmpty();
     }
 
     @Test
     void should_find_all_links_for_specific_customer() {
         //given
-        underTest.saveLink(existingCustomer, objectFactory.getSimpleLink());
-        underTest.saveLink(existingCustomer, objectFactory.getSimpleLink());
+        underTest.saveLink(existingCustomer, SimpleTestObjectFactory.getSimpleLink());
+        underTest.saveLink(existingCustomer, SimpleTestObjectFactory.getSimpleLink());
 
         //when
         List<Link> foundLinks = underTest.findAllLinksByCustomer(existingCustomer);
@@ -82,20 +93,20 @@ class LinkDAOImplTest extends BaseDBTest {
     @Test
     void should_save_new_link() {
         //when
-        Long savedLinkId = underTest.saveLink(existingCustomer, existingNotSavedLink).getId();
+        Long savedLinkId = underTest.saveLink(existingCustomer, linkToSave).getId();
 
         //then
-        Link derivedFromDatabaseLink = underTest.findLinkById(savedLinkId);
-        existingNotSavedLink.setId(savedLinkId);
+        Link derivedFromDatabaseLink = underTest.findLinkById(savedLinkId).orElse(null);
+        linkToSave.setId(savedLinkId);
 
-        assertThat(derivedFromDatabaseLink).isNotNull().isEqualTo(existingNotSavedLink);
-        assertThat(underTest.findAllLinksByCustomer(existingCustomer)).hasSize(1).contains(existingNotSavedLink);
+        assertThat(derivedFromDatabaseLink).isNotNull().isEqualTo(linkToSave);
+        assertThat(underTest.findAllLinksByCustomer(existingCustomer)).hasSize(1).contains(linkToSave);
     }
 
     @Test
     void should_delete_link_by_id() {
         //given
-        Long existingLinkId = underTest.saveLink(existingCustomer, existingNotSavedLink).getId();
+        Long existingLinkId = underTest.saveLink(existingCustomer, linkToSave).getId();
 
         assertThat(underTest.findAllLinksByCustomer(existingCustomer)).hasSize(1);  // link are saved to db
 
@@ -103,19 +114,18 @@ class LinkDAOImplTest extends BaseDBTest {
         underTest.deleteLinkById(existingLinkId);
 
         //then
+        assertThat(underTest.findLinkById(existingLinkId)).isEmpty();
         assertThat(underTest.findAllLinksByCustomer(existingCustomer)).isEmpty();
-        assertThatExceptionOfType(RuntimeException.class)
-                .describedAs("Link was not found")
-                .isThrownBy(() -> underTest.findLinkById(existingLinkId));
+
     }
 
     @Test
     void when_saving_with_existing_shortenedUrl_should_throw_exception() {
 
-        existingNotSavedLink.setShortenedUrl("http://repeated.url");
-        underTest.saveLink(existingCustomer, existingNotSavedLink);
+        linkToSave.setShortenedUrl("http://repeated.url");
+        underTest.saveLink(existingCustomer, linkToSave);
 
-        Link linkToSave = objectFactory.getSimpleLink();
+        Link linkToSave = SimpleTestObjectFactory.getSimpleLink();
         linkToSave.setShortenedUrl("http://repeated.url");
 
         assertThatExceptionOfType(DataIntegrityViolationException.class)
@@ -126,20 +136,20 @@ class LinkDAOImplTest extends BaseDBTest {
     @Test
     void when_saving_with_null_shortenedUrl_should_throw_exception() {
 
-        existingNotSavedLink.setShortenedUrl(null);
+        linkToSave.setShortenedUrl(null);
 
         assertThatExceptionOfType(ConstraintViolationException.class)
                 .describedAs("must not be null")
-                .isThrownBy(() -> underTest.saveLink(existingCustomer, existingNotSavedLink));
+                .isThrownBy(() -> underTest.saveLink(existingCustomer, linkToSave));
     }
 
     @Test
     void when_saving_with_null_url_should_throw_exception() {
 
-        existingNotSavedLink.setUrl(null);
+        linkToSave.setUrl(null);
 
         assertThatExceptionOfType(ConstraintViolationException.class)
                 .describedAs("must not be null")
-                .isThrownBy(() -> underTest.saveLink(existingCustomer, existingNotSavedLink));
+                .isThrownBy(() -> underTest.saveLink(existingCustomer, linkToSave));
     }
 }

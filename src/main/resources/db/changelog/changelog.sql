@@ -3,7 +3,7 @@
 -- changeset liquibase:1
 CREATE TABLE customer
 (
-    id        bigserial NOT NULL,
+    id        INT8 GENERATED ALWAYS AS IDENTITY NOT NULL,
     nick_name VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
@@ -15,11 +15,11 @@ ALTER TABLE customer
 -- changeset liquibase:3
 CREATE TABLE link
 (
-    id            bigserial NOT NULL,
+    id            INT8 GENERATED ALWAYS AS IDENTITY NOT NULL,
     click_count   INT4 DEFAULT 0,
     shortened_url VARCHAR(64) NOT NULL,
     url           VARCHAR(999) NOT NULL,
-    customer      INT8 NOT NULL,
+    customer      INT8,
     PRIMARY KEY (id)
 );
 
@@ -29,4 +29,5 @@ ALTER TABLE link
 
 -- changeset liquibase:5
 ALTER TABLE link
-    ADD FOREIGN KEY (customer) REFERENCES customer;
+    ADD FOREIGN KEY (customer)
+    REFERENCES customer(id) ON DELETE CASCADE;

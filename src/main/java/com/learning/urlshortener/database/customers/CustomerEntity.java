@@ -39,7 +39,7 @@ public class CustomerEntity {
     private String nickname;
 
     @Builder.Default
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "customer")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     private List<LinkEntity> links = new ArrayList<>();
 
 }

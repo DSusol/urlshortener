@@ -12,11 +12,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     private final CustomerRepository customerRepository;
     private final CustomerEntityMapper customerEntityMapper;
-    private final CustomerFinder customerFinder;
+    private final CustomerEntityFinder customerEntityFinder;
 
     @Override
     public Customer findCustomerById(Long id) {
-        return customerEntityMapper.customerEntityToCustomer(customerFinder.findCustomerEntityById(id));
+        return customerEntityMapper.customerEntityToCustomer(customerEntityFinder.findCustomerEntityById(id));
     }
 
     @Override
@@ -29,7 +29,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void deleteCustomerById(Long id) {
-        CustomerEntity customerEntityToDelete = customerFinder.findCustomerEntityById(id);
+        CustomerEntity customerEntityToDelete = customerEntityFinder.findCustomerEntityById(id);
         customerRepository.delete(customerEntityToDelete);
     }
 }
