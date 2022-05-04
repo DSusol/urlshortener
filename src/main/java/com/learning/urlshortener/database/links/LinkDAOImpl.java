@@ -1,9 +1,5 @@
 package com.learning.urlshortener.database.links;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Repository;
 
 import com.learning.urlshortener.database.customers.CustomerEntity;
@@ -11,6 +7,9 @@ import com.learning.urlshortener.database.customers.CustomerEntityFinder;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 
 @Repository
@@ -23,18 +22,12 @@ public class LinkDAOImpl implements LinkDAO {
 
     @Override
     public Optional<Link> findLinkById(Long id) {
-        Optional<LinkEntity> optionalLinkEntity = linkRepository.findById(id);
-
-        return (optionalLinkEntity.isEmpty())
-                ? Optional.empty() : Optional.of(linkEntityMapper.linkEntityToLink(optionalLinkEntity.get()));
+        return linkRepository.findById(id).map(linkEntityMapper::linkEntityToLink);
     }
 
     @Override
     public Optional<Link> findLinkByShortenedUrl(String shortenedUrl) {
-        Optional<LinkEntity> optionalLinkEntity = linkRepository.findLinkEntityByShortenedUrl(shortenedUrl);
-
-        return (optionalLinkEntity.isEmpty())
-                ? Optional.empty() : Optional.of(linkEntityMapper.linkEntityToLink(optionalLinkEntity.get()));
+        return linkRepository.findLinkEntityByShortenedUrl(shortenedUrl).map(linkEntityMapper::linkEntityToLink);
     }
 
     @Override

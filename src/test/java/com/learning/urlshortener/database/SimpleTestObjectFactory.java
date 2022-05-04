@@ -1,13 +1,10 @@
 package com.learning.urlshortener.database;
 
-import java.util.UUID;
-
-import org.springframework.stereotype.Component;
-
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 
-@Component
+import java.util.UUID;
+
 public class SimpleTestObjectFactory {
 
     public static Customer getSimpleCustomer() {
