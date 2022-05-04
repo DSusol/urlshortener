@@ -1,5 +1,9 @@
 package com.learning.urlshortener.database.links;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Repository;
 
 import com.learning.urlshortener.database.customers.CustomerEntity;
@@ -7,9 +11,6 @@ import com.learning.urlshortener.database.customers.CustomerEntityFinder;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 
 @Repository

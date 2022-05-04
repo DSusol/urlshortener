@@ -1,9 +1,9 @@
 package com.learning.urlshortener.database;
 
+import java.util.UUID;
+
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
-
-import java.util.UUID;
 
 public class SimpleTestObjectFactory {
 
