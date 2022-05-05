@@ -8,5 +8,6 @@ class UrlShortenerApplicationTests extends TestContainerSupplier {
 
     @Test
     void contextLoads() {
+
     }
 }
