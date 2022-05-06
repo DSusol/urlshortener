@@ -6,10 +6,12 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 import com.learning.urlshortener.database.BaseDBTest;
 import com.learning.urlshortener.database.SimpleTestObjectFactory;
@@ -24,10 +26,12 @@ class CustomerDAOImplTest extends BaseDBTest {
     @Autowired
     CustomerDAO underTest;
 
-    @BeforeEach
-    void setUp() {
-        linkDAO.deleteAll();
-        underTest.deleteAll();
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @AfterEach
+    void tableCleanUp() {
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "link", "customer");
     }
 
     @Test

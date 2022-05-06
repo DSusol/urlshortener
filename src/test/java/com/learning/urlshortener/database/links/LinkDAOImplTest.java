@@ -7,10 +7,13 @@ import java.util.List;
 
 import javax.validation.ConstraintViolationException;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 import com.learning.urlshortener.database.BaseDBTest;
 import com.learning.urlshortener.database.SimpleTestObjectFactory;
@@ -26,16 +29,21 @@ class LinkDAOImplTest extends BaseDBTest {
     @Autowired
     LinkDAO underTest;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
     Customer existingCustomer;
     Link linkToSave;
 
     @BeforeEach
     public void setUp() {
-        customerDAO.deleteAll();
-        underTest.deleteAll();
-
         existingCustomer = customerDAO.saveCustomer(SimpleTestObjectFactory.getSimpleCustomer());
         linkToSave = SimpleTestObjectFactory.getSimpleLink();
+    }
+
+    @AfterEach
+    void tableCleanUp() {
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "link", "customer");
     }
 
     @Test

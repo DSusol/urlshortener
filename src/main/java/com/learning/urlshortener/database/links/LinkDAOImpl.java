@@ -57,9 +57,4 @@ public class LinkDAOImpl implements LinkDAO {
     public void deleteLinkById(Long id) {
         linkRepository.deleteById(id);
     }
-
-    @Override
-    public void deleteAll() {
-        linkRepository.deleteAll();
-    }
 }

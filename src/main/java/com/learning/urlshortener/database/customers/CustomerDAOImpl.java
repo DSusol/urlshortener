@@ -34,9 +34,4 @@ public class CustomerDAOImpl implements CustomerDAO {
     public void deleteCustomerById(Long id) {
         customerRepository.deleteById(id);
     }
-
-    @Override
-    public void deleteAll() {
-        customerRepository.deleteAll();
-    }
 }
