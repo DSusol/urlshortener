@@ -9,4 +9,6 @@ public interface CustomerDAO {
     Customer saveCustomer(Customer customer);
 
     void deleteCustomerById(Long id);
+
+    void deleteAll();
 }

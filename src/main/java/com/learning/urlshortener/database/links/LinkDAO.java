@@ -17,4 +17,6 @@ public interface LinkDAO {
     Link saveLink(Customer customer, Link link);
 
     void deleteLinkById(Long id);
+
+    void deleteAll();
 }

@@ -1,6 +1,5 @@
 package com.learning.urlshortener.database.customers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -38,8 +37,6 @@ public class CustomerEntity {
     @NotNull
     private String nickname;
 
-    @Builder.Default
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private List<LinkEntity> links = new ArrayList<>();
-
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "customer")
+    private List<LinkEntity> links;
 }

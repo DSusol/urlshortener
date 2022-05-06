@@ -1,22 +1,25 @@
 package com.learning.urlshortener.database.customers;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.urlshortener.domain.Customer;
 
 import lombok.AllArgsConstructor;
 
 @Repository
+@Transactional
 @AllArgsConstructor
 public class CustomerDAOImpl implements CustomerDAO {
 
     private final CustomerRepository customerRepository;
     private final CustomerEntityMapper customerEntityMapper;
-    private final CustomerEntityFinder customerEntityFinder;
 
     @Override
     public Customer findCustomerById(Long id) {
-        return customerEntityMapper.customerEntityToCustomer(customerEntityFinder.findCustomerEntityById(id));
+        return customerEntityMapper.customerEntityToCustomer(
+                customerRepository.getById(id)
+        );
     }
 
     @Override
@@ -29,7 +32,11 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public void deleteCustomerById(Long id) {
-        CustomerEntity customerEntityToDelete = customerEntityFinder.findCustomerEntityById(id);
-        customerRepository.delete(customerEntityToDelete);
+        customerRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll() {
+        customerRepository.deleteAll();
     }
 }

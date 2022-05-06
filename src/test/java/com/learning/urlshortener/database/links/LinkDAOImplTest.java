@@ -31,6 +31,9 @@ class LinkDAOImplTest extends BaseDBTest {
 
     @BeforeEach
     public void setUp() {
+        customerDAO.deleteAll();
+        underTest.deleteAll();
+
         existingCustomer = customerDAO.saveCustomer(SimpleTestObjectFactory.getSimpleCustomer());
         linkToSave = SimpleTestObjectFactory.getSimpleLink();
     }

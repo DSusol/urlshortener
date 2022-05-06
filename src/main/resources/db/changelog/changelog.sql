@@ -29,5 +29,4 @@ ALTER TABLE link
 
 -- changeset liquibase:5
 ALTER TABLE link
-    ADD FOREIGN KEY (customer)
-    REFERENCES customer(id) ON DELETE CASCADE;
+    ADD FOREIGN KEY (customer) REFERENCES customer(id);

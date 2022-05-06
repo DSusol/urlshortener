@@ -3,8 +3,10 @@ package com.learning.urlshortener.database.customers;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,6 +23,12 @@ class CustomerDAOImplTest extends BaseDBTest {
 
     @Autowired
     CustomerDAO underTest;
+
+    @BeforeEach
+    void setUp() {
+        linkDAO.deleteAll();
+        underTest.deleteAll();
+    }
 
     @Test
     void should_find_customer_by_id() {
@@ -61,7 +69,7 @@ class CustomerDAOImplTest extends BaseDBTest {
         underTest.deleteCustomerById(existingCustomerId);
 
         //then
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(EntityNotFoundException.class)
                 .describedAs("Customer was not found")
                 .isThrownBy(() -> underTest.findCustomerById(existingCustomerId));
     }
@@ -80,7 +88,7 @@ class CustomerDAOImplTest extends BaseDBTest {
         underTest.deleteCustomerById(existingCustomer.getId());
 
         //then
-        assertThatExceptionOfType(IllegalArgumentException.class)
+        assertThatExceptionOfType(EntityNotFoundException.class)
                 .describedAs("Customer was not found")
                 .isThrownBy(() -> underTest.findCustomerById(existingCustomer.getId()));
 
