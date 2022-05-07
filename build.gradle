@@ -2,6 +2,8 @@ plugins {
 	id 'org.springframework.boot' version '2.6.7'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'checkstyle'
+	id 'jacoco'
 }
 
 group = 'com.learning'
@@ -18,19 +20,53 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
+task checkstyle(type: Checkstyle) {
+	configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+	source 'src/main/java'
+	include '**/*.java'
+	classpath = files()
 }
 
-tasks.named('test') {
+dependencies {
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.liquibase:liquibase-core'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+	runtimeOnly 'org.postgresql:postgresql'
+
+	testImplementation 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.testcontainers:testcontainers:1.17.1'
+	testImplementation 'org.testcontainers:junit-jupiter:1.17.1'
+	testImplementation 'org.testcontainers:postgresql:1.17.1'
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+		html.enabled false
+	}
+}
+
+test {
+	systemProperty 'spring.profiles.active', 'test'
 	useJUnitPlatform()
+	finalizedBy(jacocoTestReport)
+}
+
+task runDev {
+	group = 'application'
+	bootRun.configure {
+		systemProperty "spring.profiles.active", 'dev'
+	}
+	finalizedBy bootRun
 }
