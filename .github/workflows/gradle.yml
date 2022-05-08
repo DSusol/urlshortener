@@ -28,11 +28,16 @@ jobs:
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
           arguments: build
-
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
-#          files: ./jacocoTestReport.xml
           fail_ci_if_error: true
           verbose: true
           name: codecov-test
+
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: urlshortener-project
+          heroku_email: dmitry.a.susol@gmail.com
+          branch: master
