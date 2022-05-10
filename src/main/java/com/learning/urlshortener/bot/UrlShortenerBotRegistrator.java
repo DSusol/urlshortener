@@ -43,10 +43,10 @@ public class UrlShortenerBotRegistrator extends TelegramLongPollingBot {
         //todo: delegate to services (update handler)
         //temporary method implementation:
         if (update.hasMessage() && update.getMessage().hasText()) {
-            SendMessage message = new SendMessage();
-            message.setChatId(update.getMessage().getChatId().toString());
-            message.setText(update.getMessage().getText());
-            execute(message);
+            execute(SendMessage.builder()
+                    .chatId(update.getMessage().getChatId().toString())
+                    .text("echo: " + update.getMessage().getText())
+                    .build());
         }
     }
 }
