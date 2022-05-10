@@ -40,4 +40,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: urlshortener-project
           heroku_email: dmitry.a.susol@gmail.com
-          branch: master
+#          branch: master
