@@ -9,12 +9,11 @@ plugins {
 apply from: 'versions.gradle'
 
 group = 'com.learning'
-version = 'version-1.0'
 sourceCompatibility = '11'
 
 // jar file name generation, update heroku Procfile accordingly
 bootJar {
-	archiveFileName = "${archiveBaseName.get()}.${archiveVersion.get()}.${archiveExtension.get()}"
+	archiveFileName = "url_shortener_app_0.0.1.jar"
 }
 
 configurations {
