@@ -1,0 +1,1 @@
+web: java -jar build/libs/url_shortener_app_0.0.1.jar -p $PORT
