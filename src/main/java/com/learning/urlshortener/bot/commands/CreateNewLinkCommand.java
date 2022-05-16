@@ -3,6 +3,7 @@ package com.learning.urlshortener.bot.commands;
 import static com.learning.urlshortener.bot.commands.CommandNamesStorage.CREATE_NEW_LINK_DESCRIPTION;
 import static com.learning.urlshortener.bot.commands.CommandNamesStorage.CREATE_NEW_LINK_IDENTIFIER;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -14,6 +15,7 @@ import com.learning.urlshortener.service.BotService;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
+@Order(1)
 @AllArgsConstructor
 @Component
 public class CreateNewLinkCommand implements IBotCommand {
