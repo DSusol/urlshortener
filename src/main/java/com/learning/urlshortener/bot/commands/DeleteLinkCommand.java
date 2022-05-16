@@ -32,10 +32,6 @@ public class DeleteLinkCommand implements IBotCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //temporary implementation:
-        SendMessage sendMessage = SendMessage.builder()
-                .chatId(message.getChatId().toString())
-                .text("will delete existing link")
-                .build();
-        absSender.execute(sendMessage);
+        absSender.execute(new SendMessage(message.getChatId().toString(), "will delete existing link"));
     }
 }

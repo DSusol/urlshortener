@@ -32,10 +32,6 @@ public class FindAllLinksCommand implements IBotCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //temporary implementation:
-        SendMessage sendMessage = SendMessage.builder()
-                .chatId(message.getChatId().toString())
-                .text("will show all links")
-                .build();
-        absSender.execute(sendMessage);
+        absSender.execute(new SendMessage(message.getChatId().toString(), "will show all links"));
     }
 }
