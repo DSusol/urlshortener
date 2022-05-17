@@ -3,7 +3,6 @@ package com.learning.urlshortener.bot;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
@@ -18,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-@Profile("!test")
 public class UrlShortenerBotRegistrator extends TelegramLongPollingCommandBot {
 
     private final String botUserName;
