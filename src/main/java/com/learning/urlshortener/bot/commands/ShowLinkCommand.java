@@ -6,6 +6,8 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import com.learning.urlshortener.bot.MessageCourier;
+
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
@@ -15,7 +17,6 @@ import lombok.SneakyThrows;
 public class ShowLinkCommand implements IBotCommand {
 
     private static final String SHOW_LINK_IDENTIFIER = "show_link";
-    private static final String SHOW_LINK_DESCRIPTION = "show link details";
 
     private final MessageCourier messageCourier;
 
@@ -26,13 +27,13 @@ public class ShowLinkCommand implements IBotCommand {
 
     @Override
     public String getDescription() {
-        return SHOW_LINK_DESCRIPTION;
+        return messageCourier.getCommandDescription("show.link.command.description");
     }
 
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement link details provision
-        messageCourier.sendMessage(absSender, message, "show.link.command.response");
+        messageCourier.sendCommandResponse(absSender, message, "show.link.command.response");
     }
 }

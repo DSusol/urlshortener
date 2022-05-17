@@ -6,6 +6,8 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import com.learning.urlshortener.bot.MessageCourier;
+
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
@@ -15,7 +17,6 @@ import lombok.SneakyThrows;
 public class DeleteLinkCommand implements IBotCommand {
 
     private static final String DELETE_LINK_IDENTIFIER = "delete_link";
-    private static final String DELETE_LINK_DESCRIPTION = "delete existing link";
 
     private final MessageCourier messageCourier;
 
@@ -26,13 +27,13 @@ public class DeleteLinkCommand implements IBotCommand {
 
     @Override
     public String getDescription() {
-        return DELETE_LINK_DESCRIPTION;
+        return messageCourier.getCommandDescription("delete.links.command.description");
     }
 
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement link removal
-        messageCourier.sendMessage(absSender, message, "delete.links.command.response");
+        messageCourier.sendCommandResponse(absSender, message, "delete.links.command.response");
     }
 }

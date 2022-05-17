@@ -6,6 +6,8 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import com.learning.urlshortener.bot.MessageCourier;
+
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
@@ -15,7 +17,6 @@ import lombok.SneakyThrows;
 public class CreateNewLinkCommand implements IBotCommand {
 
     private static final String CREATE_NEW_LINK_IDENTIFIER = "new_link";
-    private static final String CREATE_NEW_LINK_DESCRIPTION = "create new link";
 
     private final MessageCourier messageCourier;
 
@@ -26,13 +27,13 @@ public class CreateNewLinkCommand implements IBotCommand {
 
     @Override
     public String getDescription() {
-        return CREATE_NEW_LINK_DESCRIPTION;
+        return messageCourier.getCommandDescription("new.link.command.description");
     }
 
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement new link creation
-        messageCourier.sendMessage(absSender, message, "new.link.command.response");
+        messageCourier.sendCommandResponse(absSender, message, "new.link.command.response");
     }
 }

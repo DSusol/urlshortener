@@ -6,6 +6,8 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import com.learning.urlshortener.bot.MessageCourier;
+
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
@@ -15,7 +17,6 @@ import lombok.SneakyThrows;
 public class FindAllLinksCommand implements IBotCommand {
 
     private static final String FIND_ALL_LINKS_IDENTIFIER = "my_links";
-    private static final String FIND_ALL_LINKS_DESCRIPTION = "show all links";
 
     private final MessageCourier messageCourier;
 
@@ -26,13 +27,13 @@ public class FindAllLinksCommand implements IBotCommand {
 
     @Override
     public String getDescription() {
-        return FIND_ALL_LINKS_DESCRIPTION;
+        return messageCourier.getCommandDescription("find.all.links.command.description");
     }
 
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement link list provision
-        messageCourier.sendMessage(absSender, message, "find.all.links.command.response");
+        messageCourier.sendCommandResponse(absSender, message, "find.all.links.command.response");
     }
 }
