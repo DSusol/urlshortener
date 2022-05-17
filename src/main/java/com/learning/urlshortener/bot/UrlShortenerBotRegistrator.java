@@ -21,18 +21,18 @@ public class UrlShortenerBotRegistrator extends TelegramLongPollingCommandBot {
     private final String botToken;
     private final List<IBotCommand> sortedBotCommands;
 
-    private final MessageCourier messageCourier;
+    private final InternationalizedMessenger messenger;
 
     @SneakyThrows
     public UrlShortenerBotRegistrator(
             @Value("${telegram-bot.name}") String botUserName,
             @Value("${telegram-bot.token}") String botToken,
             List<IBotCommand> sortedBotCommands,
-            MessageCourier messageCourier,
+            InternationalizedMessenger messenger,
             TelegramBotsApi telegramBotsApi) {
         this.botUserName = botUserName;
         this.botToken = botToken;
-        this.messageCourier = messageCourier;
+        this.messenger = messenger;
         this.sortedBotCommands = sortedBotCommands;
         sortedBotCommands.forEach(this::register);
 
@@ -57,14 +57,21 @@ public class UrlShortenerBotRegistrator extends TelegramLongPollingCommandBot {
         }
 
         String chatId = update.getMessage().getChatId().toString();
+        String languageCode = update.getMessage().getFrom().getLanguageCode();
+
         if (!update.getMessage().getText().equals("/help")) {
-            execute(messageCourier.getDefaultBotResponse(update));
+            execute(new SendMessage(chatId, messenger.getMessageFor("bot.default.message", languageCode)));
             return;
         }
 
-        StringBuilder helpMessageBuilder = new StringBuilder(messageCourier.getHelpHeader(update));
-        sortedBotCommands.forEach(cmd -> helpMessageBuilder.append("/").append(cmd.getCommandIdentifier())
-                .append(" - ").append(cmd.getDescription()).append("\n"));
+        StringBuilder helpMessageBuilder = new StringBuilder();
+
+        // synchronizing command descriptions for specific languageCode
+        synchronized (messenger) {
+            helpMessageBuilder.append(messenger.getMessageFor("bot.help.header", languageCode));
+            sortedBotCommands.forEach(cmd -> helpMessageBuilder.append("/").append(cmd.getCommandIdentifier())
+                    .append(" - ").append(cmd.getDescription()).append("\n"));
+        }
 
         SendMessage sendMessage = new SendMessage(chatId, helpMessageBuilder.toString());
         sendMessage.enableHtml(true);
