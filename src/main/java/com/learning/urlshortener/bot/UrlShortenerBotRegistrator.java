@@ -21,14 +21,18 @@ public class UrlShortenerBotRegistrator extends TelegramLongPollingCommandBot {
     private final String botToken;
     private final List<IBotCommand> sortedBotCommands;
 
+    private final MessageCourier messageCourier;
+
     @SneakyThrows
     public UrlShortenerBotRegistrator(
             @Value("${telegram-bot.name}") String botUserName,
             @Value("${telegram-bot.token}") String botToken,
             List<IBotCommand> sortedBotCommands,
+            MessageCourier messageCourier,
             TelegramBotsApi telegramBotsApi) {
         this.botUserName = botUserName;
         this.botToken = botToken;
+        this.messageCourier = messageCourier;
         this.sortedBotCommands = sortedBotCommands;
         sortedBotCommands.forEach(this::register);
 
@@ -54,11 +58,11 @@ public class UrlShortenerBotRegistrator extends TelegramLongPollingCommandBot {
 
         String chatId = update.getMessage().getChatId().toString();
         if (!update.getMessage().getText().equals("/help")) {
-            execute(new SendMessage(chatId, "The command is not recognized. See /help for available options."));
+            execute(messageCourier.getDefaultBotResponse(update));
             return;
         }
 
-        StringBuilder helpMessageBuilder = new StringBuilder("<b>Available commands:\n</b>");
+        StringBuilder helpMessageBuilder = new StringBuilder(messageCourier.getHelpHeader(update));
         sortedBotCommands.forEach(cmd -> helpMessageBuilder.append("/").append(cmd.getCommandIdentifier())
                 .append(" - ").append(cmd.getDescription()).append("\n"));
 
