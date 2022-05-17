@@ -7,12 +7,15 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learning.urlshortener.bot.InternationalizedMessenger;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 @Order(4)
+@Slf4j
 @AllArgsConstructor
 @Component
 public class DeleteLinkCommand implements IBotCommand {
@@ -34,6 +37,8 @@ public class DeleteLinkCommand implements IBotCommand {
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
+        log.debug(new ObjectMapper().writeValueAsString(message));
+
         //todo: implement link removal
         String languageCode = message.getFrom().getLanguageCode();
 

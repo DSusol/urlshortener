@@ -11,8 +11,12 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import lombok.SneakyThrows;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 @Profile("!test")
 public class UrlShortenerBotRegistrator extends TelegramLongPollingCommandBot {
@@ -52,6 +56,8 @@ public class UrlShortenerBotRegistrator extends TelegramLongPollingCommandBot {
     @SneakyThrows
     @Override
     public void processNonCommandUpdate(Update update) {
+        log.debug(new ObjectMapper().writeValueAsString(update));
+
         if (!update.hasMessage() || !update.getMessage().hasText()) {
             return;
         }
