@@ -17,7 +17,7 @@ import lombok.SneakyThrows;
 @Order(1)
 @AllArgsConstructor
 @Component
-public class CreateNewLinkCommand implements IBotCommand {
+class CreateNewLinkCommand implements IBotCommand {
 
     private static final String CREATE_NEW_LINK_IDENTIFIER = "new_link";
 

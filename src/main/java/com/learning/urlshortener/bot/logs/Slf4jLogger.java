@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 @AllArgsConstructor
-public class Slf4jLogger implements Logger {
+class Slf4jLogger implements Logger {
 
     private final ObjectMapper objectMapper;
 

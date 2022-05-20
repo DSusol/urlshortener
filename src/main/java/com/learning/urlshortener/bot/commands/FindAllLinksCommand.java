@@ -17,7 +17,7 @@ import lombok.SneakyThrows;
 @Order(3)
 @AllArgsConstructor
 @Component
-public class FindAllLinksCommand implements IBotCommand {
+class FindAllLinksCommand implements IBotCommand {
 
     private static final String FIND_ALL_LINKS_IDENTIFIER = "my_links";
 

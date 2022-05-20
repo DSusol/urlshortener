@@ -17,7 +17,7 @@ import lombok.SneakyThrows;
 @Order(2)
 @AllArgsConstructor
 @Component
-public class ShowLinkCommand implements IBotCommand {
+class ShowLinkCommand implements IBotCommand {
 
     private static final String SHOW_LINK_IDENTIFIER = "show_link";
 

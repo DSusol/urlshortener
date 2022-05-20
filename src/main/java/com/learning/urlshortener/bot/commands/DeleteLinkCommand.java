@@ -17,7 +17,7 @@ import lombok.SneakyThrows;
 @Order(4)
 @AllArgsConstructor
 @Component
-public class DeleteLinkCommand implements IBotCommand {
+class DeleteLinkCommand implements IBotCommand {
 
     private static final String DELETE_LINK_IDENTIFIER = "delete_link";
 

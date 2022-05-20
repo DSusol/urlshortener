@@ -9,7 +9,7 @@ import lombok.SneakyThrows;
 
 @Component
 @Profile("!test")
-public class TgApiExecutorImpl implements TgApiExecutor {
+class TgApiExecutorImpl implements TgApiExecutor {
 
     @SneakyThrows
     @Override
