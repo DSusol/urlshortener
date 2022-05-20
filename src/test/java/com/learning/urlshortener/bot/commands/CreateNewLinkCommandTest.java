@@ -23,13 +23,13 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.learning.urlshortener.TestContainerSupplier;
-import com.learning.urlshortener.bot.UrlShortenerBotRegistrator;
+import com.learning.urlshortener.bot.UrlShortenerBot;
 
 @SpringBootTest
 class CreateNewLinkCommandTest extends TestContainerSupplier {
 
     @Autowired
-    UrlShortenerBotRegistrator urlShortenerBotRegistrator;
+    UrlShortenerBot urlShortenerBot;
 
     @Autowired
     AbsSender absSender;
@@ -40,7 +40,7 @@ class CreateNewLinkCommandTest extends TestContainerSupplier {
 
     @BeforeEach
     void setUp() {
-        underTest = urlShortenerBotRegistrator.getRegisteredCommand("new_link");
+        underTest = urlShortenerBot.getRegisteredCommand("new_link");
         assertThat(underTest).isNotNull();
 
         spySender = spy(absSender);

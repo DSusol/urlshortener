@@ -23,14 +23,14 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.learning.urlshortener.TestContainerSupplier;
-import com.learning.urlshortener.bot.UrlShortenerBotRegistrator;
+import com.learning.urlshortener.bot.UrlShortenerBot;
 
 @SpringBootTest
 class DeleteLinkCommandTest extends TestContainerSupplier {
 
 
     @Autowired
-    UrlShortenerBotRegistrator urlShortenerBotRegistrator;
+    UrlShortenerBot urlShortenerBot;
 
     @Autowired
     AbsSender absSender;
@@ -41,7 +41,7 @@ class DeleteLinkCommandTest extends TestContainerSupplier {
 
     @BeforeEach
     void setUp() {
-        underTest = urlShortenerBotRegistrator.getRegisteredCommand("delete_link");
+        underTest = urlShortenerBot.getRegisteredCommand("delete_link");
         assertThat(underTest).isNotNull();
 
         spySender = spy(absSender);

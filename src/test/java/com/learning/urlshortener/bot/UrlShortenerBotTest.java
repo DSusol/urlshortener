@@ -25,17 +25,17 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import com.learning.urlshortener.TestContainerSupplier;
 
 @SpringBootTest
-class UrlShortenerBotRegistratorTest extends TestContainerSupplier {
+class UrlShortenerBotTest extends TestContainerSupplier {
 
     @Autowired
-    UrlShortenerBotRegistrator urlShortenerBotRegistrator;
+    UrlShortenerBot urlShortenerBot;
 
-    UrlShortenerBotRegistrator underTest;
+    UrlShortenerBot underTest;
     Update preparedUpdate;
 
     @BeforeEach
     void setUp() {
-        underTest = spy(urlShortenerBotRegistrator);
+        underTest = spy(urlShortenerBot);
 
         Message message = new Message();
         message.setChat(new Chat(572803070L, "private"));
