@@ -20,7 +20,7 @@ public class Slf4jLogger implements Logger {
     @SneakyThrows
     @Override
     public void logRequest(Object object) {
-        log.debug(MessageFormat.format("Thread: {0}, request object: {1}",
+        log.info(MessageFormat.format("Request: Thread: {0}, request object: {1}",
                 Thread.currentThread().getId(), objectMapper.writeValueAsString(object)));
     }
 }
