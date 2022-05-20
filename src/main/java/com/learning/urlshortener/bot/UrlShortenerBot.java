@@ -10,14 +10,12 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learning.urlshortener.bot.api.TgApiExecutor;
+import com.learning.urlshortener.bot.logs.Logger;
 
 import lombok.Setter;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Component
 public class UrlShortenerBot extends TelegramLongPollingCommandBot {
 
@@ -27,18 +25,21 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
     @Setter
     private String botToken;
 
-    private final TgApiExecutor executor;
+    private final TgApiExecutor apiExecutor;
     private final List<IBotCommand> sortedBotCommands;
     private final InternationalizedMessenger messenger;
+    private final Logger logger;
 
     @SneakyThrows
     public UrlShortenerBot(
-            TgApiExecutor executor,
+            TgApiExecutor apiExecutor,
             List<IBotCommand> sortedBotCommands,
-            InternationalizedMessenger messenger) {
-        this.executor = executor;
+            InternationalizedMessenger messenger,
+            Logger logger) {
+        this.apiExecutor = apiExecutor;
         this.messenger = messenger;
         this.sortedBotCommands = sortedBotCommands;
+        this.logger = logger;
         sortedBotCommands.forEach(this::register);
     }
 
@@ -55,7 +56,7 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
     @SneakyThrows
     @Override
     public void processNonCommandUpdate(Update update) {
-        log.debug(new ObjectMapper().writeValueAsString(update));
+        logger.logRequest(update);
 
         if (!update.hasMessage() || !update.getMessage().hasText()) {
             return;
@@ -79,6 +80,6 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
 
         SendMessage sendMessage = new SendMessage(chatId, helpMessageBuilder.toString());
         sendMessage.enableHtml(true);
-        executor.executeSendMessage(this, sendMessage);
+        apiExecutor.executeSendMessage(this, sendMessage);
     }
 }

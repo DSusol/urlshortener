@@ -7,24 +7,23 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learning.urlshortener.bot.InternationalizedMessenger;
 import com.learning.urlshortener.bot.api.TgApiExecutor;
+import com.learning.urlshortener.bot.logs.Logger;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 
 @Order(1)
-@Slf4j
 @AllArgsConstructor
 @Component
 public class CreateNewLinkCommand implements IBotCommand {
 
     private static final String CREATE_NEW_LINK_IDENTIFIER = "new_link";
 
-    private final TgApiExecutor executor;
+    private final TgApiExecutor apiExecutor;
     private final InternationalizedMessenger messenger;
+    private final Logger logger;
 
     @Override
     public String getCommandIdentifier() {
@@ -39,12 +38,12 @@ public class CreateNewLinkCommand implements IBotCommand {
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        log.debug(new ObjectMapper().writeValueAsString(message));
+        logger.logRequest(message);
 
         //todo: implement new link creation
         String languageCode = message.getFrom().getLanguageCode();
 
-        executor.executeSendMessage(absSender, new SendMessage(
+        apiExecutor.executeSendMessage(absSender, new SendMessage(
                 message.getChatId().toString(),
                 messenger.getMessageFor("new.link.command.response", languageCode)));
     }

@@ -23,8 +23,6 @@ public class InternationalizedMessenger {
     }
 
     public String getMessageFor(String template, String languageCode) {
-        log.debug("Current thread id: " + Thread.currentThread().getId());
-
         LocaleContextHolder.setLocale(Locale.forLanguageTag(languageCode));
 
         try {
