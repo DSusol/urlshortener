@@ -7,7 +7,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.InternationalizedMessenger;
 import com.learning.urlshortener.bot.api.TgApiExecutor;
 import com.learning.urlshortener.bot.logs.Logger;
 import com.learning.urlshortener.bot.utils.MessageHandler;
@@ -23,7 +22,6 @@ class FindAllLinksCommand implements IBotCommand {
     private static final String FIND_ALL_LINKS_IDENTIFIER = "my_links";
 
     private final TgApiExecutor apiExecutor;
-    private final InternationalizedMessenger messenger;
     private final MessageHandler messageHandler;
     private final Logger logger;
 
@@ -34,7 +32,7 @@ class FindAllLinksCommand implements IBotCommand {
 
     @Override
     public String getDescription() {
-        return messenger.getMessageFor("find.all.links.command.description");
+        return "find.all.links.command.description";
     }
 
     @SneakyThrows
