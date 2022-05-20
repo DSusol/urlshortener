@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learning.urlshortener.bot.InternationalizedMessenger;
+import com.learning.urlshortener.bot.api.TgApiExecutor;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -22,6 +23,7 @@ public class FindAllLinksCommand implements IBotCommand {
 
     private static final String FIND_ALL_LINKS_IDENTIFIER = "my_links";
 
+    private final TgApiExecutor executor;
     private final InternationalizedMessenger messenger;
 
     @Override
@@ -42,7 +44,7 @@ public class FindAllLinksCommand implements IBotCommand {
         //todo: implement link list provision
         String languageCode = message.getFrom().getLanguageCode();
 
-        absSender.execute(new SendMessage(
+        executor.executeSendMessage(absSender, new SendMessage(
                 message.getChatId().toString(),
                 messenger.getMessageFor("find.all.links.command.response", languageCode)));
     }

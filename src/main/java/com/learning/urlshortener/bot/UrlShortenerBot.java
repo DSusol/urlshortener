@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.learning.urlshortener.bot.api.TgApiExecutor;
 
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -26,13 +27,16 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
     @Setter
     private String botToken;
 
+    private final TgApiExecutor executor;
     private final List<IBotCommand> sortedBotCommands;
     private final InternationalizedMessenger messenger;
 
     @SneakyThrows
     public UrlShortenerBot(
+            TgApiExecutor executor,
             List<IBotCommand> sortedBotCommands,
             InternationalizedMessenger messenger) {
+        this.executor = executor;
         this.messenger = messenger;
         this.sortedBotCommands = sortedBotCommands;
         sortedBotCommands.forEach(this::register);
@@ -75,6 +79,6 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
 
         SendMessage sendMessage = new SendMessage(chatId, helpMessageBuilder.toString());
         sendMessage.enableHtml(true);
-        execute(sendMessage);
+        executor.executeSendMessage(this, sendMessage);
     }
 }

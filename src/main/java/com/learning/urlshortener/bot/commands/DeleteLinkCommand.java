@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learning.urlshortener.bot.InternationalizedMessenger;
+import com.learning.urlshortener.bot.api.TgApiExecutor;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -22,6 +23,7 @@ public class DeleteLinkCommand implements IBotCommand {
 
     private static final String DELETE_LINK_IDENTIFIER = "delete_link";
 
+    private final TgApiExecutor executor;
     private final InternationalizedMessenger messenger;
 
     @Override
@@ -42,7 +44,7 @@ public class DeleteLinkCommand implements IBotCommand {
         //todo: implement link removal
         String languageCode = message.getFrom().getLanguageCode();
 
-        absSender.execute(new SendMessage(
+        executor.executeSendMessage(absSender, new SendMessage(
                 message.getChatId().toString(),
                 messenger.getMessageFor("delete.links.command.response", languageCode)));
     }
