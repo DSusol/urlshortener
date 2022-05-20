@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 import com.learning.urlshortener.bot.InternationalizedMessenger;
 import com.learning.urlshortener.bot.api.TgApiExecutor;
 import com.learning.urlshortener.bot.logs.Logger;
+import com.learning.urlshortener.bot.utils.MessageHandler;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -23,6 +24,7 @@ class FindAllLinksCommand implements IBotCommand {
 
     private final TgApiExecutor apiExecutor;
     private final InternationalizedMessenger messenger;
+    private final MessageHandler messageHandler;
     private final Logger logger;
 
     @Override
@@ -41,10 +43,7 @@ class FindAllLinksCommand implements IBotCommand {
         logger.logRequest(message);
 
         //todo: implement link list provision
-        String languageCode = message.getFrom().getLanguageCode();
-
-        apiExecutor.executeSendMessage(absSender, new SendMessage(
-                message.getChatId().toString(),
-                messenger.getMessageFor("find.all.links.command.response", languageCode)));
+        SendMessage sendMessage = messageHandler.prepareSendMessage(message, "find.all.links.command.response");
+        apiExecutor.executeSendMessage(absSender, sendMessage);
     }
 }
