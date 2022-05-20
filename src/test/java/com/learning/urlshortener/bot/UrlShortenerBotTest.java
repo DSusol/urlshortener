@@ -2,8 +2,6 @@ package com.learning.urlshortener.bot;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
 
@@ -12,37 +10,25 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Chat;
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.learning.urlshortener.TestContainerSupplier;
+import com.learning.urlshortener.bot.api.TgApiExecutorTestImpl;
 
 @SpringBootTest
 class UrlShortenerBotTest extends TestContainerSupplier {
 
     @Autowired
-    UrlShortenerBot urlShortenerBot;
+    TgApiExecutorTestImpl tgApiExecutor;
 
+    @Autowired
     UrlShortenerBot underTest;
-    Update preparedUpdate;
 
     @BeforeEach
-    void setUp() {
-        underTest = spy(urlShortenerBot);
-
-        Message message = new Message();
-        message.setChat(new Chat(572803070L, "private"));
-        message.setFrom(new User());
-
-        preparedUpdate = new Update();
-        preparedUpdate.setMessage(message);
+    void botSetUp() {
+        underTest.setBotUserName("Test Bot");
     }
 
     @Test
@@ -52,40 +38,45 @@ class UrlShortenerBotTest extends TestContainerSupplier {
 
     @ParameterizedTest(name = "Run {index}: verified language = {0}")
     @MethodSource("invalidCommandResponseArgumentProvider")
-    void when_sending_invalid_command_should_prompt_help_option(String languageCode, String botResponse)
-            throws TelegramApiException {
+    void when_sending_invalid_command_should_prompt_help_option(String languageCode, String botResponse) {
         //given
-        preparedUpdate.getMessage().getFrom().setLanguageCode(languageCode);
-        preparedUpdate.getMessage().setText("invalid command");
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(666L, "invalid command", languageCode);
 
         //when
-        underTest.processNonCommandUpdate(preparedUpdate);
+        underTest.onUpdateReceived(update);
 
         //then
-        ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
-        verify(underTest).execute(argumentCaptor.capture());
-        SendMessage sendMessage = argumentCaptor.getValue();
-
-        assertThat(sendMessage.getText()).isEqualTo(botResponse);
+        assertThat(tgApiExecutor.getSendMessages().values()).hasSize(1);
+        assertThat(tgApiExecutor.getSendMessages().get("666").getText()).isEqualTo(botResponse);
     }
 
     @ParameterizedTest(name = "Run {index}: verified language = {0}")
     @MethodSource("helpCommandResponseArgumentProvider")
-    void when_requesting_help_should_show_available_command_options(String languageCode, String botResponse)
-            throws TelegramApiException {
+    void when_requesting_help_should_show_available_command_options(String languageCode, String botResponse) {
         //given
-        preparedUpdate.getMessage().getFrom().setLanguageCode(languageCode);
-        preparedUpdate.getMessage().setText("/help");
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(666L, "/help", languageCode);
 
         //when
-        underTest.processNonCommandUpdate(preparedUpdate);
+        underTest.onUpdateReceived(update);
 
         //then
-        ArgumentCaptor<SendMessage> argumentCaptor = ArgumentCaptor.forClass(SendMessage.class);
-        verify(underTest).execute(argumentCaptor.capture());
-        SendMessage sendMessage = argumentCaptor.getValue();
+        assertThat(tgApiExecutor.getSendMessages().values()).hasSize(1);
+        assertThat(tgApiExecutor.getSendMessages().get("666").getText())
+                .contains(botResponse, "/new_link", "/show_link", "/my_links", "/delete_link");
+    }
 
-        assertThat(sendMessage.getText()).contains(botResponse, "/new_link", "/show_link", "/my_links", "/delete_link");
+    @ParameterizedTest(name = "Run {index}: verified language = {1}")
+    @MethodSource("commandResponseArgumentProvider")
+    void when_requesting_command_should_show_command_response(String command, String languageCode, String botResponse) {
+        //given
+        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(666L, command, languageCode);
+
+        //when
+        underTest.onUpdateReceived(update);
+
+        //then
+        assertThat(tgApiExecutor.getSendMessages().values()).hasSize(1);
+        assertThat(tgApiExecutor.getSendMessages().get("666").getText()).isEqualTo(botResponse);
     }
 
     static Stream<Arguments> invalidCommandResponseArgumentProvider() {
@@ -98,5 +89,18 @@ class UrlShortenerBotTest extends TestContainerSupplier {
         return Stream.of(
                 arguments("en", "Available commands:"),
                 arguments("ru", "Допустимые команды:"));
+    }
+
+    static Stream<Arguments> commandResponseArgumentProvider() {
+        return Stream.of(
+                arguments("/new_link", "en", "will create new link"),
+                arguments("/new_link", "ru", "создаст новый линк"),
+                arguments("/show_link", "en", "will show link details"),
+                arguments("/show_link", "ru", "покажет детали линка"),
+                arguments("/my_links", "en", "will show list of created links"),
+                arguments("/my_links", "ru", "покажет список созданных линков"),
+                arguments("/delete_link", "en", "will delete existing link"),
+                arguments("/delete_link", "ru", "удалит существующий линк")
+        );
     }
 }

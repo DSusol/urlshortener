@@ -8,10 +8,15 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Component
 @Profile("test")
 public class TgApiExecutorTestImpl implements TgApiExecutor {
 
+    @Getter
+    @Setter
     Map<String, SendMessage> sendMessages = new HashMap<>();
 
     @Override
