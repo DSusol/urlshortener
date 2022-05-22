@@ -9,30 +9,20 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import com.learning.urlshortener.bot.UrlShortenerBot;
 
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
 @Configuration
+@AllArgsConstructor
 @Profile("!test")
 public class AppConfig {
 
-    private final String botUserName;
-    private final String botToken;
     private final UrlShortenerBot urlShortenerBot;
-
-    public AppConfig(@Value("${telegram-bot.name}") String botUserName,
-                     @Value("${telegram-bot.token}") String botToken,
-                     UrlShortenerBot urlShortenerBot) {
-        this.botUserName = botUserName;
-        this.botToken = botToken;
-        this.urlShortenerBot = urlShortenerBot;
-    }
 
     @SneakyThrows
     @Bean
     TelegramBotsApi telegramBotRegistrator() {
         TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-        urlShortenerBot.setBotUserName(botUserName);
-        urlShortenerBot.setBotToken(botToken);
         botsApi.registerBot(urlShortenerBot);
         return botsApi;
     }

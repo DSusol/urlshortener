@@ -38,6 +38,6 @@ public class NonCommandUpdateHandler {
             return;
         }
 
-        helpHandler.getHelpMessage(message);
+        helpHandler.sendHelpMessage(message);
     }
 }

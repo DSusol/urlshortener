@@ -22,7 +22,7 @@ public class HelpHandler {
     }
 
     @SneakyThrows
-    public void getHelpMessage(Message message) {
+    public void sendHelpMessage(Message message) {
 
         String languageCode = message.getFrom().getLanguageCode();
         StringBuilder helpMessageBuilder = new StringBuilder();

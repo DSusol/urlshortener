@@ -26,7 +26,6 @@ class UrlShortenerBotTest extends TestContainerSupplier {
 
     @BeforeEach
     void botSetUp() {
-        underTest.setBotUserName("Test Bot");
         underTest.getMethods().clear();
     }
 

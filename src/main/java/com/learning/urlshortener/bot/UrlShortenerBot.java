@@ -2,6 +2,7 @@ package com.learning.urlshortener.bot;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
@@ -33,9 +34,13 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
 
     @SneakyThrows
     public UrlShortenerBot(
+            @Value("${telegram-bot.name}") String botUserName,
+            @Value("${telegram-bot.token}") String botToken,
             NonCommandUpdateHandler nonCommandUpdateHandler,
             List<IBotCommand> sortedBotCommands,
             Logger logger) {
+        this.botUserName = botUserName;
+        this.botToken = botToken;
         this.nonCommandUpdateHandler = nonCommandUpdateHandler;
         this.sortedBotCommands = sortedBotCommands;
         this.logger = logger;
@@ -59,7 +64,6 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
         super.onUpdatesReceived(updates);
     }
 
-    @SneakyThrows
     @Override
     public void processNonCommandUpdate(Update update) {
         nonCommandUpdateHandler.handleUpdate(update);

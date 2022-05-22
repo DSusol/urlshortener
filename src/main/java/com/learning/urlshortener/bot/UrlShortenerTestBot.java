@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
@@ -22,11 +23,12 @@ public class UrlShortenerTestBot extends UrlShortenerBot {
     @Getter
     private final Set<BotApiMethod<?>> methods = new HashSet<>();
 
-    public UrlShortenerTestBot(NonCommandUpdateHandler nonCommandUpdateHandler,
-                               List<IBotCommand> sortedBotCommands,
-                               Logger logger) {
-        super(nonCommandUpdateHandler, sortedBotCommands, logger);
+    public UrlShortenerTestBot(@Value("${telegram-bot.name}") String botUserName,  @Value("${telegram-bot.token}") String botToken,
+                               NonCommandUpdateHandler nonCommandUpdateHandler,
+                               List<IBotCommand> sortedBotCommands, Logger logger) {
+        super(botUserName, botToken, nonCommandUpdateHandler, sortedBotCommands, logger);
     }
+
 
     @Override
     public <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) {
