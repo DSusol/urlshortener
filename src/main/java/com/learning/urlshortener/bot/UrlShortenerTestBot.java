@@ -13,6 +13,7 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 
 import com.learning.urlshortener.bot.commands.NonCommandUpdateHandler;
 import com.learning.urlshortener.bot.logs.TgIncomingUpdateLogger;
+import com.learning.urlshortener.bot.utils.MessageHandler;
 
 import lombok.Getter;
 
@@ -24,11 +25,10 @@ public class UrlShortenerTestBot extends UrlShortenerBot {
     private final Set<BotApiMethod<?>> methods = new HashSet<>();
 
     public UrlShortenerTestBot(@Value("${telegram-bot.name}") String botUserName,  @Value("${telegram-bot.token}") String botToken,
-                               NonCommandUpdateHandler nonCommandUpdateHandler,
-                               List<IBotCommand> sortedBotCommands, TgIncomingUpdateLogger tgIncomingUpdateLogger) {
-        super(botUserName, botToken, nonCommandUpdateHandler, sortedBotCommands, tgIncomingUpdateLogger);
+                               NonCommandUpdateHandler nonCommandUpdateHandler, List<IBotCommand> sortedBotCommands,
+                               MessageHandler messageHandler, TgIncomingUpdateLogger logger) {
+        super(botUserName, botToken, nonCommandUpdateHandler, sortedBotCommands, messageHandler, logger);
     }
-
 
     @Override
     public <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) {

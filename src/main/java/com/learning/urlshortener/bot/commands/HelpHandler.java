@@ -24,13 +24,12 @@ public class HelpHandler {
     @SneakyThrows
     public void sendHelpMessage(Message message) {
 
-        String languageCode = message.getFrom().getLanguageCode();
         StringBuilder helpMessageBuilder = new StringBuilder();
 
-        helpMessageBuilder.append(messageHandler.getI18nMessageFor("bot.help.header", languageCode));
+        helpMessageBuilder.append(messageHandler.getI18nMessageFor("bot.help.header"));
         this.bot.getSortedBotCommands().forEach(command -> helpMessageBuilder.append("/")
                 .append(command.getCommandIdentifier()).append(" - ")
-                .append(messageHandler.getI18nMessageFor(command.getDescription(), languageCode)).append("\n"));
+                .append(messageHandler.getI18nMessageFor(command.getDescription())).append("\n"));
 
         SendMessage sendMessage = new SendMessage(message.getChatId().toString(), helpMessageBuilder.toString());
         sendMessage.enableHtml(true);

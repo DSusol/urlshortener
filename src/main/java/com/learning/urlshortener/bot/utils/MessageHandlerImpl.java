@@ -18,16 +18,16 @@ class MessageHandlerImpl implements MessageHandler {
 
     @Override
     public SendMessage prepareSendMessage(Message message, String template) {
-        String languageCode = message.getFrom().getLanguageCode();
-        String messageText = getI18nMessageFor(template, languageCode);
+        String messageText = getI18nMessageFor(template);
         return new SendMessage(message.getChatId().toString(), messageText);
     }
 
     @Override
-    public String getI18nMessageFor(String template, String languageCode) {
-        LocaleContextHolder.setLocale(Locale.forLanguageTag(languageCode));
-        String i18nMessage = messageSource.getMessage(template, null, LocaleContextHolder.getLocale());
-        LocaleContextHolder.resetLocaleContext();
-        return i18nMessage;
+    public String getI18nMessageFor(String template) {
+        return messageSource.getMessage(template, null, LocaleContextHolder.getLocale());
+    }
+
+    public Locale resolveMessageLocale(Message message) {
+        return Locale.forLanguageTag(message.getFrom().getLanguageCode());
     }
 }
