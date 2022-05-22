@@ -35,7 +35,6 @@ class FindAllLinksCommand implements IBotCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement link list provision
-        SendMessage sendMessage = messageHandler.prepareSendMessage(message, "find.all.links.command.response");
-        absSender.execute(sendMessage);
+        absSender.execute(messageHandler.prepareSendMessage(message, "find.all.links.command.response"));
     }
 }

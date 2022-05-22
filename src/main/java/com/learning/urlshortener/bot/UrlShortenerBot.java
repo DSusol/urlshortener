@@ -10,7 +10,7 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.learning.urlshortener.bot.commands.NonCommandUpdateHandler;
-import com.learning.urlshortener.bot.logs.Logger;
+import com.learning.urlshortener.bot.logs.TgIncomingUpdateLogger;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +29,7 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
     @Getter
     private final List<IBotCommand> sortedBotCommands;
 
-    private final Logger logger;
+    private final TgIncomingUpdateLogger logger;
     private final NonCommandUpdateHandler nonCommandUpdateHandler;
 
     @SneakyThrows
@@ -38,7 +38,7 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
             @Value("${telegram-bot.token}") String botToken,
             NonCommandUpdateHandler nonCommandUpdateHandler,
             List<IBotCommand> sortedBotCommands,
-            Logger logger) {
+            TgIncomingUpdateLogger logger) {
         this.botUserName = botUserName;
         this.botToken = botToken;
         this.nonCommandUpdateHandler = nonCommandUpdateHandler;
@@ -60,7 +60,7 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
 
     @Override
     public void onUpdatesReceived(List<Update> updates) {
-        updates.forEach(logger::logRequest);
+        updates.forEach(logger::logIncomingUpdate);
         super.onUpdatesReceived(updates);
     }
 
