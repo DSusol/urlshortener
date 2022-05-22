@@ -69,8 +69,8 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
         for (Update update : updates) {
             logger.logIncomingUpdate(update);
             try {
-                LocaleContextHolder.setLocale(update.hasMessage() ?
-                        messageHandler.resolveMessageLocale(update.getMessage()) : Locale.getDefault());
+                LocaleContextHolder.setLocale(update.hasMessage()
+                        ? messageHandler.resolveMessageLocale(update.getMessage()) : Locale.getDefault());
                 this.onUpdateReceived(update);
             } finally {
                 LocaleContextHolder.resetLocaleContext();
