@@ -38,6 +38,6 @@ class DeleteLinkCommand implements IBotCommand {
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement link removal
         SendMessage sendMessage = messageHandler.prepareSendMessage(message, "delete.links.command.response");
-        apiExecutor.executeSendMessage(absSender, sendMessage);
+        apiExecutor.executeSendMessage(sendMessage);
     }
 }

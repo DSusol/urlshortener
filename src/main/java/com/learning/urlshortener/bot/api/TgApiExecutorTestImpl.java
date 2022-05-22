@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +19,7 @@ public class TgApiExecutorTestImpl implements TgApiExecutor {
     Map<String, SendMessage> sendMessages = new HashMap<>();
 
     @Override
-    public void executeSendMessage(AbsSender bot, SendMessage sendMessage) {
+    public void executeSendMessage(SendMessage sendMessage) {
         sendMessages.put(sendMessage.getChatId(), sendMessage);
     }
 }

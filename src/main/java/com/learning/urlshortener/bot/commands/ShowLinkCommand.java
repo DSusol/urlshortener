@@ -38,6 +38,6 @@ class ShowLinkCommand implements IBotCommand {
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement link details provision
         SendMessage sendMessage = messageHandler.prepareSendMessage(message, "show.link.command.response");
-        apiExecutor.executeSendMessage(absSender, sendMessage);
+        apiExecutor.executeSendMessage(sendMessage);
     }
 }

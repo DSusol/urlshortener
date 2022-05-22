@@ -54,7 +54,7 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
     @SneakyThrows
     @Override
     public void processNonCommandUpdate(Update update) {
-        nonCommandUpdateHandler.handleUpdate(this, update);
+        nonCommandUpdateHandler.handleUpdate(update);
     }
 
     @Override

@@ -38,6 +38,6 @@ class CreateNewLinkCommand implements IBotCommand {
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement new link creation
         SendMessage sendMessage = messageHandler.prepareSendMessage(message, "new.link.command.response");
-        apiExecutor.executeSendMessage(absSender, sendMessage);
+        apiExecutor.executeSendMessage(sendMessage);
     }
 }

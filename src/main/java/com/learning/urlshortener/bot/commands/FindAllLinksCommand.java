@@ -38,6 +38,6 @@ class FindAllLinksCommand implements IBotCommand {
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement link list provision
         SendMessage sendMessage = messageHandler.prepareSendMessage(message, "find.all.links.command.response");
-        apiExecutor.executeSendMessage(absSender, sendMessage);
+        apiExecutor.executeSendMessage(sendMessage);
     }
 }
