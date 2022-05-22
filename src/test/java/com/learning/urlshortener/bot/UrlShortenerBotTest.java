@@ -3,6 +3,7 @@ package com.learning.urlshortener.bot;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,70 +27,61 @@ class UrlShortenerBotTest extends TestContainerSupplier {
 
     @BeforeEach
     void botSetUp() {
-        underTest.getMethods().clear();
+        underTest.getExecutedMethods().clear();
     }
 
     @Test
-    void bot_command_number_verification() {
-        assertThat(underTest.getRegisteredCommands()).hasSize(4);
-    }
-
-    @ParameterizedTest(name = "Run {index}: verified language = {0}")
-    @MethodSource("invalidCommandResponseArgumentProvider")
-    void when_sending_invalid_command_should_prompt_help_option(String languageCode, String botResponse) {
+    void when_sending_invalid_command_should_prompt_help_option() {
         //given
-        Update update = BotTestUtils.createUpdateWithMessageFromChat(666L, "invalid command", languageCode);
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(666L, "invalid command");
 
         //when
-        underTest.onUpdateReceived(update);
+        underTest.onUpdatesReceived(List.of(update));
 
         //then
-        assertThat(underTest.getMethods()).hasSize(1);
+        assertThat(underTest.getExecutedMethods()).hasSize(1);
 
-        BotApiMethod<?> savedMethod = underTest.getMethods().iterator().next();
+        BotApiMethod<?> savedMethod = underTest.getExecutedMethods().iterator().next();
         assertThat(savedMethod).isInstanceOf(SendMessage.class);
-        assertThat(((SendMessage) savedMethod).getText()).isEqualTo(botResponse);
+        assertThat(((SendMessage) savedMethod).getChatId()).isEqualTo("666");
+        assertThat(((SendMessage) savedMethod).getText()).contains("/help");
     }
 
     @ParameterizedTest(name = "Run {index}: verified language = {0}")
     @MethodSource("helpCommandResponseArgumentProvider")
-    void when_requesting_help_should_show_available_command_options(String languageCode, String botResponse) {
+    void when_requesting_help_should_show_available_i18n_response(String languageCode, String botResponse) {
         //given
-        Update update = BotTestUtils.createUpdateWithMessageFromChat(666L, "/help", languageCode);
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(666L, "/help");
+        update.getMessage().getFrom().setLanguageCode(languageCode);
 
         //when
-        underTest.onUpdateReceived(update);
+        underTest.onUpdatesReceived(List.of(update));
 
         //then
-        assertThat(underTest.getMethods()).hasSize(1);
+        assertThat(underTest.getExecutedMethods()).hasSize(1);
 
-        BotApiMethod<?> savedMethod = underTest.getMethods().iterator().next();
+        BotApiMethod<?> savedMethod = underTest.getExecutedMethods().iterator().next();
         assertThat(savedMethod).isInstanceOf(SendMessage.class);
-        assertThat(((SendMessage) savedMethod).getText())
-                .contains(botResponse, "/new_link", "/show_link", "/my_links", "/delete_link");
+        assertThat(((SendMessage) savedMethod).getChatId()).isEqualTo("666");
+        assertThat(((SendMessage) savedMethod).getText()).contains(botResponse);
     }
 
-    @ParameterizedTest(name = "Run {index}: verified language = {1}")
-    @MethodSource("commandResponseArgumentProvider")
-    void when_requesting_command_should_show_command_response(String command, String languageCode, String botResponse) {
+    @ParameterizedTest(name = "Run {index}: verified command = {0}")
+    @MethodSource("commandArgumentProvider")
+    void when_requesting_command_should_show_command_response(String command) {
         //given
-        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(666L, command, languageCode);
+        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(666L, command);
 
         //when
-        underTest.onUpdateReceived(update);
+        underTest.onUpdatesReceived(List.of(update));
 
         //then
-        assertThat(underTest.getMethods()).hasSize(1);
+        assertThat(underTest.getExecutedMethods()).hasSize(1);
 
-        BotApiMethod<?> savedMethod = underTest.getMethods().iterator().next();
+        BotApiMethod<?> savedMethod = underTest.getExecutedMethods().iterator().next();
         assertThat(savedMethod).isInstanceOf(SendMessage.class);
-        assertThat(((SendMessage) savedMethod).getText()).isEqualTo(botResponse);
-    }
-
-    static Stream<Arguments> invalidCommandResponseArgumentProvider() {
-        return Stream.of(
-                arguments("en", "The command is not recognized. See /help for available options."),
-                arguments("ru", "Неправильная команда. Введите /help чтобы получить список допустимых команд."));
+        assertThat(((SendMessage) savedMethod).getChatId()).isEqualTo("666");
+        assertThat(((SendMessage) savedMethod).getText()).doesNotContain("/help");
     }
 
     static Stream<Arguments> helpCommandResponseArgumentProvider() {
@@ -98,16 +90,12 @@ class UrlShortenerBotTest extends TestContainerSupplier {
                 arguments("ru", "Допустимые команды:"));
     }
 
-    static Stream<Arguments> commandResponseArgumentProvider() {
+    static Stream<Arguments> commandArgumentProvider() {
         return Stream.of(
-                arguments("/new_link", "en", "will create new link"),
-                arguments("/new_link", "ru", "создаст новый линк"),
-                arguments("/show_link", "en", "will show link details"),
-                arguments("/show_link", "ru", "покажет детали линка"),
-                arguments("/my_links", "en", "will show list of created links"),
-                arguments("/my_links", "ru", "покажет список созданных линков"),
-                arguments("/delete_link", "en", "will delete existing link"),
-                arguments("/delete_link", "ru", "удалит существующий линк")
+                arguments("/new_link"),
+                arguments("/show_link"),
+                arguments("/my_links"),
+                arguments("/delete_link")
         );
     }
 }

@@ -22,7 +22,7 @@ import lombok.Getter;
 public class UrlShortenerTestBot extends UrlShortenerBot {
 
     @Getter
-    private final Set<BotApiMethod<?>> methods = new HashSet<>();
+    private final Set<BotApiMethod<?>> executedMethods = new HashSet<>();
 
     public UrlShortenerTestBot(@Value("${telegram-bot.name}") String botUserName,  @Value("${telegram-bot.token}") String botToken,
                                NonCommandUpdateHandler nonCommandUpdateHandler, List<IBotCommand> sortedBotCommands,
@@ -32,7 +32,7 @@ public class UrlShortenerTestBot extends UrlShortenerBot {
 
     @Override
     public <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) {
-        methods.add(method);
+        executedMethods.add(method);
         return null;
     }
 }

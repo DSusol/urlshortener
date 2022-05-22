@@ -11,9 +11,9 @@ import org.telegram.telegrambots.meta.api.objects.User;
 
 public class BotTestUtils {
 
-    public static Update createUpdateWithMessageFromChat(Long chatId, String messageText, String languageCode) {
+    public static Update createUpdateWithMessageFromChat(Long chatId, String messageText) {
         User testUser = new User();
-        testUser.setLanguageCode(languageCode);
+        testUser.setLanguageCode("en");
 
         Chat testChat = new Chat();
         testChat.setId(chatId);
@@ -29,13 +29,13 @@ public class BotTestUtils {
         return testUpdate;
     }
 
-    public static Update createCommandUpdateWithMessageFromChat(Long chatId, String messageText, String languageCode) {
+    public static Update createCommandUpdateWithMessageFromChat(Long chatId, String messageText) {
         MessageEntity testMessageEntity = new MessageEntity();
         testMessageEntity.setType(EntityType.BOTCOMMAND);
         testMessageEntity.setOffset(0);
         testMessageEntity.setLength(1);
 
-        Update testUpdate = createUpdateWithMessageFromChat(chatId, messageText, languageCode);
+        Update testUpdate = createUpdateWithMessageFromChat(chatId, messageText);
         testUpdate.getMessage().setEntities(List.of(testMessageEntity));
 
         return testUpdate;
