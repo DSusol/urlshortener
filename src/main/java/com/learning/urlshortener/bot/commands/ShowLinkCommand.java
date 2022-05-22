@@ -8,7 +8,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import com.learning.urlshortener.bot.api.TgApiExecutor;
-import com.learning.urlshortener.bot.logs.Logger;
 import com.learning.urlshortener.bot.utils.MessageHandler;
 
 import lombok.AllArgsConstructor;
@@ -23,7 +22,6 @@ class ShowLinkCommand implements IBotCommand {
 
     private final TgApiExecutor apiExecutor;
     private final MessageHandler messageHandler;
-    private final Logger logger;
 
     @Override
     public String getCommandIdentifier() {
@@ -38,8 +36,6 @@ class ShowLinkCommand implements IBotCommand {
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        logger.logRequest(message);
-
         //todo: implement link details provision
         SendMessage sendMessage = messageHandler.prepareSendMessage(message, "show.link.command.response");
         apiExecutor.executeSendMessage(absSender, sendMessage);

@@ -7,7 +7,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.learning.urlshortener.bot.UrlShortenerBot;
 import com.learning.urlshortener.bot.api.TgApiExecutor;
-import com.learning.urlshortener.bot.logs.Logger;
 import com.learning.urlshortener.bot.utils.MessageHandler;
 
 import lombok.AllArgsConstructor;
@@ -19,10 +18,8 @@ public class NonCommandUpdateHandler {
     private final TgApiExecutor apiExecutor;
     private final MessageHandler messageHandler;
     private final HelpHandler helpHandler;
-    private final Logger logger;
 
     public void handleUpdate(UrlShortenerBot commandBot, Update update) {
-        logger.logRequest(update);
 
         if (!update.hasMessage() || !update.getMessage().hasText()) {
             return;

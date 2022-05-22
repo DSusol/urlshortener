@@ -3,6 +3,7 @@ package com.learning.urlshortener.bot.logs;
 import java.text.MessageFormat;
 
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,8 +20,8 @@ class Slf4jLogger implements Logger {
 
     @SneakyThrows
     @Override
-    public void logRequest(Object object) {
+    public void logRequest(Update update) {
         log.info(MessageFormat.format("Request: Thread: {0}, request object: {1}",
-                Thread.currentThread().getId(), objectMapper.writeValueAsString(object)));
+                Thread.currentThread().getId(), objectMapper.writeValueAsString(update)));
     }
 }
