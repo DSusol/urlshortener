@@ -12,23 +12,22 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.learning.urlshortener.TestContainerSupplier;
-import com.learning.urlshortener.bot.api.TgApiExecutorTestImpl;
 
 @SpringBootTest
 class UrlShortenerBotTest extends TestContainerSupplier {
 
     @Autowired
-    TgApiExecutorTestImpl tgApiExecutor;
-
-    @Autowired
-    UrlShortenerBot underTest;
+    UrlShortenerTestBot underTest;
 
     @BeforeEach
     void botSetUp() {
         underTest.setBotUserName("Test Bot");
+        underTest.getMethods().clear();
     }
 
     @Test
@@ -46,8 +45,11 @@ class UrlShortenerBotTest extends TestContainerSupplier {
         underTest.onUpdateReceived(update);
 
         //then
-        assertThat(tgApiExecutor.getSendMessages().values()).hasSize(1);
-        assertThat(tgApiExecutor.getSendMessages().get("666").getText()).isEqualTo(botResponse);
+        assertThat(underTest.getMethods()).hasSize(1);
+
+        BotApiMethod<?> savedMethod = underTest.getMethods().iterator().next();
+        assertThat(savedMethod).isInstanceOf(SendMessage.class);
+        assertThat(((SendMessage) savedMethod).getText()).isEqualTo(botResponse);
     }
 
     @ParameterizedTest(name = "Run {index}: verified language = {0}")
@@ -60,8 +62,11 @@ class UrlShortenerBotTest extends TestContainerSupplier {
         underTest.onUpdateReceived(update);
 
         //then
-        assertThat(tgApiExecutor.getSendMessages().values()).hasSize(1);
-        assertThat(tgApiExecutor.getSendMessages().get("666").getText())
+        assertThat(underTest.getMethods()).hasSize(1);
+
+        BotApiMethod<?> savedMethod = underTest.getMethods().iterator().next();
+        assertThat(savedMethod).isInstanceOf(SendMessage.class);
+        assertThat(((SendMessage) savedMethod).getText())
                 .contains(botResponse, "/new_link", "/show_link", "/my_links", "/delete_link");
     }
 
@@ -75,8 +80,11 @@ class UrlShortenerBotTest extends TestContainerSupplier {
         underTest.onUpdateReceived(update);
 
         //then
-        assertThat(tgApiExecutor.getSendMessages().values()).hasSize(1);
-        assertThat(tgApiExecutor.getSendMessages().get("666").getText()).isEqualTo(botResponse);
+        assertThat(underTest.getMethods()).hasSize(1);
+
+        BotApiMethod<?> savedMethod = underTest.getMethods().iterator().next();
+        assertThat(savedMethod).isInstanceOf(SendMessage.class);
+        assertThat(((SendMessage) savedMethod).getText()).isEqualTo(botResponse);
     }
 
     static Stream<Arguments> invalidCommandResponseArgumentProvider() {
