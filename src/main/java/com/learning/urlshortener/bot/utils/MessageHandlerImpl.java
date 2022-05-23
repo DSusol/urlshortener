@@ -27,6 +27,7 @@ class MessageHandlerImpl implements MessageHandler {
         return messageSource.getMessage(template, null, LocaleContextHolder.getLocale());
     }
 
+    @Override
     public Locale resolveMessageLocale(Message message) {
         return Locale.forLanguageTag(message.getFrom().getLanguageCode());
     }
