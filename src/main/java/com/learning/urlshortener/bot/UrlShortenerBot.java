@@ -3,6 +3,7 @@ package com.learning.urlshortener.bot;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -16,17 +17,15 @@ import com.learning.urlshortener.bot.logs.TgIncomingUpdateLogger;
 import com.learning.urlshortener.bot.utils.MessageHandler;
 
 import lombok.Getter;
-import lombok.Setter;
-import lombok.SneakyThrows;
 
 @Component
 @Profile("!test")
 public class UrlShortenerBot extends TelegramLongPollingCommandBot {
 
-    @Setter
+    @Value("${telegram-bot.name}")
     private String botUserName;
 
-    @Setter
+    @Value("${telegram-bot.token}")
     private String botToken;
 
     @Getter
@@ -36,16 +35,12 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
     private final MessageHandler messageHandler;
     private final NonCommandUpdateHandler nonCommandUpdateHandler;
 
-    @SneakyThrows
+    @Autowired
     public UrlShortenerBot(
-            @Value("${telegram-bot.name}") String botUserName,
-            @Value("${telegram-bot.token}") String botToken,
             NonCommandUpdateHandler nonCommandUpdateHandler,
             List<IBotCommand> sortedBotCommands,
             MessageHandler messageHandler,
             TgIncomingUpdateLogger logger) {
-        this.botUserName = botUserName;
-        this.botToken = botToken;
         this.nonCommandUpdateHandler = nonCommandUpdateHandler;
         this.messageHandler = messageHandler;
         this.sortedBotCommands = sortedBotCommands;
@@ -70,7 +65,8 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
             logger.logIncomingUpdate(update);
             try {
                 LocaleContextHolder.setLocale(update.hasMessage()
-                        ? messageHandler.resolveMessageLocale(update.getMessage()) : Locale.getDefault());
+                        ? messageHandler.resolveMessageLocale(update.getMessage())
+                        : Locale.getDefault());
                 this.onUpdateReceived(update);
             } finally {
                 LocaleContextHolder.resetLocaleContext();

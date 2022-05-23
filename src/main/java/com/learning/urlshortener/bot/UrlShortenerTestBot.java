@@ -1,11 +1,12 @@
 package com.learning.urlshortener.bot;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
@@ -22,12 +23,12 @@ import lombok.Getter;
 public class UrlShortenerTestBot extends UrlShortenerBot {
 
     @Getter
-    private final Set<BotApiMethod<?>> executedMethods = new HashSet<>();
+    private final List<BotApiMethod<?>> executedMethods = new ArrayList<>();
 
-    public UrlShortenerTestBot(@Value("${telegram-bot.name}") String botUserName,  @Value("${telegram-bot.token}") String botToken,
-                               NonCommandUpdateHandler nonCommandUpdateHandler, List<IBotCommand> sortedBotCommands,
+    @Autowired
+    public UrlShortenerTestBot(NonCommandUpdateHandler nonCommandUpdateHandler, List<IBotCommand> sortedBotCommands,
                                MessageHandler messageHandler, TgIncomingUpdateLogger logger) {
-        super(botUserName, botToken, nonCommandUpdateHandler, sortedBotCommands, messageHandler, logger);
+        super(nonCommandUpdateHandler, sortedBotCommands, messageHandler, logger);
     }
 
     @Override
