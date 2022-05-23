@@ -13,8 +13,8 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.learning.urlshortener.bot.commands.NonCommandUpdateHandler;
-import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
 import com.learning.urlshortener.bot.utils.MessageHandler;
+import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
 
 import lombok.Getter;
 

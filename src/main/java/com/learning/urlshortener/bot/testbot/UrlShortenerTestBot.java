@@ -1,7 +1,6 @@
 package com.learning.urlshortener.bot.testbot;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,8 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 
 import com.learning.urlshortener.bot.UrlShortenerBot;
 import com.learning.urlshortener.bot.commands.NonCommandUpdateHandler;
-import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
 import com.learning.urlshortener.bot.utils.MessageHandler;
+import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
 
 @Component
 @Profile("test")

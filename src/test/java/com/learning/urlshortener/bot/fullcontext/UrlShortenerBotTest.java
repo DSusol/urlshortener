@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot;
+package com.learning.urlshortener.bot.fullcontext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -12,6 +12,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+
+import com.learning.urlshortener.bot.BotTestUtils;
 
 @SpringBootTest
 class UrlShortenerBotTest extends BaseFullContextTest {

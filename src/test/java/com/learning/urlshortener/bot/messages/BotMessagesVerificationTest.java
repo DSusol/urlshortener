@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot;
+package com.learning.urlshortener.bot.messages;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -11,21 +11,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import com.learning.urlshortener.bot.BotTestUtils;
 import com.learning.urlshortener.bot.testbot.ExecutedTgTestMethodsRegistry;
 import com.learning.urlshortener.bot.testbot.UrlShortenerTestBot;
 
-@SpringBootTest
-@ContextConfiguration(classes = {
-        MessageVerificationConfig.class,
-        MessageSourceAutoConfiguration.class,
-        JacksonAutoConfiguration.class})
+@SpringBootTest(classes = MessageVerificationConfig.class)
 public class BotMessagesVerificationTest {
 
     @Autowired
