@@ -3,32 +3,18 @@ package com.learning.urlshortener.bot;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import com.learning.urlshortener.TestContainerSupplier;
-
 @SpringBootTest
-class UrlShortenerBotTest extends TestContainerSupplier {
-
-    @Autowired
-    UrlShortenerTestBot underTest;
-
-    @BeforeEach
-    void botSetUp() {
-        underTest.getExecutedMethods().clear();
-    }
+class UrlShortenerBotTest extends BaseFullContextTest {
 
     @Test
     void when_sending_invalid_command_should_prompt_help_option() {
@@ -36,15 +22,12 @@ class UrlShortenerBotTest extends TestContainerSupplier {
         Update update = BotTestUtils.createUpdateWithMessageFromChat(666L, "invalid command");
 
         //when
-        underTest.onUpdatesReceived(List.of(update));
+        executeUpdate(update);
 
         //then
-        assertThat(underTest.getExecutedMethods()).hasSize(1);
-
-        BotApiMethod<?> savedMethod = underTest.getExecutedMethods().iterator().next();
-        assertThat(savedMethod).isInstanceOf(SendMessage.class);
-        assertThat(((SendMessage) savedMethod).getChatId()).isEqualTo("666");
-        assertThat(((SendMessage) savedMethod).getText()).contains("/help");
+        assertThat(executedUpdates.getAllSendMessagesForChatId("666")).hasSize(1);
+        SendMessage savedMethod = executedUpdates.getLastSendMessageForChatId("666");
+        assertThat(savedMethod.getText()).contains("/help");
     }
 
     @ParameterizedTest(name = "Run {index}: verified language = {0}")
@@ -55,15 +38,13 @@ class UrlShortenerBotTest extends TestContainerSupplier {
         update.getMessage().getFrom().setLanguageCode(languageCode);
 
         //when
-        underTest.onUpdatesReceived(List.of(update));
+        executeUpdate(update);
 
         //then
-        assertThat(underTest.getExecutedMethods()).hasSize(1);
+        assertThat(executedUpdates.getAllSendMessagesForChatId("666")).hasSize(1);
 
-        BotApiMethod<?> savedMethod = underTest.getExecutedMethods().iterator().next();
-        assertThat(savedMethod).isInstanceOf(SendMessage.class);
-        assertThat(((SendMessage) savedMethod).getChatId()).isEqualTo("666");
-        assertThat(((SendMessage) savedMethod).getText()).contains(botResponse);
+        SendMessage savedMethod = executedUpdates.getLastSendMessageForChatId("666");
+        assertThat(savedMethod.getText()).contains(botResponse);
     }
 
     @ParameterizedTest(name = "Run {index}: verified command = {0}")
@@ -73,15 +54,13 @@ class UrlShortenerBotTest extends TestContainerSupplier {
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(666L, command);
 
         //when
-        underTest.onUpdatesReceived(List.of(update));
+        executeUpdate(update);
 
         //then
-        assertThat(underTest.getExecutedMethods()).hasSize(1);
+        assertThat(executedUpdates.getAllSendMessagesForChatId("666")).hasSize(1);
 
-        BotApiMethod<?> savedMethod = underTest.getExecutedMethods().iterator().next();
-        assertThat(savedMethod).isInstanceOf(SendMessage.class);
-        assertThat(((SendMessage) savedMethod).getChatId()).isEqualTo("666");
-        assertThat(((SendMessage) savedMethod).getText()).doesNotContain("/help");
+        SendMessage savedMethod = executedUpdates.getLastSendMessageForChatId("666");
+        assertThat(savedMethod.getText()).doesNotContain("/help");
     }
 
     static Stream<Arguments> helpCommandResponseArgumentProvider() {

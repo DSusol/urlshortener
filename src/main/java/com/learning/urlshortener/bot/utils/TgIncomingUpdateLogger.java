@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.logs;
+package com.learning.urlshortener.bot.utils;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;

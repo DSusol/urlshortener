@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot;
+package com.learning.urlshortener.bot.testbot;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,28 +10,28 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 
+import com.learning.urlshortener.bot.UrlShortenerBot;
 import com.learning.urlshortener.bot.commands.NonCommandUpdateHandler;
-import com.learning.urlshortener.bot.logs.TgIncomingUpdateLogger;
+import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
 import com.learning.urlshortener.bot.utils.MessageHandler;
-
-import lombok.Getter;
 
 @Component
 @Profile("test")
 public class UrlShortenerTestBot extends UrlShortenerBot {
 
-    @Getter
-    private final List<BotApiMethod<?>> executedMethods = new ArrayList<>();
+    ExecutedTgTestMethodsRegistry executedTgTestMethodsRegistry;
 
     @Autowired
     public UrlShortenerTestBot(NonCommandUpdateHandler nonCommandUpdateHandler, List<IBotCommand> sortedBotCommands,
-                               MessageHandler messageHandler, TgIncomingUpdateLogger logger) {
+                               MessageHandler messageHandler, TgIncomingUpdateLogger logger,
+                               ExecutedTgTestMethodsRegistry executedTgTestMethodsRegistry) {
         super(nonCommandUpdateHandler, sortedBotCommands, messageHandler, logger);
+        this.executedTgTestMethodsRegistry = executedTgTestMethodsRegistry;
     }
 
     @Override
     public <T extends Serializable, Method extends BotApiMethod<T>> T execute(Method method) {
-        executedMethods.add(method);
+        executedTgTestMethodsRegistry.handleMethod(method);
         return null;
     }
 }

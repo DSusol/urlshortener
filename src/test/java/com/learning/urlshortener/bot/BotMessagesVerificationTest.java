@@ -7,31 +7,39 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {MessageVerificationConfig.class})
-public class BotMessagesVerificationTest {
+import com.learning.urlshortener.bot.testbot.ExecutedTgTestMethodsRegistry;
+import com.learning.urlshortener.bot.testbot.UrlShortenerTestBot;
 
+@SpringBootTest
+@ContextConfiguration(classes = {
+        MessageVerificationConfig.class,
+        MessageSourceAutoConfiguration.class,
+        JacksonAutoConfiguration.class})
+public class BotMessagesVerificationTest {
 
     @Autowired
     UrlShortenerTestBot underTest;
 
+    @Autowired
+    ExecutedTgTestMethodsRegistry executedUpdates;
+
     @BeforeEach
     void botSetUp() {
-        underTest.getExecutedMethods().clear();
+        executedUpdates.clearAllSendMessages();
     }
 
-    @ParameterizedTest(name = "Run {index}: verified language = {0}")
+    @ParameterizedTest(name = "Run {index}: verified command = {0}, language = {1}")
     @MethodSource("commandResponseArgumentProvider")
     void command_i18n_response_verification(String command, String languageCode, String response) {
 
@@ -43,11 +51,9 @@ public class BotMessagesVerificationTest {
         underTest.onUpdatesReceived(List.of(update));
 
         //then
-        assertThat(underTest.getExecutedMethods()).hasSize(1);
-
-        BotApiMethod<?> savedMethod = underTest.getExecutedMethods().iterator().next();
-        assertThat(savedMethod).isInstanceOf(SendMessage.class);
-        assertThat(((SendMessage) savedMethod).getText()).isEqualTo(response);
+        assertThat(executedUpdates.getAllSendMessagesForChatId("666")).hasSize(1);
+        SendMessage savedMethod = executedUpdates.getLastSendMessageForChatId("666");
+        assertThat(savedMethod.getText()).isEqualTo(response);
     }
 
     static Stream<Arguments> commandResponseArgumentProvider() {
