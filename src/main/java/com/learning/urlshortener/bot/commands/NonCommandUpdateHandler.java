@@ -32,12 +32,12 @@ public class NonCommandUpdateHandler {
         }
 
         Message message = update.getMessage();
-        if (!message.getText().equals("/help")) {
-            SendMessage sendMessage = messageHandler.prepareSendMessage(message, "bot.default.message");
-            bot.execute(sendMessage);
+        if (message.getText().equals("/help")) {
+            bot.execute(helpHandler.getHelpMessage(message));
             return;
         }
 
-        bot.execute(helpHandler.getHelpMessage(message));
+        SendMessage sendMessage = messageHandler.prepareSendMessage(message, "bot.default.message");
+        bot.execute(sendMessage);
     }
 }

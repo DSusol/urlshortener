@@ -10,7 +10,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import com.learning.urlshortener.bot.utils.MessageHandler;
 
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 
 @Component
 @AllArgsConstructor
@@ -19,7 +18,6 @@ public class HelpHandler {
     private final List<IBotCommand> sortedBotCommands;
     private final MessageHandler messageHandler;
 
-    @SneakyThrows
     public SendMessage getHelpMessage(Message message) {
 
         StringBuilder helpMessageBuilder = new StringBuilder();
