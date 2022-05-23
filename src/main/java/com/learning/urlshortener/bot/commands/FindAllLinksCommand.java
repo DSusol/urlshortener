@@ -16,13 +16,11 @@ import lombok.SneakyThrows;
 @Component
 class FindAllLinksCommand implements IBotCommand {
 
-    private static final String FIND_ALL_LINKS_IDENTIFIER = "my_links";
-
     private final MessageHandler messageHandler;
 
     @Override
     public String getCommandIdentifier() {
-        return FIND_ALL_LINKS_IDENTIFIER;
+        return "my_links";
     }
 
     @Override

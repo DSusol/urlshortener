@@ -16,13 +16,11 @@ import lombok.SneakyThrows;
 @Component
 class DeleteLinkCommand implements IBotCommand {
 
-    private static final String DELETE_LINK_IDENTIFIER = "delete_link";
-
     private final MessageHandler messageHandler;
 
     @Override
     public String getCommandIdentifier() {
-        return DELETE_LINK_IDENTIFIER;
+        return "delete_link";
     }
 
     @Override

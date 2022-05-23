@@ -16,13 +16,11 @@ import lombok.SneakyThrows;
 @Component
 class CreateNewLinkCommand implements IBotCommand {
 
-    private static final String CREATE_NEW_LINK_IDENTIFIER = "new_link";
-
     private final MessageHandler messageHandler;
 
     @Override
     public String getCommandIdentifier() {
-        return CREATE_NEW_LINK_IDENTIFIER;
+        return "new_link";
     }
 
     @Override

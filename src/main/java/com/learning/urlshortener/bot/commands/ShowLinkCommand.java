@@ -16,13 +16,11 @@ import lombok.SneakyThrows;
 @Component
 class ShowLinkCommand implements IBotCommand {
 
-    private static final String SHOW_LINK_IDENTIFIER = "show_link";
-
     private final MessageHandler messageHandler;
 
     @Override
     public String getCommandIdentifier() {
-        return SHOW_LINK_IDENTIFIER;
+        return "show_link";
     }
 
     @Override
