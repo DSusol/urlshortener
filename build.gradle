@@ -44,6 +44,7 @@ dependencies {
 	implementation 'org.liquibase:liquibase-core'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation "org.telegram:telegrambots:$telegrambotsVersion"
+	implementation "org.telegram:telegrambotsextensions:$telegrambotsVersion"
 
 	implementation "org.mapstruct:mapstruct:$mapstructVersion"
 	annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
