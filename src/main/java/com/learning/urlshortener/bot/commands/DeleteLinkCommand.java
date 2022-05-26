@@ -1,26 +1,21 @@
 package com.learning.urlshortener.bot.commands;
 
+import static com.learning.urlshortener.bot.commands.Command.DELETE_LINK;
+
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.utils.MessageHandler;
-
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
 @Order(4)
-@AllArgsConstructor
 @Component
-class DeleteLinkCommand implements IBotCommand {
-
-    private final MessageHandler messageHandler;
+class DeleteLinkCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return "delete_link";
+        return DELETE_LINK.name().toLowerCase();
     }
 
     @Override

@@ -1,26 +1,21 @@
 package com.learning.urlshortener.bot.commands;
 
+import static com.learning.urlshortener.bot.commands.Command.MY_LINKS;
+
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.utils.MessageHandler;
-
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
 @Order(3)
-@AllArgsConstructor
 @Component
-class FindAllLinksCommand implements IBotCommand {
-
-    private final MessageHandler messageHandler;
+class FindAllLinksCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return "my_links";
+        return MY_LINKS.name().toLowerCase();
     }
 
     @Override

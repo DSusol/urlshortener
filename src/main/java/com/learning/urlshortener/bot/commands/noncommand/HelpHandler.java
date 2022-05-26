@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.commands;
+package com.learning.urlshortener.bot.commands.noncommand;
 
 import java.util.List;
 

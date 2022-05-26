@@ -1,26 +1,26 @@
 package com.learning.urlshortener.bot.commands;
 
+import static com.learning.urlshortener.bot.commands.Command.DEFAULT;
+import static com.learning.urlshortener.bot.commands.Command.NEW_LINK;
+
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.utils.MessageHandler;
+import com.learning.urlshortener.domain.Customer;
+import com.learning.urlshortener.domain.Link;
 
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
 @Order(1)
-@AllArgsConstructor
 @Component
-class CreateNewLinkCommand implements IBotCommand {
-
-    private final MessageHandler messageHandler;
+class CreateNewLinkCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return "new_link";
+        return NEW_LINK.name().toLowerCase();
     }
 
     @Override
@@ -31,7 +31,24 @@ class CreateNewLinkCommand implements IBotCommand {
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        //todo: implement new link creation
-        absSender.execute(messageHandler.prepareSendMessage(message, "new.link.command.response"));
+        Long chatId = message.getChatId();
+
+        if (arguments.length == 0) {
+            stateHandler.setChatState(chatId, NEW_LINK);
+            absSender.execute(messageHandler.prepareSendMessage(message, "new.link.command.request.url"));
+            return;
+        }
+
+        stateHandler.setChatState(chatId, DEFAULT);
+
+        String url = arguments[0];
+        Customer customer = botServices.getCustomerByChatId(chatId);
+        Link newLink = botServices.saveNewLink(customer, url);
+
+        SendMessage sMessage = new SendMessage(chatId.toString(),
+                messageHandler.getI18nMessageFor("new.link.command.response")
+                        + botServices.getShortenedUrlByToken(newLink.getToken()));
+
+        absSender.execute(sMessage);
     }
 }

@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.commands;
+package com.learning.urlshortener.bot.commands.noncommand;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -17,11 +17,14 @@ public class NonCommandUpdateHandler {
     private final AbsSender bot;
     private final MessageHandler messageHandler;
     private final HelpHandler helpHandler;
+    private final StartHandler startHandler;
 
-    public NonCommandUpdateHandler(@Lazy AbsSender bot, MessageHandler messageHandler, HelpHandler helpHandler) {
+    public NonCommandUpdateHandler(@Lazy AbsSender bot, MessageHandler messageHandler,
+                                   HelpHandler helpHandler, StartHandler startHandler) {
         this.bot = bot;
         this.messageHandler = messageHandler;
         this.helpHandler = helpHandler;
+        this.startHandler = startHandler;
     }
 
     @SneakyThrows
@@ -32,6 +35,12 @@ public class NonCommandUpdateHandler {
         }
 
         Message message = update.getMessage();
+        if (message.getText().equals("/start")) {
+            startHandler.saveNewCustomer(message.getChatId());
+            bot.execute(startHandler.getWelcomeMessage(message));
+            return;
+        }
+
         if (message.getText().equals("/help")) {
             bot.execute(helpHandler.getHelpMessage(message));
             return;

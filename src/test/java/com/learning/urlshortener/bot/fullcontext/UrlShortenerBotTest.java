@@ -73,7 +73,6 @@ class UrlShortenerBotTest extends BaseFullContextTest {
 
     static Stream<Arguments> commandArgumentProvider() {
         return Stream.of(
-                arguments("/new_link"),
                 arguments("/show_link"),
                 arguments("/my_links"),
                 arguments("/delete_link")
