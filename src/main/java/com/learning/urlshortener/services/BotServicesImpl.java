@@ -39,6 +39,7 @@ public class BotServicesImpl implements BotServices {
     @Override
     public Link saveNewLink(Customer customer, String url) {
         String token = randomAlphanumeric(6);
+        //todo: verify the token is unique
         Link link = Link.builder().url(url).token(token).clickCount(0).build();
         return linkDAO.saveLink(customer, link);
     }
@@ -47,7 +48,9 @@ public class BotServicesImpl implements BotServices {
     public String findUrlByToken(String token) {
         Link link = linkDAO.findLinkByToken(token).orElse(null);
         //todo: handle no-link-exception
-        assert link != null;
+        if (link == null) {
+            throw new IllegalArgumentException("invalid token: " + token);
+        }
         return link.getUrl();
     }
 

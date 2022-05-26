@@ -35,9 +35,9 @@ public class ExecutedTgTestMethodsRegistry {
         executedSendMessages.put(chatId, new ArrayList<>(List.of(sendMessage)));
     }
 
-    public SendMessage getLastSendMessageForChatId(String chatId) {
+    public String getLastSendMessageTextForChatId(String chatId) {
         List<SendMessage> sendMessages = getAllSendMessagesForChatId(chatId);
-        return sendMessages.get(sendMessages.size() - 1);
+        return sendMessages.get(sendMessages.size() - 1).getText();
     }
 
     public List<SendMessage> getAllSendMessagesForChatId(String chatId) {
