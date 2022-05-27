@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.fullcontext;
+package com.learning.urlshortener.bot;
 
 import java.util.List;
 
@@ -20,21 +20,21 @@ import com.learning.urlshortener.services.BotServices;
 public class BaseFullContextTest extends TestContainerSupplier {
 
     @Value("${base.domain}")
-    String baseDomain;
+    protected String baseDomain;
 
     @Autowired
-    UrlShortenerTestBot underTest;
+    protected UrlShortenerTestBot underTest;
 
     @Autowired
-    BotServices botServices;
+    protected BotServices botServices;
 
     @Autowired
-    ExecutedTgTestMethodsRegistry executedUpdates;
+    protected ExecutedTgTestMethodsRegistry executedUpdates;
 
     @Autowired
-    WebApplicationContext webApplicationContext;
+    protected WebApplicationContext webApplicationContext;
 
-    MockMvc mockMvc;
+    protected MockMvc mockMvc;
 
     @BeforeEach
     protected void setUp() {
