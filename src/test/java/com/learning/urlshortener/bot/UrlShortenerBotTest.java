@@ -15,19 +15,21 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @SpringBootTest
 class UrlShortenerBotTest extends BaseFullContextTest {
 
+    private final Long CHAT_ID = 666L;
+
     @Test
     void when_starting_using_bot_then_get_welcome_message() {
         //given
-        Update update = BotTestUtils.createUpdateWithMessageFromChat(666L, "/start");
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "/start");
         update.getMessage().getFrom().setLanguageCode("en");
 
         //when
         executeUpdate(update);
 
         //then
-        assertThat(executedUpdates.getAllSendMessagesForChatId("666")).hasSize(1);
+        assertThat(executedUpdates.getAllSendMessagesForChatId(CHAT_ID)).hasSize(1);
 
-        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId("666");
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
         assertThat(savedMessageText).isEqualTo("Hi bro! I can make shortened links for you. See /help for available options.");
     }
 
@@ -40,8 +42,8 @@ class UrlShortenerBotTest extends BaseFullContextTest {
         executeUpdate(update);
 
         //then
-        assertThat(executedUpdates.getAllSendMessagesForChatId("666")).hasSize(1);
-        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId("666");
+        assertThat(executedUpdates.getAllSendMessagesForChatId(CHAT_ID)).hasSize(1);
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
         assertThat(savedMessageText).contains("/help");
     }
 
@@ -55,9 +57,9 @@ class UrlShortenerBotTest extends BaseFullContextTest {
         executeUpdate(update);
 
         //then
-        assertThat(executedUpdates.getAllSendMessagesForChatId("666")).hasSize(1);
+        assertThat(executedUpdates.getAllSendMessagesForChatId(CHAT_ID)).hasSize(1);
 
-        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId("666");
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
         assertThat(savedMessageText).contains("Available commands:");
     }
 
@@ -66,15 +68,15 @@ class UrlShortenerBotTest extends BaseFullContextTest {
     @MethodSource("commandArgumentProvider")
     void when_requesting_command_should_show_command_response(String command) {
         //given
-        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(666L, command);
+        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, command);
 
         //when
         executeUpdate(update);
 
         //then
-        assertThat(executedUpdates.getAllSendMessagesForChatId("666")).hasSize(1);
+        assertThat(executedUpdates.getAllSendMessagesForChatId(CHAT_ID)).hasSize(1);
 
-        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId("666");
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
         assertThat(savedMessageText).doesNotContain("/help");
     }
 
