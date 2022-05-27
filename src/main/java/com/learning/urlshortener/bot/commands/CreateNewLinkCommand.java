@@ -1,7 +1,7 @@
 package com.learning.urlshortener.bot.commands;
 
-import static com.learning.urlshortener.bot.commands.Command.DEFAULT;
-import static com.learning.urlshortener.bot.commands.Command.NEW_LINK;
+import static com.learning.urlshortener.bot.commands.AbstractCommand.Command.DEFAULT;
+import static com.learning.urlshortener.bot.commands.AbstractCommand.Command.NEW_LINK;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;

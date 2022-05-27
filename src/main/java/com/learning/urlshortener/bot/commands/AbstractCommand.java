@@ -17,4 +17,12 @@ public abstract class AbstractCommand implements IBotCommand {
 
     @Autowired
     protected MessageHandler messageHandler;
+
+    public enum Command {
+        DEFAULT,
+        NEW_LINK,
+        SHOW_LINK,
+        MY_LINKS,
+        DELETE_LINK
+    }
 }

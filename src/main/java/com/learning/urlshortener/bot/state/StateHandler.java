@@ -1,6 +1,6 @@
 package com.learning.urlshortener.bot.state;
 
-import static com.learning.urlshortener.bot.commands.Command.DEFAULT;
+import static com.learning.urlshortener.bot.commands.AbstractCommand.Command.DEFAULT;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import com.learning.urlshortener.bot.commands.Command;
+import com.learning.urlshortener.bot.commands.AbstractCommand.Command;
 
 @Component
 public class StateHandler {

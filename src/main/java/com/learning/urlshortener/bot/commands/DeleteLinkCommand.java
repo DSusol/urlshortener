@@ -1,6 +1,6 @@
 package com.learning.urlshortener.bot.commands;
 
-import static com.learning.urlshortener.bot.commands.Command.DELETE_LINK;
+import static com.learning.urlshortener.bot.commands.AbstractCommand.Command.DELETE_LINK;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
