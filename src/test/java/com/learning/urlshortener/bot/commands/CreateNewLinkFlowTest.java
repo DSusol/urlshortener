@@ -38,27 +38,11 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
         executeUpdate(update);
 
         String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
-        assertThat(savedMessageText).contains("here is your shortened link:\n" + baseDomain);
+        assertThat(savedMessageText).contains("here is your shortened link:");
 
-        String relativeUrl = extractRelativeUrlFromNewLinkCommandResponse(savedMessageText);
-
-        mockMvc.perform(get(relativeUrl))
+        String shortenedUrl = extractUrlFromBotNewLinkResponse(savedMessageText);
+        mockMvc.perform(get(shortenedUrl))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("https://longurl_1.com/"));
-    }
-
-    @Test
-    @Order(3)
-    void when_sending_new_link_command_with_args_should_obtain_shortened_link() throws Exception {
-        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link " + "https://longurl_2.com/");
-
-        executeUpdate(update);
-
-        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
-        assertThat(savedMessageText).contains("here is your shortened link:\n" + baseDomain);
-        String relativeUrl = extractRelativeUrlFromNewLinkCommandResponse(savedMessageText);
-        mockMvc.perform(get(relativeUrl))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("https://longurl_2.com/"));
     }
 }

@@ -2,31 +2,23 @@ package com.learning.urlshortener.services;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
-import java.util.function.Predicate;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.learning.urlshortener.bot.utils.DomainProvider;
 import com.learning.urlshortener.database.customers.CustomerDAO;
 import com.learning.urlshortener.database.links.LinkDAO;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 
-@Service
-public class BotServicesImpl implements BotServices {
+import lombok.AllArgsConstructor;
 
-    @Value("${base.domain}")
-    private String baseDomain;
+@Service
+@AllArgsConstructor
+public class BotServicesImpl implements BotServices {
 
     private final CustomerDAO customerDAO;
     private final LinkDAO linkDAO;
-
-    @Autowired
-    public BotServicesImpl(CustomerDAO customerDAO, LinkDAO linkDAO) {
-        this.customerDAO = customerDAO;
-        this.linkDAO = linkDAO;
-    }
+    private final DomainProvider domainProvider;
 
     @Override
     public Customer getCustomerByChatId(Long chatId) {
@@ -63,6 +55,6 @@ public class BotServicesImpl implements BotServices {
 
     @Override
     public String getShortenedUrlByToken(String token) {
-        return baseDomain + token;
+        return domainProvider.getDomain() + token;
     }
 }
