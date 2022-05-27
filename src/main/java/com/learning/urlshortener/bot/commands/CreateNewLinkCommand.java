@@ -32,6 +32,9 @@ class CreateNewLinkCommand extends AbstractCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         Long chatId = message.getChatId();
+        if (botServices.customerDoesNotExist(chatId)) {
+            botServices.saveNewCustomer(chatId);
+        }
 
         if (arguments.length == 0) {
             stateHandler.setChatState(chatId, NEW_LINK);

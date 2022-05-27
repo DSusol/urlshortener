@@ -36,7 +36,6 @@ public class NonCommandUpdateHandler {
 
         Message message = update.getMessage();
         if (message.getText().equals("/start")) {
-            startHandler.saveNewCustomer(message.getChatId());
             bot.execute(startHandler.getWelcomeMessage(message));
             return;
         }

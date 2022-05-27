@@ -2,6 +2,8 @@ package com.learning.urlshortener.services;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
+import java.util.function.Predicate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,11 @@ public class BotServicesImpl implements BotServices {
     @Override
     public Customer saveNewCustomer(Long chatId) {
         return customerDAO.saveCustomer(Customer.builder().chatId(chatId).build());
+    }
+
+    @Override
+    public Boolean customerDoesNotExist(Long chatId) {
+        return customerDAO.findCustomerByChatId(chatId) == null;
     }
 
     @Override

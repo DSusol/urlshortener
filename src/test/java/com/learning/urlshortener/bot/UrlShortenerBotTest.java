@@ -12,11 +12,24 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import com.learning.urlshortener.bot.BaseFullContextTest;
-import com.learning.urlshortener.bot.BotTestUtils;
-
 @SpringBootTest
 class UrlShortenerBotTest extends BaseFullContextTest {
+
+    @Test
+    void when_starting_using_bot_then_get_welcome_message() {
+        //given
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(666L, "/start");
+        update.getMessage().getFrom().setLanguageCode("en");
+
+        //when
+        executeUpdate(update);
+
+        //then
+        assertThat(executedUpdates.getAllSendMessagesForChatId("666")).hasSize(1);
+
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId("666");
+        assertThat(savedMessageText).isEqualTo("Hi bro! I can make shortened links for you. See /help for available options.");
+    }
 
     @Test
     void when_sending_invalid_command_should_prompt_help_option() {

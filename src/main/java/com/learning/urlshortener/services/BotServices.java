@@ -9,6 +9,8 @@ public interface BotServices {
 
     Customer saveNewCustomer(Long chatId);
 
+    Boolean customerDoesNotExist(Long chatId);
+
     Link saveNewLink(Customer customer, String url);
 
     String findUrlByToken(String token);
