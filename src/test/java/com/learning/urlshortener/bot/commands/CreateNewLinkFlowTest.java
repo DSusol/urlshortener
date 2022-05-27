@@ -33,8 +33,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
     @Test
     @Order(2)
     void when_url_is_provided_should_obtain_shortened_link() throws Exception {
-        String url1 = "https://longurl_1.com/";
-        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, url1);
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://longurl_1.com/");
 
         executeUpdate(update);
 
@@ -45,14 +44,13 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
         mockMvc.perform(get(relativeUrl))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl(url1));
+                .andExpect(redirectedUrl("https://longurl_1.com/"));
     }
 
     @Test
     @Order(3)
     void when_sending_new_link_command_with_args_should_obtain_shortened_link() throws Exception {
-        String url2 = "https://longurl_2.com/";
-        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link " + url2);
+        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link " + "https://longurl_2.com/");
 
         executeUpdate(update);
 
@@ -61,6 +59,6 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
         String relativeUrl = extractRelativeUrlFromNewLinkCommandResponse(savedMessageText);
         mockMvc.perform(get(relativeUrl))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl(url2));
+                .andExpect(redirectedUrl("https://longurl_2.com/"));
     }
 }

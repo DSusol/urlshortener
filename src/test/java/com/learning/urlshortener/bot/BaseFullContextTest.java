@@ -5,9 +5,9 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -17,6 +17,7 @@ import com.learning.urlshortener.bot.testbot.UrlShortenerTestBot;
 import com.learning.urlshortener.services.BotServices;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 public class BaseFullContextTest extends TestContainerSupplier {
 
     @Value("${base.domain}")
@@ -34,11 +35,11 @@ public class BaseFullContextTest extends TestContainerSupplier {
     @Autowired
     protected WebApplicationContext webApplicationContext;
 
+    @Autowired
     protected MockMvc mockMvc;
 
     @BeforeEach
     protected void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         executedUpdates.clearAllSendMessages();
     }
 
