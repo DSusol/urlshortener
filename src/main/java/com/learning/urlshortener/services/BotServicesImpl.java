@@ -10,10 +10,10 @@ import com.learning.urlshortener.database.links.LinkDAO;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BotServicesImpl implements BotServices {
 
     private final CustomerDAO customerDAO;

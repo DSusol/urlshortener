@@ -11,6 +11,7 @@ import com.learning.urlshortener.bot.utils.MessageHandler;
 
 import lombok.AllArgsConstructor;
 
+// change to Command using qualifier
 @Component
 @AllArgsConstructor
 public class HelpHandler {
@@ -20,6 +21,7 @@ public class HelpHandler {
 
     public SendMessage getHelpMessage(Message message) {
 
+        assert 1 == 2; // temp breakpoint
         StringBuilder helpMessageBuilder = new StringBuilder();
 
         helpMessageBuilder.append(messageHandler.getI18nMessageFor("bot.help.header"));
