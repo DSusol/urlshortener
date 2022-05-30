@@ -18,7 +18,6 @@ import com.learning.urlshortener.bot.state.StateHandler;
 import com.learning.urlshortener.bot.utils.MessageHandler;
 import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -32,9 +31,7 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
     @Value("${telegram-bot.token}")
     private String botToken;
 
-    @Getter
     private final List<IBotCommand> sortedBotCommands;
-
     private final TgIncomingUpdateLogger logger;
     private final MessageHandler messageHandler;
     private final NonCommandUpdateHandler nonCommandUpdateHandler;

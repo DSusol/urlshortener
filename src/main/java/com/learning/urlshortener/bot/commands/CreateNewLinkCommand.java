@@ -3,6 +3,7 @@ package com.learning.urlshortener.bot.commands;
 import static com.learning.urlshortener.bot.commands.AbstractCommand.Command.DEFAULT;
 import static com.learning.urlshortener.bot.commands.AbstractCommand.Command.NEW_LINK;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,6 +16,7 @@ import com.learning.urlshortener.domain.Link;
 import lombok.SneakyThrows;
 
 @Order(1)
+@Qualifier("MainMenuCommands")
 @Component
 class CreateNewLinkCommand extends AbstractCommand {
 

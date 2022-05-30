@@ -16,35 +16,19 @@ public class NonCommandUpdateHandler {
 
     private final AbsSender bot;
     private final MessageHandler messageHandler;
-    private final HelpHandler helpHandler;
-    private final StartHandler startHandler;
 
-    public NonCommandUpdateHandler(@Lazy AbsSender bot, MessageHandler messageHandler,
-                                   HelpHandler helpHandler, StartHandler startHandler) {
+    public NonCommandUpdateHandler(@Lazy AbsSender bot, MessageHandler messageHandler) {
         this.bot = bot;
         this.messageHandler = messageHandler;
-        this.helpHandler = helpHandler;
-        this.startHandler = startHandler;
     }
 
     @SneakyThrows
     public void handleUpdate(Update update) {
-
         if (!update.hasMessage() || !update.getMessage().hasText()) {
             return;
         }
 
         Message message = update.getMessage();
-        if (message.getText().equals("/start")) {
-            bot.execute(startHandler.getWelcomeMessage(message));
-            return;
-        }
-
-        if (message.getText().equals("/help")) {
-            bot.execute(helpHandler.getHelpMessage(message));
-            return;
-        }
-
         SendMessage sendMessage = messageHandler.prepareSendMessage(message, "bot.default.message");
         bot.execute(sendMessage);
     }

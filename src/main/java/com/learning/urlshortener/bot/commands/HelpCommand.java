@@ -1,27 +1,39 @@
-package com.learning.urlshortener.bot.commands.noncommand;
+package com.learning.urlshortener.bot.commands;
+
+import static com.learning.urlshortener.bot.commands.AbstractCommand.Command.HELP;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.utils.MessageHandler;
+import lombok.SneakyThrows;
 
-import lombok.AllArgsConstructor;
-
-// change to Command using qualifier
 @Component
-@AllArgsConstructor
-public class HelpHandler {
+public class HelpCommand extends AbstractCommand {
 
-    private final List<IBotCommand> sortedBotCommands;
-    private final MessageHandler messageHandler;
+    @Autowired
+    @Qualifier("MainMenuCommands")
+    private List<IBotCommand> sortedBotCommands;
 
-    public SendMessage getHelpMessage(Message message) {
+    @Override
+    public String getCommandIdentifier() {
+        return HELP.name().toLowerCase();
+    }
 
-        assert 1 == 2; // temp breakpoint
+    @Override
+    public String getDescription() {
+        return null;
+    }
+
+    @SneakyThrows
+    @Override
+    public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         StringBuilder helpMessageBuilder = new StringBuilder();
 
         helpMessageBuilder.append(messageHandler.getI18nMessageFor("bot.help.header"));
@@ -31,6 +43,6 @@ public class HelpHandler {
 
         SendMessage sendMessage = new SendMessage(message.getChatId().toString(), helpMessageBuilder.toString());
         sendMessage.enableHtml(true);
-        return sendMessage;
+        absSender.execute(sendMessage);
     }
 }

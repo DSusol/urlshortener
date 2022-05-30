@@ -20,6 +20,8 @@ public abstract class AbstractCommand implements IBotCommand {
 
     public enum Command {
         DEFAULT,
+        START,
+        HELP,
         NEW_LINK,
         SHOW_LINK,
         MY_LINKS,
