@@ -39,12 +39,12 @@ class CreateNewLinkCommand extends AbstractCommand {
         }
 
         if (arguments.length == 0) {
-            stateHandler.setChatState(chatId, NEW_LINK);
+            multiStepCommandHandler.setChatState(chatId, NEW_LINK);
             absSender.execute(messageHandler.prepareSendMessage(message, "new.link.command.request.url"));
             return;
         }
 
-        stateHandler.setChatState(chatId, DEFAULT);
+        multiStepCommandHandler.setChatState(chatId, DEFAULT);
 
         String url = arguments[0];
         Customer customer = botServices.getCustomerByChatId(chatId);

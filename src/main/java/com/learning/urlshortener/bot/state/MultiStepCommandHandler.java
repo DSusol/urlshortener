@@ -15,7 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import com.learning.urlshortener.bot.commands.AbstractCommand.Command;
 
 @Component
-public class StateHandler {
+public class MultiStepCommandHandler {
 
     private final Map<Long, Command> chatStates = new HashMap<>();
 

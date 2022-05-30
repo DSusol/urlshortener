@@ -11,7 +11,7 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 
 import com.learning.urlshortener.bot.UrlShortenerBot;
 import com.learning.urlshortener.bot.commands.noncommand.NonCommandUpdateHandler;
-import com.learning.urlshortener.bot.state.StateHandler;
+import com.learning.urlshortener.bot.state.MultiStepCommandHandler;
 import com.learning.urlshortener.bot.utils.MessageHandler;
 import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
 
@@ -24,8 +24,8 @@ public class UrlShortenerTestBot extends UrlShortenerBot {
     @Autowired
     public UrlShortenerTestBot(List<IBotCommand> sortedBotCommands, TgIncomingUpdateLogger logger,
                                MessageHandler messageHandler, NonCommandUpdateHandler nonCommandUpdateHandler,
-                               StateHandler stateHandler, ExecutedTgTestMethodsRegistry executedTgTestMethodsRegistry) {
-        super(sortedBotCommands, logger, messageHandler, nonCommandUpdateHandler, stateHandler);
+                               MultiStepCommandHandler multiStepCommandHandler, ExecutedTgTestMethodsRegistry executedTgTestMethodsRegistry) {
+        super(sortedBotCommands, logger, messageHandler, nonCommandUpdateHandler, multiStepCommandHandler);
         this.executedTgTestMethodsRegistry = executedTgTestMethodsRegistry;
     }
 
