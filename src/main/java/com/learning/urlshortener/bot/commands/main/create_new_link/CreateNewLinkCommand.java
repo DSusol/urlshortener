@@ -1,6 +1,6 @@
-package com.learning.urlshortener.bot.commands;
+package com.learning.urlshortener.bot.commands.main.create_new_link;
 
-import static com.learning.urlshortener.bot.commands.AbstractCommand.Command.MY_LINKS;
+import static com.learning.urlshortener.bot.commands.Command.NEW_LINK;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
@@ -8,27 +8,29 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
+import com.learning.urlshortener.bot.commands.AbstractCommand;
+
 import lombok.SneakyThrows;
 
-@Order(3)
+@Order(1)
 @Qualifier("MainMenuCommands")
 @Component
-class FindAllLinksCommand extends AbstractCommand {
+class CreateNewLinkCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return MY_LINKS.name().toLowerCase();
+        return NEW_LINK.name().toLowerCase();
     }
 
     @Override
     public String getDescription() {
-        return "find.all.links.command.description";
+        return "new.link.command.description";
     }
 
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        //todo: implement link list provision
-        absSender.execute(messageHandler.prepareSendMessage(message, "find.all.links.command.response"));
+        multiStepCommandHandler.setChatExecutingCommand(message.getChatId(), NEW_LINK);
+        absSender.execute(messageHandler.prepareSendMessage(message, "new.link.command.request.url"));
     }
 }

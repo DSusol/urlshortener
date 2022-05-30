@@ -1,12 +1,14 @@
-package com.learning.urlshortener.bot.commands;
+package com.learning.urlshortener.bot.commands.main.show_link;
 
-import static com.learning.urlshortener.bot.commands.AbstractCommand.Command.SHOW_LINK;
+import static com.learning.urlshortener.bot.commands.Command.SHOW_LINK;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
+
+import com.learning.urlshortener.bot.commands.AbstractCommand;
 
 import lombok.SneakyThrows;
 

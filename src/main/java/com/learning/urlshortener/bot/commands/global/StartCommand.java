@@ -1,11 +1,13 @@
-package com.learning.urlshortener.bot.commands;
+package com.learning.urlshortener.bot.commands.global;
 
-import static com.learning.urlshortener.bot.commands.AbstractCommand.Command.START;
+import static com.learning.urlshortener.bot.commands.Command.START;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
+
+import com.learning.urlshortener.bot.commands.AbstractCommand;
 
 import lombok.SneakyThrows;
 

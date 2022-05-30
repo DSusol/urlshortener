@@ -18,7 +18,7 @@ class UrlShortenerBotTest extends BaseFullContextTest {
     @Test
     void when_starting_using_bot_then_get_welcome_message() {
         //given
-        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "/start");
+        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/start");
         update.getMessage().getFrom().setLanguageCode("en");
 
         //when
@@ -48,7 +48,7 @@ class UrlShortenerBotTest extends BaseFullContextTest {
     @Test
     void when_requesting_help_should_show_help_response() {
         //given
-        Update update = BotTestUtils.createUpdateWithMessageFromChat(666L, "/help");
+        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(666L, "/help");
         update.getMessage().getFrom().setLanguageCode("en");
 
         //when

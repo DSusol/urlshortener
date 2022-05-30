@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-class MessageHandlerImpl implements MessageHandler {
+public class MessageHandlerImpl implements MessageHandler {
 
     private final MessageSource messageSource;
 
