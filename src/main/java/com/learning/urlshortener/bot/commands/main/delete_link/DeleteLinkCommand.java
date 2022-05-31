@@ -19,7 +19,7 @@ class DeleteLinkCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return DELETE_LINK.name().toLowerCase();
+        return getCommandIdentifier(DELETE_LINK);
     }
 
     @Override

@@ -19,7 +19,7 @@ class ShowLinkCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return SHOW_LINK.name().toLowerCase();
+        return getCommandIdentifier(SHOW_LINK);
     }
 
     @Override

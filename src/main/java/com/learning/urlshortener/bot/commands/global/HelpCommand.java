@@ -25,7 +25,7 @@ public class HelpCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return HELP.name().toLowerCase();
+        return getCommandIdentifier(HELP);
     }
 
     @Override

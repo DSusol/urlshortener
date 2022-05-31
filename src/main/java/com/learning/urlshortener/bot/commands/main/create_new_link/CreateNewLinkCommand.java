@@ -19,7 +19,7 @@ class CreateNewLinkCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return NEW_LINK.name().toLowerCase();
+        return getCommandIdentifier(NEW_LINK);
     }
 
     @Override

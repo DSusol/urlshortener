@@ -16,7 +16,7 @@ public class StartCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return START.name().toLowerCase();
+        return getCommandIdentifier(START);
     }
 
     @Override

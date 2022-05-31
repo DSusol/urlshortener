@@ -19,7 +19,7 @@ class FindAllLinksCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return MY_LINKS.name().toLowerCase();
+        return getCommandIdentifier(MY_LINKS);
     }
 
     @Override
