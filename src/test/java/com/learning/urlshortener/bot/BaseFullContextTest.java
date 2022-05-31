@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import com.learning.urlshortener.TestContainerSupplier;
 import com.learning.urlshortener.bot.testbot.ExecutedTgTestMethodsRegistry;
 import com.learning.urlshortener.bot.testbot.UrlShortenerTestBot;
-import com.learning.urlshortener.services.BotServices;
+import com.learning.urlshortener.services.UrlShortenerService;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -27,7 +27,7 @@ public class BaseFullContextTest extends TestContainerSupplier {
     protected ExecutedTgTestMethodsRegistry executedUpdates;
 
     @Autowired
-    protected BotServices botServices;
+    protected UrlShortenerService urlShortenerService;
 
     @Autowired
     protected MockMvc mockMvc;

@@ -5,20 +5,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.learning.urlshortener.services.BotServices;
+import com.learning.urlshortener.services.UrlShortenerService;
 
 @Controller
 public class LinkController {
 
+    private final UrlShortenerService urlShortenerService;
 
-    private final BotServices botServices;
-
-    public LinkController(BotServices botServices) {
-        this.botServices = botServices;
+    public LinkController(UrlShortenerService urlShortenerService) {
+        this.urlShortenerService = urlShortenerService;
     }
 
     @RequestMapping("/{token}")
     public RedirectView redirectToFullUrl(@PathVariable String token) {
-        return new RedirectView(botServices.findUrlByToken(token));
+        return new RedirectView(urlShortenerService.findUrlByToken(token));
     }
 }

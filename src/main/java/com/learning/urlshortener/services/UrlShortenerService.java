@@ -3,7 +3,7 @@ package com.learning.urlshortener.services;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 
-public interface BotServices {
+public interface UrlShortenerService {
 
     Customer getCustomerByChatId(Long chatId);
 

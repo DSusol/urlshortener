@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class BotServicesImpl implements BotServices {
+public class UrlShortenerServiceImpl implements UrlShortenerService {
 
     private final CustomerDAO customerDAO;
     private final LinkDAO linkDAO;
