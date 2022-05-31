@@ -15,7 +15,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import com.learning.urlshortener.bot.utils.MessageHandler;
 
-@SpringBootTest(classes = MessageVerificationConfig.class)
+@SpringBootTest(classes = ShallowAdapterConfig.class)
 public class BotMessagesVerificationTest {
 
     @Autowired
