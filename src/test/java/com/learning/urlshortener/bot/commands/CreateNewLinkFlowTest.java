@@ -42,7 +42,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
         String shortenedUrl = extractUrlFromBotNewLinkResponse(savedMessageText);
         mockMvc.perform(get(shortenedUrl))
-                .andExpect(status().is3xxRedirection())
+                .andExpect(status().isPermanentRedirect())
                 .andExpect(redirectedUrl("https://longurl_1.com/"));
     }
 }
