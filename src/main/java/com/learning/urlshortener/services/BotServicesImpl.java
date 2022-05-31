@@ -1,6 +1,7 @@
 package com.learning.urlshortener.services;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
+import static org.apache.commons.lang3.StringUtils.appendIfMissing;
 
 import org.springframework.stereotype.Service;
 
@@ -55,6 +56,8 @@ public class BotServicesImpl implements BotServices {
 
     @Override
     public String getShortenedUrlByToken(String token) {
-        return domainProvider.getDomain() + token;
+        String domain = domainProvider.getDomain();
+        appendIfMissing(domain, "/");
+        return domain + token;
     }
 }
