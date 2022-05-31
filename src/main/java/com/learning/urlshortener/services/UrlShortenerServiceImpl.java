@@ -22,18 +22,12 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     private final DomainProvider domainProvider;
 
     @Override
-    public Customer getCustomerByChatId(Long chatId) {
-        return customerDAO.findCustomerByChatId(chatId);
-    }
-
-    @Override
-    public Customer saveNewCustomer(Long chatId) {
-        return customerDAO.saveCustomer(Customer.builder().chatId(chatId).build());
-    }
-
-    @Override
-    public Boolean customerDoesNotExist(Long chatId) {
-        return customerDAO.findCustomerByChatId(chatId) == null;
+    public Customer getOrCreateCustomerByChatId(Long chatId) {
+        Customer customer = customerDAO.findCustomerByChatId(chatId);
+        if(customer == null) {
+            customer = customerDAO.saveCustomer(Customer.builder().chatId(chatId).build());
+        }
+        return customer;
     }
 
     @Override

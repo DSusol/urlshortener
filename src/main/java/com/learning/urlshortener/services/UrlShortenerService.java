@@ -5,11 +5,7 @@ import com.learning.urlshortener.domain.Link;
 
 public interface UrlShortenerService {
 
-    Customer getCustomerByChatId(Long chatId);
-
-    Customer saveNewCustomer(Long chatId);
-
-    Boolean customerDoesNotExist(Long chatId);
+    Customer getOrCreateCustomerByChatId(Long chatId);
 
     Link saveNewLink(Customer customer, String url);
 

@@ -36,11 +36,7 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
         String url = metaData.getMessage();
         Long chatId = metaData.getChatId();
 
-        if (urlShortenerService.customerDoesNotExist(chatId)) {
-            urlShortenerService.saveNewCustomer(chatId);
-        }
-
-        Customer customer = urlShortenerService.getCustomerByChatId(chatId);
+        Customer customer = urlShortenerService.getOrCreateCustomerByChatId(chatId);
         Link newLink = urlShortenerService.saveNewLink(customer, url);
 
         SendMessage sMessage = new SendMessage(chatId.toString(),
