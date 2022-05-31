@@ -33,9 +33,9 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nick_name", unique = true)
+    @Column(name = "chat_id", unique = true)
     @NotNull
-    private String nickname;
+    private Long chatId;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "customer")
     private List<LinkEntity> links;

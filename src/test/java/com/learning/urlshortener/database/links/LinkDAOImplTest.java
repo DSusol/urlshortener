@@ -58,11 +58,11 @@ class LinkDAOImplTest extends BaseDBTest {
     @Test
     void should_find_link_by_shortenedUrl() {
         //given
-        linkToSave.setShortenedUrl("http://surl.com/test");
+        linkToSave.setToken("123456");
         underTest.saveLink(existingCustomer, linkToSave);
 
         //when
-        Link foundLink = underTest.findLinkByShortenedUrl("http://surl.com/test").orElse(null);
+        Link foundLink = underTest.findLinkByToken("123456").orElse(null);
 
         //then
         assertThat(foundLink).isNotNull();
@@ -73,7 +73,7 @@ class LinkDAOImplTest extends BaseDBTest {
 
     @Test
     void when_find_by_incorrect_shortenedUrl_should_return_empty_result() {
-        assertThat(underTest.findLinkByShortenedUrl("incorrect dada")).isEmpty();
+        assertThat(underTest.findLinkByToken("incorrect dada")).isEmpty();
     }
 
     @Test
@@ -122,11 +122,11 @@ class LinkDAOImplTest extends BaseDBTest {
     @Test
     void when_saving_with_existing_shortenedUrl_should_throw_exception() {
 
-        linkToSave.setShortenedUrl("http://repeated.url");
+        linkToSave.setToken("123456");
         underTest.saveLink(existingCustomer, linkToSave);
 
         Link linkToSave = SimpleTestObjectFactory.getSimpleLink();
-        linkToSave.setShortenedUrl("http://repeated.url");
+        linkToSave.setToken("123456");
 
         assertThatExceptionOfType(DataIntegrityViolationException.class)
                 .describedAs("Unique index or primary key violation")
@@ -136,7 +136,7 @@ class LinkDAOImplTest extends BaseDBTest {
     @Test
     void when_saving_with_null_shortenedUrl_should_throw_exception() {
 
-        linkToSave.setShortenedUrl(null);
+        linkToSave.setToken(null);
 
         assertThatExceptionOfType(ConstraintViolationException.class)
                 .describedAs("must not be null")

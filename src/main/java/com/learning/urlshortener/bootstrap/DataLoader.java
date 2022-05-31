@@ -41,32 +41,32 @@ public class DataLoader implements CommandLineRunner {
         linkRepository.deleteAll();
 
         CustomerEntity anton = CustomerEntity.builder()
-                .nickname("pechenka")
+                .chatId(1L)
                 .links(new ArrayList<>())
                 .build();
 
         CustomerEntity dima = CustomerEntity.builder()
-                .nickname("sd")
+                .chatId(2L)
                 .links(new ArrayList<>())
                 .build();
 
         LinkEntity antonsLink1 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/a1")
-                .shortenedUrl("https://shortversion/a1")
+                .token("abcde1")
                 .clickCount(2)
                 .customer(anton)
                 .build();
 
         LinkEntity antonsLink2 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/a2")
-                .shortenedUrl("https://shortversion/a2")
+                .token("abcde2")
                 .clickCount(1)
                 .customer(anton)
                 .build();
 
         LinkEntity antonsLink3 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/a3")
-                .shortenedUrl("https://shortversion/a3")
+                .token("abcde3")
                 .clickCount(5)
                 .customer(anton)
                 .build();
@@ -75,21 +75,21 @@ public class DataLoader implements CommandLineRunner {
 
         LinkEntity dimasLink1 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/d1")
-                .shortenedUrl("https://shortversion/d1")
+                .token("abcde4")
                 .clickCount(2)
                 .customer(dima)
                 .build();
 
         LinkEntity dimasLink2 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/d2")
-                .shortenedUrl("https://shortversion/d2")
+                .token("abcde5")
                 .clickCount(6)
                 .customer(dima)
                 .build();
 
         LinkEntity dimasLink3 = LinkEntity.builder()
                 .url("https://somehost.com/urltobeshortened/d3")
-                .shortenedUrl("https://shortversion/d3")
+                .token("abcde6")
                 .clickCount(20)
                 .customer(dima)
                 .build();

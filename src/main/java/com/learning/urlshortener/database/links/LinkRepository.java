@@ -9,7 +9,7 @@ import com.learning.urlshortener.database.customers.CustomerEntity;
 
 public interface LinkRepository extends JpaRepository<LinkEntity, Long> {
 
-    Optional<LinkEntity> findLinkEntityByShortenedUrl(String shortenedUrl);
+    Optional<LinkEntity> findLinkEntityByToken(String token);
 
     List<LinkEntity> findLinkEntitiesByCustomer(CustomerEntity customer);
 }

@@ -26,7 +26,7 @@ class CustomerDAOImplTest extends BaseDBTest {
     @Test
     void should_find_customer_by_id() {
         //given
-        Customer existingCustomer = Customer.builder().nickname("test nickname").build();
+        Customer existingCustomer = Customer.builder().chatId(2L).build();
         Long existingCustomerId = underTest.saveCustomer(existingCustomer).getId();
 
         //when
@@ -34,13 +34,13 @@ class CustomerDAOImplTest extends BaseDBTest {
 
         //then
         assertThat(foundCustomer).isNotNull();
-        assertThat(foundCustomer.getNickname()).isEqualTo("test nickname");
+        assertThat(foundCustomer.getChatId()).isEqualTo(2L);
     }
 
     @Test
     void should_save_new_customer() {
         //given
-        Customer customerToSave = Customer.builder().nickname("test nickname").build();
+        Customer customerToSave = Customer.builder().chatId(2L).build();
 
         //when
         Customer savedCustomer = underTest.saveCustomer(customerToSave);
@@ -48,8 +48,8 @@ class CustomerDAOImplTest extends BaseDBTest {
         //then
         assertThat(savedCustomer).isNotNull();
         assertThat(savedCustomer.getId()).isNotNull();
-        assertThat(savedCustomer.getNickname()).isEqualTo("test nickname");
-        assertThat(underTest.findCustomerById(savedCustomer.getId()).getNickname()).isEqualTo("test nickname");
+        assertThat(savedCustomer.getChatId()).isEqualTo(2L);
+        assertThat(underTest.findCustomerById(savedCustomer.getId()).getChatId()).isEqualTo(2L);
     }
 
     @Test
@@ -91,8 +91,8 @@ class CustomerDAOImplTest extends BaseDBTest {
     @Test
     void when_saving_with_existing_nickname_should_throw_exception() {
 
-        underTest.saveCustomer(Customer.builder().nickname("test nickname").build());
-        Customer customerToSave = Customer.builder().nickname("test nickname").build();
+        underTest.saveCustomer(Customer.builder().chatId(2L).build());
+        Customer customerToSave = Customer.builder().chatId(2L).build();
 
         assertThatExceptionOfType(DataIntegrityViolationException.class)
                 .describedAs("Unique index or primary key violation")
@@ -102,7 +102,7 @@ class CustomerDAOImplTest extends BaseDBTest {
     @Test
     void when_saving_with_null_nickname_should_throw_exception() {
         Customer customerToSave = SimpleTestObjectFactory.getSimpleCustomer();
-        customerToSave.setNickname(null);
+        customerToSave.setChatId(null);
 
         assertThatExceptionOfType(ConstraintViolationException.class)
                 .describedAs("must not be null")

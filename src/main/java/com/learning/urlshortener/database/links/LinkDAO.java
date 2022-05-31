@@ -10,7 +10,7 @@ public interface LinkDAO {
 
     Optional<Link> findLinkById(Long id);
 
-    Optional<Link> findLinkByShortenedUrl(String shortenedUrl);
+    Optional<Link> findLinkByToken(String token);
 
     List<Link> findAllLinksByCustomer(Customer customer);
 

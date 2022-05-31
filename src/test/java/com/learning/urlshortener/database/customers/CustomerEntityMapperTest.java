@@ -20,26 +20,26 @@ class CustomerEntityMapperTest {
     @Test
     void customerEntity_to_customer_conversion() {
         //given
-        CustomerEntity customerEntity = CustomerEntity.builder().nickname("test name").build();
+        CustomerEntity customerEntity = CustomerEntity.builder().chatId(2L).build();
 
         //when
         Customer customer = underTest.customerEntityToCustomer(customerEntity);
 
         //then
         assertNotNull(customer);
-        assertThat(customer.getNickname()).isEqualTo("test name");
+        assertThat(customer.getChatId()).isEqualTo(2L);
     }
 
     @Test
     void customer_to_customerEntity_conversion() {
         //given
-        Customer customer = Customer.builder().nickname("test name").build();
+        Customer customer = Customer.builder().chatId(2L).build();
 
         //when
         CustomerEntity customerEntity = underTest.customerToCustomerEntity(customer);
 
         //then
         assertNotNull(customerEntity);
-        assertThat(customerEntity.getNickname()).isEqualTo("test name");
+        assertThat(customerEntity.getChatId()).isEqualTo(2L);
     }
 }
