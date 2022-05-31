@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.commands.AbstractCommandExecutor;
 import com.learning.urlshortener.bot.commands.Command;
+import com.learning.urlshortener.bot.commands.main.AbstractCommandExecutor;
 import com.learning.urlshortener.bot.commands.main.state.ChatMetaData;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
