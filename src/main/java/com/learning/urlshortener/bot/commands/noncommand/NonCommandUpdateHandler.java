@@ -33,7 +33,7 @@ public class NonCommandUpdateHandler {
         }
 
         Message message = update.getMessage();
-        if (commandHandler.shouldTreatMessageAsCommand(message)) {
+        if (commandHandler.shouldSendMessageToCommand(message)) {
             commandHandler.executeCommand(message);
             return;
         }

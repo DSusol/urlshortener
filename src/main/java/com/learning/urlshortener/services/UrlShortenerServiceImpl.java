@@ -24,7 +24,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     @Override
     public Customer getOrCreateCustomerByChatId(Long chatId) {
         Customer customer = customerDAO.findCustomerByChatId(chatId);
-        if(customer == null) {
+        if (customer == null) {
             customer = customerDAO.saveCustomer(Customer.builder().chatId(chatId).build());
         }
         return customer;

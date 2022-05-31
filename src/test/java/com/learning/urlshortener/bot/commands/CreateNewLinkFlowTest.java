@@ -21,7 +21,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(1)
-    void when_sending_new_link_command_without_args_should_prompt_url() {
+    void when_sending_new_link_command_should_prompt_url() {
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
 
         executeUpdate(update);

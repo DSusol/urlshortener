@@ -25,7 +25,7 @@ public class MultiStepCommandHandler {
 
     public void setChatExecutingCommand(Long chatId, Command command) {
         ChatMetaData metaData = chatStates.get(chatId);
-        if(metaData != null) {
+        if (metaData != null) {
             metaData.setCommand(command);
             chatStates.put(chatId, metaData);
             return;
@@ -36,7 +36,7 @@ public class MultiStepCommandHandler {
         chatStates.put(chatId, metaData);
     }
 
-    public boolean shouldTreatMessageAsCommand(Message message) {
+    public boolean shouldSendMessageToCommand(Message message) {
         ChatMetaData metaData = chatStates.get(message.getChatId());
         return metaData != null && metaData.getCommand() != DEFAULT;
     }
