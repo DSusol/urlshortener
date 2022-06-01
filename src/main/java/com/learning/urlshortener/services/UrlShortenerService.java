@@ -11,5 +11,5 @@ public interface UrlShortenerService {
 
     String findUrlByToken(String token);
 
-    String getShortenedUrlByToken(String token);
+    String buildUrlWithDomain(String token);
 }

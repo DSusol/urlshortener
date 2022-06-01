@@ -49,7 +49,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     }
 
     @Override
-    public String getShortenedUrlByToken(String token) {
+    public String buildUrlWithDomain(String token) {
         String domain = domainProvider.getDomain();
         appendIfMissing(domain, "/");
         return domain + token;
