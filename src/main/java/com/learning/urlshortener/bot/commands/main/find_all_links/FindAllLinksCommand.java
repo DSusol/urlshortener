@@ -2,18 +2,18 @@ package com.learning.urlshortener.bot.commands.main.find_all_links;
 
 import static com.learning.urlshortener.bot.commands.CommandType.MY_LINKS;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import com.learning.urlshortener.bot.commands.AbstractCommand;
+import com.learning.urlshortener.bot.commands.main.MainMenuCommands;
 
 import lombok.SneakyThrows;
 
 @Order(3)
-@Qualifier("MainMenuCommands")
+@MainMenuCommands
 @Component
 class FindAllLinksCommand extends AbstractCommand {
 

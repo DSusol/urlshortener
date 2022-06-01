@@ -5,7 +5,6 @@ import static com.learning.urlshortener.bot.commands.CommandType.HELP;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import com.learning.urlshortener.bot.commands.AbstractCommand;
+import com.learning.urlshortener.bot.commands.main.MainMenuCommands;
 
 import lombok.SneakyThrows;
 
@@ -20,7 +20,7 @@ import lombok.SneakyThrows;
 public class HelpCommand extends AbstractCommand {
 
     @Autowired
-    @Qualifier("MainMenuCommands")
+    @MainMenuCommands
     private List<IBotCommand> sortedBotCommands;
 
     @Override
