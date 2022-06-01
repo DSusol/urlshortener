@@ -3,7 +3,8 @@ package com.learning.urlshortener.bot;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -12,13 +13,14 @@ import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingC
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import com.learning.urlshortener.bot.commands.NonCommandUpdateHandler;
-import com.learning.urlshortener.bot.utils.MessageHandler;
+import com.learning.urlshortener.bot.commands.noncommand.NonCommandUpdateHandler;
 import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
+import com.learning.urlshortener.bot.utils.message.MessageHandler;
 
-import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Component
+@RequiredArgsConstructor
 @Profile("!test")
 public class UrlShortenerBot extends TelegramLongPollingCommandBot {
 
@@ -28,24 +30,13 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
     @Value("${telegram-bot.token}")
     private String botToken;
 
-    @Getter
     private final List<IBotCommand> sortedBotCommands;
-
     private final TgIncomingUpdateLogger logger;
     private final MessageHandler messageHandler;
     private final NonCommandUpdateHandler nonCommandUpdateHandler;
 
-    @Autowired
-    public UrlShortenerBot(
-            NonCommandUpdateHandler nonCommandUpdateHandler,
-            List<IBotCommand> sortedBotCommands,
-            MessageHandler messageHandler,
-            TgIncomingUpdateLogger logger) {
-        this.nonCommandUpdateHandler = nonCommandUpdateHandler;
-        this.messageHandler = messageHandler;
-        this.sortedBotCommands = sortedBotCommands;
-        this.logger = logger;
-
+    @PostConstruct
+    void registerCommands() {
         sortedBotCommands.forEach(this::register);
     }
 

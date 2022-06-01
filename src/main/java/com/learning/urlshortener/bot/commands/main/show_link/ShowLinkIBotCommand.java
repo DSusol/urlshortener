@@ -1,26 +1,25 @@
-package com.learning.urlshortener.bot.commands;
+package com.learning.urlshortener.bot.commands.main.show_link;
+
+import static com.learning.urlshortener.bot.commands.CommandType.SHOW_LINK;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.utils.MessageHandler;
+import com.learning.urlshortener.bot.commands.AbstractIBotCommand;
+import com.learning.urlshortener.bot.commands.main.MainMenuCommands;
 
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 
 @Order(2)
-@AllArgsConstructor
+@MainMenuCommands
 @Component
-class ShowLinkCommand implements IBotCommand {
-
-    private final MessageHandler messageHandler;
+class ShowLinkIBotCommand extends AbstractIBotCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return "show_link";
+        return SHOW_LINK.getCommandIdentifier();
     }
 
     @Override
