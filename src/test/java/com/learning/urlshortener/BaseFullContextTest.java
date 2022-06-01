@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot;
+package com.learning.urlshortener;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 

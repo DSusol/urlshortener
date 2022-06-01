@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.commands;
+package com.learning.urlshortener.bot.commands.main;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import com.learning.urlshortener.bot.BaseFullContextTest;
+import com.learning.urlshortener.BaseFullContextTest;
 import com.learning.urlshortener.bot.BotTestUtils;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
