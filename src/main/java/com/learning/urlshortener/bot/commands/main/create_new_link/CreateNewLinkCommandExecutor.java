@@ -17,11 +17,9 @@ import lombok.SneakyThrows;
 @Component
 public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
 
-    private final CommandType commandType = NEW_LINK;
-
     @Override
     public CommandType getExecutorCommand() {
-        return commandType;
+        return NEW_LINK;
     }
 
     @SneakyThrows
