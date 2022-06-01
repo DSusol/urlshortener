@@ -6,6 +6,8 @@ public interface CustomerDAO {
 
     Customer findCustomerById(Long id);
 
+    Customer findCustomerByChatId(Long chatId);
+
     Customer saveCustomer(Customer customer);
 
     void deleteCustomerById(Long id);

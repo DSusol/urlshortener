@@ -23,6 +23,13 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
+    public Customer findCustomerByChatId(Long chatId) {
+        return customerEntityMapper.customerEntityToCustomer(
+                customerRepository.findCustomerEntitiesByChatId(chatId)
+        );
+    }
+
+    @Override
     public Customer saveCustomer(Customer customer) {
         CustomerEntity savedCustomerEntity = customerRepository.save(
                 customerEntityMapper.customerToCustomerEntity(customer)

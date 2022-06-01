@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.utils;
+package com.learning.urlshortener.bot.utils.message;
 
 import java.util.Locale;
 

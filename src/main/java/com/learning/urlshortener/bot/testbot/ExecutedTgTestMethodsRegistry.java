@@ -28,20 +28,20 @@ public class ExecutedTgTestMethodsRegistry {
         String chatId = sendMessage.getChatId();
 
         if (executedSendMessages.containsKey(chatId)) {
-            getAllSendMessagesForChatId(chatId).add(sendMessage);
+            getAllSendMessagesForChatId(Long.valueOf(chatId)).add(sendMessage);
             return;
         }
 
         executedSendMessages.put(chatId, new ArrayList<>(List.of(sendMessage)));
     }
 
-    public SendMessage getLastSendMessageForChatId(String chatId) {
+    public String getLastSendMessageTextForChatId(Long chatId) {
         List<SendMessage> sendMessages = getAllSendMessagesForChatId(chatId);
-        return sendMessages.get(sendMessages.size() - 1);
+        return sendMessages.get(sendMessages.size() - 1).getText();
     }
 
-    public List<SendMessage> getAllSendMessagesForChatId(String chatId) {
-        return executedSendMessages.get(chatId);
+    public List<SendMessage> getAllSendMessagesForChatId(Long chatId) {
+        return executedSendMessages.get(chatId.toString());
     }
 
     public void clearAllSendMessages() {

@@ -10,21 +10,21 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 
 import com.learning.urlshortener.bot.UrlShortenerBot;
-import com.learning.urlshortener.bot.commands.NonCommandUpdateHandler;
-import com.learning.urlshortener.bot.utils.MessageHandler;
+import com.learning.urlshortener.bot.commands.noncommand.NonCommandUpdateHandler;
 import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
+import com.learning.urlshortener.bot.utils.message.MessageHandler;
 
 @Component
 @Profile("test")
 public class UrlShortenerTestBot extends UrlShortenerBot {
 
-    ExecutedTgTestMethodsRegistry executedTgTestMethodsRegistry;
+    private final ExecutedTgTestMethodsRegistry executedTgTestMethodsRegistry;
 
     @Autowired
-    public UrlShortenerTestBot(NonCommandUpdateHandler nonCommandUpdateHandler, List<IBotCommand> sortedBotCommands,
-                               MessageHandler messageHandler, TgIncomingUpdateLogger logger,
+    public UrlShortenerTestBot(List<IBotCommand> sortedBotCommands, TgIncomingUpdateLogger logger,
+                               MessageHandler messageHandler, NonCommandUpdateHandler nonCommandUpdateHandler,
                                ExecutedTgTestMethodsRegistry executedTgTestMethodsRegistry) {
-        super(nonCommandUpdateHandler, sortedBotCommands, messageHandler, logger);
+        super(sortedBotCommands, logger, messageHandler, nonCommandUpdateHandler);
         this.executedTgTestMethodsRegistry = executedTgTestMethodsRegistry;
     }
 

@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.commands;
+package com.learning.urlshortener.bot.commands.noncommand;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -7,7 +7,8 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.utils.MessageHandler;
+import com.learning.urlshortener.bot.commands.main.state.MultiStepCommandHandler;
+import com.learning.urlshortener.bot.utils.message.MessageHandler;
 
 import lombok.SneakyThrows;
 
@@ -15,28 +16,28 @@ import lombok.SneakyThrows;
 public class NonCommandUpdateHandler {
 
     private final AbsSender bot;
+    private final MultiStepCommandHandler commandHandler;
     private final MessageHandler messageHandler;
-    private final HelpHandler helpHandler;
 
-    public NonCommandUpdateHandler(@Lazy AbsSender bot, MessageHandler messageHandler, HelpHandler helpHandler) {
+    public NonCommandUpdateHandler(@Lazy AbsSender bot, MultiStepCommandHandler commandHandler,
+                                   MessageHandler messageHandler) {
         this.bot = bot;
+        this.commandHandler = commandHandler;
         this.messageHandler = messageHandler;
-        this.helpHandler = helpHandler;
     }
 
     @SneakyThrows
     public void handleUpdate(Update update) {
-
         if (!update.hasMessage() || !update.getMessage().hasText()) {
             return;
         }
 
-        Message message = update.getMessage();
-        if (message.getText().equals("/help")) {
-            bot.execute(helpHandler.getHelpMessage(message));
+        if (commandHandler.updateApplicableForMultiStepProcessing(update)) {
+            commandHandler.processNextStep(update);
             return;
         }
 
+        Message message = update.getMessage();
         SendMessage sendMessage = messageHandler.prepareSendMessage(message, "bot.default.message");
         bot.execute(sendMessage);
     }
