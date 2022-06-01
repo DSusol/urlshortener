@@ -32,12 +32,12 @@ public class NonCommandUpdateHandler {
             return;
         }
 
-        Message message = update.getMessage();
-        if (commandHandler.shouldSendMessageToCommand(message)) {
-            commandHandler.executeCommand(message);
+        if (commandHandler.updateApplicableForMultiStepProcessing(update)) {
+            commandHandler.processNextStep(update);
             return;
         }
 
+        Message message = update.getMessage();
         SendMessage sendMessage = messageHandler.prepareSendMessage(message, "bot.default.message");
         bot.execute(sendMessage);
     }

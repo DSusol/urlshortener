@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.learning.urlshortener.bot.commands.CommandType;
 import com.learning.urlshortener.bot.commands.main.CommandExecutor;
@@ -37,19 +37,23 @@ public class MultiStepCommandHandler {
         chatStates.put(chatId, metaData);
     }
 
-    public boolean shouldSendMessageToCommand(Message message) {
-        ChatMetaData metaData = chatStates.get(message.getChatId());
+    public boolean updateApplicableForMultiStepProcessing(Update update) {
+        ChatMetaData metaData = getChatMetaData(update);
         return metaData != null && metaData.getCommandType() != DEFAULT;
     }
 
-    public void executeCommand(Message message) {
-        ChatMetaData metaData = chatStates.get(message.getChatId());
-        metaData.setMessage(message.getText());
+    public void processNextStep(Update update) {
+        ChatMetaData metaData = getChatMetaData(update);
+        metaData.setMessage(update.getMessage().getText());
 
         executors.stream()
                 .filter(executor -> executor.getExecutorCommand() == metaData.getCommandType())
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("No command executor available for " + metaData.getCommandType()))
                 .execute(metaData);
+    }
+
+    private ChatMetaData getChatMetaData(Update update) {
+        return chatStates.get(update.getMessage().getChatId());
     }
 }
