@@ -1,11 +1,9 @@
 package com.learning.urlshortener.services;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
-import static org.apache.commons.lang3.StringUtils.appendIfMissing;
 
 import org.springframework.stereotype.Service;
 
-import com.learning.urlshortener.bot.utils.domain.DomainProvider;
 import com.learning.urlshortener.database.customers.CustomerDAO;
 import com.learning.urlshortener.database.links.LinkDAO;
 import com.learning.urlshortener.domain.Customer;
