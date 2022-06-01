@@ -21,7 +21,7 @@ class LinkEntityMapperTest {
     void linkEntity_to_link_conversion() {
         //given
         LinkEntity linkEntity = LinkEntity.builder()
-                .shortenedUrl("http://slink.exm/")
+                .token("123456")
                 .url("http://example.com/long_link/")
                 .clickCount(5)
                 .build();
@@ -31,7 +31,7 @@ class LinkEntityMapperTest {
 
         //then
         assertNotNull(link);
-        assertThat(link.getShortenedUrl()).isEqualTo("http://slink.exm/");
+        assertThat(link.getToken()).isEqualTo("123456");
         assertThat(link.getUrl()).isEqualTo("http://example.com/long_link/");
         assertThat(link.getClickCount()).isEqualTo(5);
     }
@@ -40,7 +40,7 @@ class LinkEntityMapperTest {
     void link_to_linkEntity_conversion() {
         //given
         Link link = Link.builder()
-                .shortenedUrl("http://slink.exm/")
+                .token("123456")
                 .url("http://example.com/long_link/")
                 .clickCount(5)
                 .build();
@@ -50,7 +50,7 @@ class LinkEntityMapperTest {
 
         //then
         assertNotNull(linkEntity);
-        assertThat(linkEntity.getShortenedUrl()).isEqualTo("http://slink.exm/");
+        assertThat(linkEntity.getToken()).isEqualTo("123456");
         assertThat(linkEntity.getUrl()).isEqualTo("http://example.com/long_link/");
         assertThat(linkEntity.getClickCount()).isEqualTo(5);
     }

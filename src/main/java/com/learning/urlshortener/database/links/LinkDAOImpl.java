@@ -29,8 +29,8 @@ public class LinkDAOImpl implements LinkDAO {
     }
 
     @Override
-    public Optional<Link> findLinkByShortenedUrl(String shortenedUrl) {
-        return linkRepository.findLinkEntityByShortenedUrl(shortenedUrl).map(linkEntityMapper::linkEntityToLink);
+    public Optional<Link> findLinkByToken(String token) {
+        return linkRepository.findLinkEntityByToken(token).map(linkEntityMapper::linkEntityToLink);
     }
 
     @Override

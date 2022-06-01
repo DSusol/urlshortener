@@ -1,6 +1,8 @@
 package com.learning.urlshortener.database;
 
-import java.util.UUID;
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
+
+import java.util.Random;
 
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
@@ -8,15 +10,13 @@ import com.learning.urlshortener.domain.Link;
 public class SimpleTestObjectFactory {
 
     public static Customer getSimpleCustomer() {
-        String uniqueID = UUID.randomUUID().toString();
-        return Customer.builder().nickname("name" + uniqueID).build();
+        return Customer.builder().chatId(new Random().nextLong()).build();
     }
 
     public static Link getSimpleLink() {
-        String uniqueID = UUID.randomUUID().toString();
         return Link.builder()
-                .shortenedUrl("http://example1.com/" + uniqueID)
-                .url("http://example2.com/" + uniqueID)
+                .token(randomAlphanumeric(6))
+                .url("http://example.com/" + randomAlphanumeric(10))
                 .build();
     }
 }

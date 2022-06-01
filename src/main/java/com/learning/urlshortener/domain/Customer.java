@@ -21,8 +21,8 @@ public class Customer {
     private Long id;
 
     /**
-     * User nickname. Must be unique.
+     * User chatId. Must be unique.
      */
-    private String nickname;
+    private Long chatId;
 
 }

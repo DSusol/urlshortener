@@ -38,6 +38,6 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: urlshortener-project
+          heroku_app_name: shrt-u
           heroku_email: dmitry.a.susol@gmail.com
 #          branch: master
