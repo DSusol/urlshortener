@@ -5,7 +5,6 @@ import static com.learning.urlshortener.bot.commands.CommandType.DEFAULT;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,24 +16,22 @@ import com.learning.urlshortener.bot.commands.main.CommandExecutor;
 @Component
 public class MultiStepCommandHandler {
 
-    private final Function<Long, ChatMetaData> metaDataProvider;
     private final Map<CommandType, CommandExecutor> executors = new HashMap<>();
     private final Map<Long, ChatMetaData> chatStates = new HashMap<>();
 
     @Autowired
-    public MultiStepCommandHandler(Function<Long, ChatMetaData> metaDataProvider, Set<CommandExecutor> executors) {
-        this.metaDataProvider = metaDataProvider;
+    public MultiStepCommandHandler(Set<CommandExecutor> executors) {
         executors.forEach(executor -> this.executors.put(executor.getExecutorCommand(), executor));
     }
 
     public void setChatExecutingCommand(Long chatId, CommandType commandType) {
-        ChatMetaData metaData = chatStates.get(chatId);
-        if (metaData == null) {
-            metaData = metaDataProvider.apply(chatId);
-        }
-
-        metaData.setCommandType(commandType);
-        chatStates.put(chatId, metaData);
+        chatStates.compute(chatId, (id, data) -> {
+            if (data == null) {
+                data = new ChatMetaData(id);
+            }
+            data.setCommandType(commandType);
+            return data;
+        });
     }
 
     public boolean updateApplicableForMultiStepProcessing(Update update) {
