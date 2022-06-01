@@ -6,7 +6,7 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import com.learning.urlshortener.bot.commands.main.state.MultiStepCommandHandler;
 import com.learning.urlshortener.bot.utils.message.MessageHandler;
 
-public abstract class AbstractCommand implements IBotCommand {
+public abstract class AbstractIBotCommand implements IBotCommand {
 
     @Autowired
     protected MultiStepCommandHandler multiStepCommandHandler;

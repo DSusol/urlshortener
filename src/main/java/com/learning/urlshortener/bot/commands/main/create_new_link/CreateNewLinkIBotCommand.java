@@ -1,36 +1,36 @@
-package com.learning.urlshortener.bot.commands.main.show_link;
+package com.learning.urlshortener.bot.commands.main.create_new_link;
 
-import static com.learning.urlshortener.bot.commands.CommandType.SHOW_LINK;
+import static com.learning.urlshortener.bot.commands.CommandType.NEW_LINK;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.commands.AbstractCommand;
+import com.learning.urlshortener.bot.commands.AbstractIBotCommand;
 import com.learning.urlshortener.bot.commands.main.MainMenuCommands;
 
 import lombok.SneakyThrows;
 
-@Order(2)
+@Order(1)
 @MainMenuCommands
 @Component
-class ShowLinkCommand extends AbstractCommand {
+class CreateNewLinkIBotCommand extends AbstractIBotCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return SHOW_LINK.getCommandIdentifier();
+        return NEW_LINK.getCommandIdentifier();
     }
 
     @Override
     public String getDescription() {
-        return "show.link.command.description";
+        return "new.link.command.description";
     }
 
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        //todo: implement link details provision
-        absSender.execute(messageHandler.prepareSendMessage(message, "show.link.command.response"));
+        multiStepCommandHandler.setChatExecutingCommand(message.getChatId(), NEW_LINK);
+        absSender.execute(messageHandler.prepareSendMessage(message, "new.link.command.request.url"));
     }
 }

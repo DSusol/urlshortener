@@ -11,13 +11,13 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.commands.AbstractCommand;
+import com.learning.urlshortener.bot.commands.AbstractIBotCommand;
 import com.learning.urlshortener.bot.commands.main.MainMenuCommands;
 
 import lombok.SneakyThrows;
 
 @Component
-public class HelpCommand extends AbstractCommand {
+public class HelpIBotCommand extends AbstractIBotCommand {
 
     @Autowired
     @MainMenuCommands
