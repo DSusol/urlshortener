@@ -35,7 +35,7 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
 
         SendMessage sMessage = new SendMessage(chatId.toString(),
                 messageHandler.getI18nMessageFor("new.link.command.response")
-                        + urlShortenerService.buildUrlWithDomain(newLink.getToken()));
+                        + urlBuilder.buildUrlWithDomain(newLink.getToken()));
 
         bot.execute(sMessage);
 

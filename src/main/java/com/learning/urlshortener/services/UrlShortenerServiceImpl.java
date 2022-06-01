@@ -5,7 +5,7 @@ import static org.apache.commons.lang3.StringUtils.appendIfMissing;
 
 import org.springframework.stereotype.Service;
 
-import com.learning.urlshortener.bot.utils.DomainProvider;
+import com.learning.urlshortener.bot.utils.domain.DomainProvider;
 import com.learning.urlshortener.database.customers.CustomerDAO;
 import com.learning.urlshortener.database.links.LinkDAO;
 import com.learning.urlshortener.domain.Customer;
@@ -19,7 +19,6 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 
     private final CustomerDAO customerDAO;
     private final LinkDAO linkDAO;
-    private final DomainProvider domainProvider;
 
     @Override
     public Customer getOrCreateCustomerByChatId(Long chatId) {
@@ -46,12 +45,5 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
             throw new IllegalArgumentException("invalid token: " + token);
         }
         return link.getUrl();
-    }
-
-    @Override
-    public String buildUrlWithDomain(String token) {
-        String domain = domainProvider.getDomain();
-        appendIfMissing(domain, "/");
-        return domain + token;
     }
 }

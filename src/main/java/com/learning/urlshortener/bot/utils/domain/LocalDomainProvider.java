@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.utils;
+package com.learning.urlshortener.bot.utils.domain;
 
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.context.annotation.Profile;

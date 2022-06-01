@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import com.learning.urlshortener.bot.utils.MessageHandler;
+import com.learning.urlshortener.bot.utils.message.MessageHandler;
 
 @SpringBootTest(classes = ShallowAdapterConfig.class)
 public class BotMessagesVerificationTest {

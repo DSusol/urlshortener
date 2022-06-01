@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.utils.MessageHandler;
+import com.learning.urlshortener.bot.utils.UrlBuilder;
+import com.learning.urlshortener.bot.utils.message.MessageHandler;
 import com.learning.urlshortener.services.UrlShortenerService;
 
 public abstract class AbstractCommandExecutor implements CommandExecutor {
@@ -14,6 +15,9 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
 
     @Autowired
     protected MessageHandler messageHandler;
+
+    @Autowired
+    protected UrlBuilder urlBuilder;
 
     protected AbsSender bot;
 

@@ -10,6 +10,4 @@ public interface UrlShortenerService {
     Link saveNewLink(Customer customer, String url);
 
     String findUrlByToken(String token);
-
-    String buildUrlWithDomain(String token);
 }

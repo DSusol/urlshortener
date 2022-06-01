@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import com.learning.urlshortener.bot.commands.main.state.MultiStepCommandHandler;
-import com.learning.urlshortener.bot.utils.MessageHandler;
+import com.learning.urlshortener.bot.utils.message.MessageHandler;
 
 import lombok.SneakyThrows;
 
