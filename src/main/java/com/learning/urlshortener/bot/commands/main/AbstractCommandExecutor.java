@@ -15,10 +15,10 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
     @Autowired
     protected MessageHandler messageHandler;
 
-    protected final AbsSender bot;
+    protected AbsSender bot;
 
     @Autowired
-    protected AbstractCommandExecutor(@Lazy AbsSender bot) {
+    private void setBot(@Lazy AbsSender bot) {
         this.bot = bot;
     }
 }

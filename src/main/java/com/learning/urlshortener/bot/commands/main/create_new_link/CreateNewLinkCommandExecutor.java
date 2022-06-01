@@ -21,10 +21,6 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
 
     private final CommandType commandType = NEW_LINK;
 
-    protected CreateNewLinkCommandExecutor(@Lazy AbsSender bot) {
-        super(bot);
-    }
-
     @Override
     public CommandType getExecutorCommand() {
         return commandType;

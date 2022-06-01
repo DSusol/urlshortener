@@ -18,7 +18,7 @@ import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
 @Profile("test")
 public class UrlShortenerTestBot extends UrlShortenerBot {
 
-    ExecutedTgTestMethodsRegistry executedTgTestMethodsRegistry;
+    private final ExecutedTgTestMethodsRegistry executedTgTestMethodsRegistry;
 
     @Autowired
     public UrlShortenerTestBot(List<IBotCommand> sortedBotCommands, TgIncomingUpdateLogger logger,
