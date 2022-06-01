@@ -5,7 +5,6 @@ import static com.learning.urlshortener.bot.commands.CommandType.DEFAULT;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BiFunction;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -14,16 +13,18 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import com.learning.urlshortener.bot.commands.CommandType;
 import com.learning.urlshortener.bot.commands.main.CommandExecutor;
 
-import lombok.RequiredArgsConstructor;
-
 
 @Component
-@RequiredArgsConstructor
 public class MultiStepCommandHandler {
 
     private final ApplicationContext applicationContext;
-    private final Set<CommandExecutor> executors;
+    private final Map<CommandType, CommandExecutor> executors = new HashMap<>();
     private final Map<Long, ChatMetaData> chatStates = new HashMap<>();
+
+    public MultiStepCommandHandler(ApplicationContext applicationContext, Set<CommandExecutor> executors) {
+        this.applicationContext = applicationContext;
+        executors.forEach(executor -> this.executors.put(executor.getExecutorCommand(), executor));
+    }
 
     public void setChatExecutingCommand(Long chatId, CommandType commandType) {
         ChatMetaData metaData = chatStates.get(chatId);
@@ -43,7 +44,6 @@ public class MultiStepCommandHandler {
 //        });
     }
 
-
     public boolean updateApplicableForMultiStepProcessing(Update update) {
         ChatMetaData metaData = getChatMetaData(update);
         return metaData != null && metaData.getCommandType() != DEFAULT;
@@ -53,11 +53,7 @@ public class MultiStepCommandHandler {
         ChatMetaData metaData = getChatMetaData(update);
         metaData.setMessage(update.getMessage().getText());
 
-        executors.stream()
-                .filter(executor -> executor.getExecutorCommand() == metaData.getCommandType())
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("No command executor available for " + metaData.getCommandType()))
-                .execute(metaData);
+        executors.get(metaData.getCommandType()).execute(metaData);
     }
 
     private ChatMetaData getChatMetaData(Update update) {
