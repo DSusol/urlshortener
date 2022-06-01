@@ -1,6 +1,6 @@
 package com.learning.urlshortener.bot.commands.global;
 
-import static com.learning.urlshortener.bot.commands.Command.HELP;
+import static com.learning.urlshortener.bot.commands.CommandType.HELP;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class HelpCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return getCommandIdentifier(HELP);
+        return HELP.getCommandIdentifier();
     }
 
     @Override

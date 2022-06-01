@@ -13,8 +13,4 @@ public abstract class AbstractCommand implements IBotCommand {
 
     @Autowired
     protected MessageHandler messageHandler;
-
-    protected String getCommandIdentifier(Command command) {
-        return command.name().toLowerCase();
-    }
 }

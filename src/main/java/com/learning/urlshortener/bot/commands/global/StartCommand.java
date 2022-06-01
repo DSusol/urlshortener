@@ -1,6 +1,6 @@
 package com.learning.urlshortener.bot.commands.global;
 
-import static com.learning.urlshortener.bot.commands.Command.START;
+import static com.learning.urlshortener.bot.commands.CommandType.START;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -16,7 +16,7 @@ public class StartCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return getCommandIdentifier(START);
+        return START.getCommandIdentifier();
     }
 
     @Override

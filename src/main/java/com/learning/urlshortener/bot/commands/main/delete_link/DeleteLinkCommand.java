@@ -1,6 +1,6 @@
 package com.learning.urlshortener.bot.commands.main.delete_link;
 
-import static com.learning.urlshortener.bot.commands.Command.DELETE_LINK;
+import static com.learning.urlshortener.bot.commands.CommandType.DELETE_LINK;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
@@ -19,7 +19,7 @@ class DeleteLinkCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return getCommandIdentifier(DELETE_LINK);
+        return DELETE_LINK.getCommandIdentifier();
     }
 
     @Override

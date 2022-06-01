@@ -1,6 +1,6 @@
 package com.learning.urlshortener.bot.commands.main.show_link;
 
-import static com.learning.urlshortener.bot.commands.Command.SHOW_LINK;
+import static com.learning.urlshortener.bot.commands.CommandType.SHOW_LINK;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
@@ -19,7 +19,7 @@ class ShowLinkCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return getCommandIdentifier(SHOW_LINK);
+        return SHOW_LINK.getCommandIdentifier();
     }
 
     @Override

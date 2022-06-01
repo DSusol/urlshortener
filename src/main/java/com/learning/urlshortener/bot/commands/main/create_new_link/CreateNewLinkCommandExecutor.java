@@ -1,14 +1,14 @@
 package com.learning.urlshortener.bot.commands.main.create_new_link;
 
-import static com.learning.urlshortener.bot.commands.Command.DEFAULT;
-import static com.learning.urlshortener.bot.commands.Command.NEW_LINK;
+import static com.learning.urlshortener.bot.commands.CommandType.DEFAULT;
+import static com.learning.urlshortener.bot.commands.CommandType.NEW_LINK;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
-import com.learning.urlshortener.bot.commands.Command;
+import com.learning.urlshortener.bot.commands.CommandType;
 import com.learning.urlshortener.bot.commands.main.AbstractCommandExecutor;
 import com.learning.urlshortener.bot.commands.main.state.ChatMetaData;
 import com.learning.urlshortener.domain.Customer;
@@ -19,15 +19,15 @@ import lombok.SneakyThrows;
 @Component
 public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
 
-    private final Command command = NEW_LINK;
+    private final CommandType commandType = NEW_LINK;
 
     protected CreateNewLinkCommandExecutor(@Lazy AbsSender bot) {
         super(bot);
     }
 
     @Override
-    public Command getExecutorCommand() {
-        return command;
+    public CommandType getExecutorCommand() {
+        return commandType;
     }
 
     @SneakyThrows
@@ -45,6 +45,6 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
 
         bot.execute(sMessage);
 
-        metaData.setCommand(DEFAULT);
+        metaData.setCommandType(DEFAULT);
     }
 }

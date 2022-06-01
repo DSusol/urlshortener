@@ -1,6 +1,6 @@
 package com.learning.urlshortener.bot.commands.main.find_all_links;
 
-import static com.learning.urlshortener.bot.commands.Command.MY_LINKS;
+import static com.learning.urlshortener.bot.commands.CommandType.MY_LINKS;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
@@ -19,7 +19,7 @@ class FindAllLinksCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return getCommandIdentifier(MY_LINKS);
+        return MY_LINKS.getCommandIdentifier();
     }
 
     @Override

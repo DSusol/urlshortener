@@ -12,12 +12,16 @@ package com.learning.urlshortener.bot.commands;
  * <p></p>
  * DEFAULT is used as a marker for MultiStepCommandHandler.
  */
-public enum Command {
+public enum CommandType {
     DEFAULT,
     START,
     HELP,
     NEW_LINK,
     SHOW_LINK,
     MY_LINKS,
-    DELETE_LINK
+    DELETE_LINK;
+
+    public String getCommandIdentifier() {
+        return this.name().toLowerCase();
+    }
 }

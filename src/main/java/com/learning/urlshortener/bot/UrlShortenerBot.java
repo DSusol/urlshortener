@@ -34,7 +34,6 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
     private final TgIncomingUpdateLogger logger;
     private final MessageHandler messageHandler;
     private final NonCommandUpdateHandler nonCommandUpdateHandler;
-//    private final MultiStepCommandHandler multiStepCommandHandler;
 
     @PostConstruct
     void registerCommands() {
@@ -59,7 +58,6 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
                 LocaleContextHolder.setLocale(update.hasMessage()
                         ? messageHandler.resolveMessageLocale(update.getMessage())
                         : Locale.getDefault());
-//                update = multiStepCommandHandler.handleUpdate(update);
                 this.onUpdateReceived(update);
             } finally {
                 LocaleContextHolder.resetLocaleContext();

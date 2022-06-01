@@ -1,6 +1,6 @@
 package com.learning.urlshortener.bot.commands.main.create_new_link;
 
-import static com.learning.urlshortener.bot.commands.Command.NEW_LINK;
+import static com.learning.urlshortener.bot.commands.CommandType.NEW_LINK;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.Order;
@@ -19,7 +19,7 @@ class CreateNewLinkCommand extends AbstractCommand {
 
     @Override
     public String getCommandIdentifier() {
-        return getCommandIdentifier(NEW_LINK);
+        return NEW_LINK.getCommandIdentifier();
     }
 
     @Override
