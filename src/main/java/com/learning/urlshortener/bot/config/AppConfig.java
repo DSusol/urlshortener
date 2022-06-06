@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
 
     @Bean
-    UrlValidator urlValidator() {
+    public UrlValidator urlValidator() {
         return new UrlValidator();
     }
 }

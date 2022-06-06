@@ -32,7 +32,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(2)
-    void when_invalid_url_is_provided_should_ask_for_another_input() {
+    void when_invalid_url_name_is_provided_should_ask_for_another_input() {
         Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "invalid_url");
 
         executeUpdate(update);
@@ -44,7 +44,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
     @Test
     @Order(3)
     void when_url_is_provided_should_obtain_shortened_link() throws Exception {
-        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.longurl.com/");
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.the.longest.url.you.ever.saw.com/");
 
         executeUpdate(update);
 
@@ -54,6 +54,29 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
         String shortenedUrl = extractUrlFromBotNewLinkResponse(savedMessageText);
         mockMvc.perform(get(shortenedUrl))
                 .andExpect(status().isPermanentRedirect())
-                .andExpect(redirectedUrl("https://www.longurl.com/"));
+                .andExpect(redirectedUrl("https://www.the.longest.url.you.ever.saw.com/"));
+    }
+
+    @Test
+    @Order(4)
+    void when_bot_is_not_able_to_make_url_shorter_then_send_related_message() {
+        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
+        executeUpdate(update);
+        update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.srt.ru/");
+        executeUpdate(update);
+
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
+        assertThat(savedMessageText).contains("im not able to make it shorter");
+    }
+
+    @Test
+    @Order(5)
+    void default_chat_state_verification() {
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "am I in new link creation stage still?");
+
+        executeUpdate(update);
+
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
+        assertThat(savedMessageText).contains("The command is not recognized. See /help for available options.");
     }
 }

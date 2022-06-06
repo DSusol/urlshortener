@@ -2,13 +2,15 @@ package com.learning.urlshortener.bot.commands.main.create_new_link;
 
 import static com.learning.urlshortener.bot.commands.CommandType.DEFAULT;
 import static com.learning.urlshortener.bot.commands.CommandType.NEW_LINK;
+import static com.learning.urlshortener.bot.commands.main.create_new_link.validation.UrlValidationStatus.VALID;
 
-import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import com.learning.urlshortener.bot.commands.CommandType;
 import com.learning.urlshortener.bot.commands.main.AbstractCommandExecutor;
+import com.learning.urlshortener.bot.commands.main.create_new_link.validation.UrlValidation;
+import com.learning.urlshortener.bot.commands.main.create_new_link.validation.UrlValidationStatus;
 import com.learning.urlshortener.bot.commands.main.state.ChatMetaData;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
@@ -20,7 +22,7 @@ import lombok.SneakyThrows;
 @RequiredArgsConstructor
 public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
 
-    private final UrlValidator urlValidator;
+    private final UrlValidation urlValidation;
 
     @Override
     public CommandType getExecutorCommand() {
@@ -30,11 +32,15 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
     @SneakyThrows
     @Override
     public void execute(ChatMetaData metaData) {
-        String url = metaData.getMessage();
         Long chatId = metaData.getChatId();
+        String url = metaData.getMessage();
+        UrlValidationStatus urlStatus = urlValidation.getUrlValidationStatusFor(url);
 
-        if(!urlValidator.isValid(url)) {
-            bot.execute(messageHandler.prepareSendMessage(chatId, "new.link.command.invalid.url"));
+        if (urlStatus != VALID) {
+            if (urlStatus.isCommandTermination()) {
+                metaData.setCommandType(DEFAULT);
+            }
+            bot.execute(messageHandler.prepareSendMessage(chatId, urlStatus.getBotResponse()));
             return;
         }
 
