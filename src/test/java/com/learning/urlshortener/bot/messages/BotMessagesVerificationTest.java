@@ -46,6 +46,8 @@ public class BotMessagesVerificationTest {
                 arguments("new.link.command.response", "ru", "короткий линк:\n"),
                 arguments("new.link.command.request.url", "en", "Please provide full link:"),
                 arguments("new.link.command.request.url", "ru", "Пожалуйста, введите полный адрес:"),
+                arguments("new.link.command.invalid.url", "en", "invalid url provided, please try again:"),
+                arguments("new.link.command.invalid.url", "ru", "некоррекстный url, попробуйте ещё раз:"),
 
                 // ShowLinkCommand command messages
                 arguments("show.link.command.description", "en", "show link details"),

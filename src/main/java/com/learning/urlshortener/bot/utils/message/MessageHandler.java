@@ -9,6 +9,8 @@ public interface MessageHandler {
 
     SendMessage prepareSendMessage(Message message, String template);
 
+    SendMessage prepareSendMessage(Long chatId, String template);
+
     String getI18nMessageFor(String template);
 
     Locale resolveMessageLocale(Message message);

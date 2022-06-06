@@ -32,8 +32,19 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(2)
+    void when_invalid_url_is_provided_should_ask_for_another_input() {
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "invalid_url");
+
+        executeUpdate(update);
+
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
+        assertThat(savedMessageText).contains("invalid url provided, please try again:");
+    }
+
+    @Test
+    @Order(3)
     void when_url_is_provided_should_obtain_shortened_link() throws Exception {
-        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://longurl_1.com/");
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.longurl.com/");
 
         executeUpdate(update);
 
@@ -43,6 +54,6 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
         String shortenedUrl = extractUrlFromBotNewLinkResponse(savedMessageText);
         mockMvc.perform(get(shortenedUrl))
                 .andExpect(status().isPermanentRedirect())
-                .andExpect(redirectedUrl("https://longurl_1.com/"));
+                .andExpect(redirectedUrl("https://www.longurl.com/"));
     }
 }

@@ -3,4 +3,5 @@ ext {
     mapstructVersion = '1.4.2.Final'
     testContainersVersion = '1.17.1'
     commonsLang3Version = '3.12.0'
+    commonsValidator = '1.7'
 }

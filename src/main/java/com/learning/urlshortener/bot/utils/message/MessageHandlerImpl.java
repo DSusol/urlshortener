@@ -18,8 +18,13 @@ class MessageHandlerImpl implements MessageHandler {
 
     @Override
     public SendMessage prepareSendMessage(Message message, String template) {
+        return prepareSendMessage(message.getChatId(), template);
+    }
+
+    @Override
+    public SendMessage prepareSendMessage(Long chatId, String template) {
         String messageText = getI18nMessageFor(template);
-        return new SendMessage(message.getChatId().toString(), messageText);
+        return new SendMessage(chatId.toString(), messageText);
     }
 
     @Override
