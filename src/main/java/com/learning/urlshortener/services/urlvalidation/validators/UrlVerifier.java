@@ -2,7 +2,7 @@ package com.learning.urlshortener.services.urlvalidation.validators;
 
 import com.learning.urlshortener.services.urlvalidation.UrlValidationResult;
 
-public interface UrlValidator {
+public interface UrlVerifier {
 
     boolean isNotValid(String url);
 

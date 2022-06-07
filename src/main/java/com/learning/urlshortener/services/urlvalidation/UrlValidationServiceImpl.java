@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.learning.urlshortener.services.urlvalidation.validators.UrlValidator;
+import com.learning.urlshortener.services.urlvalidation.validators.UrlVerifier;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,13 +14,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UrlValidationServiceImpl implements UrlValidationService {
 
-    private final List<UrlValidator> urlValidators;
+    private final List<UrlVerifier> urlVerifiers;
 
     @Override
     public UrlValidationResult getUrlValidationResultFor(String url) {
-        return urlValidators.stream()
-                .filter(urlValidator -> urlValidator.isNotValid(url))
-                .map(UrlValidator::getUrlValidationStatus)
+        return urlVerifiers.stream()
+                .filter(urlVerifier -> urlVerifier.isNotValid(url))
+                .map(UrlVerifier::getUrlValidationStatus)
                 .findFirst()
                 .orElse(VALID);
     }
