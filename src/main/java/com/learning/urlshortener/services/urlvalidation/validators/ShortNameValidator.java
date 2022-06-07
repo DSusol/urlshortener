@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Order(2)
 @Component
 @RequiredArgsConstructor
-class ShortNameValidator implements UValidator {
+class ShortNameValidator implements UrlValidator {
 
     private final int tokenLength = 6;
     private final DomainProvider domainProvider;
