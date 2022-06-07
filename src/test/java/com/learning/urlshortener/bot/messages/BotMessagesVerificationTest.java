@@ -40,34 +40,34 @@ public class BotMessagesVerificationTest {
                 arguments("bot.default.message", "ru", "Неправильная команда. Введите /help чтобы получить список допустимых команд."),
 
                 // CreateNewLinkCommand command messages
-                arguments("new.link.command.description", "en", "create new link"),
-                arguments("new.link.command.description", "ru", "создать новый линк"),
-                arguments("new.link.command.response", "en", "here is your shortened link:\n"),
-                arguments("new.link.command.response", "ru", "короткий линк:\n"),
+                arguments("new.link.command.description", "en", "Create new link."),
+                arguments("new.link.command.description", "ru", "Создать новый линк."),
+                arguments("new.link.command.response", "en", "Here is your shortened link:\n"),
+                arguments("new.link.command.response", "ru", "Короткий линк:\n"),
                 arguments("new.link.command.request.url", "en", "Please provide full link:"),
                 arguments("new.link.command.request.url", "ru", "Пожалуйста, введите полный адрес:"),
-                arguments("new.link.command.invalid.url", "en", "invalid url provided, please try again:"),
-                arguments("new.link.command.invalid.url", "ru", "некоррекстный url, попробуйте ещё раз:"),
-                arguments("new.link.command.short.url", "en", "im not able to make it shorter"),
-                arguments("new.link.command.short.url", "ru", "не могу сделать ещё короче"),
+                arguments("new.link.command.invalid.url", "en", "Invalid url provided, please try again:"),
+                arguments("new.link.command.invalid.url", "ru", "Некорректный url, попробуйте ещё раз:"),
+                arguments("new.link.command.short.url", "en", "I'm not able to make it shorter."),
+                arguments("new.link.command.short.url", "ru", "Не могу сделать ещё короче."),
 
                 // ShowLinkCommand command messages
-                arguments("show.link.command.description", "en", "show link details"),
-                arguments("show.link.command.description", "ru", "свойства линка"),
-                arguments("show.link.command.response", "en", "will show link details"),
-                arguments("show.link.command.response", "ru", "покажет детали линка"),
+                arguments("show.link.command.description", "en", "Show link details."),
+                arguments("show.link.command.description", "ru", "Свойства линка."),
+                arguments("show.link.command.response", "en", "Will show link details."),
+                arguments("show.link.command.response", "ru", "Покажет детали линка."),
 
                 // FindAllLinksCommand command messages
-                arguments("find.all.links.command.description", "en", "show all links"),
-                arguments("find.all.links.command.description", "ru", "список всех линков"),
-                arguments("find.all.links.command.response", "en", "will show list of created links"),
-                arguments("find.all.links.command.response", "ru", "покажет список созданных линков"),
+                arguments("find.all.links.command.description", "en", "Show all links."),
+                arguments("find.all.links.command.description", "ru", "Список всех линков."),
+                arguments("find.all.links.command.response", "en", "Will show list of created links."),
+                arguments("find.all.links.command.response", "ru", "Покажет список созданных линков."),
 
                 // DeleteLinkCommand command messages
-                arguments("delete.links.command.description", "en", "delete existing link"),
-                arguments("delete.links.command.description", "ru", "удалить линк"),
-                arguments("delete.links.command.response", "en", "will delete existing link"),
-                arguments("delete.links.command.response", "ru", "удалит существующий линк")
+                arguments("delete.links.command.description", "en", "Delete existing link."),
+                arguments("delete.links.command.description", "ru", "Удалить линк."),
+                arguments("delete.links.command.response", "en", "Will delete existing link."),
+                arguments("delete.links.command.response", "ru", "Удалит существующий линк.")
         );
     }
 }

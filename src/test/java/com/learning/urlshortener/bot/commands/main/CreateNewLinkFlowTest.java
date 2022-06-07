@@ -38,7 +38,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
         executeUpdate(update);
 
         String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
-        assertThat(savedMessageText).contains("invalid url provided, please try again:");
+        assertThat(savedMessageText).contains("Invalid url provided, please try again:");
     }
 
     @Test
@@ -49,7 +49,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
         executeUpdate(update);
 
         String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
-        assertThat(savedMessageText).contains("here is your shortened link:");
+        assertThat(savedMessageText).contains("Here is your shortened link:");
 
         String shortenedUrl = extractUrlFromBotNewLinkResponse(savedMessageText);
         mockMvc.perform(get(shortenedUrl))
@@ -66,7 +66,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
         executeUpdate(update);
 
         String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
-        assertThat(savedMessageText).contains("im not able to make it shorter");
+        assertThat(savedMessageText).contains("I'm not able to make it shorter");
     }
 
     @Test
