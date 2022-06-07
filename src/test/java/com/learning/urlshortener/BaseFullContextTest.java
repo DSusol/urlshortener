@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.learning.urlshortener.bot.testbot.ExecutedTgTestMethodsRegistry;
 import com.learning.urlshortener.bot.testbot.UrlShortenerTestBot;
-import com.learning.urlshortener.services.urlshortener.UrlShortenerService;
+import com.learning.urlshortener.services.UrlShortenerService;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc

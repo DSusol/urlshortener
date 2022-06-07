@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.learning.urlshortener.services.urlshortener.UrlShortenerService;
+import com.learning.urlshortener.services.UrlShortenerService;
 
 import lombok.AllArgsConstructor;
 

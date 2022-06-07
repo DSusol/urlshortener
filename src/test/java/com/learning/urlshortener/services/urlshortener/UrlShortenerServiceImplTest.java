@@ -17,6 +17,7 @@ import org.mockito.MockitoAnnotations;
 import com.learning.urlshortener.database.links.LinkDAO;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
+import com.learning.urlshortener.services.UrlShortenerServiceImpl;
 
 class UrlShortenerServiceImplTest {
 

@@ -5,7 +5,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.learning.urlshortener.services.urlshortener.UrlShortenerService;
+import com.learning.urlshortener.services.UrlShortenerService;
 import com.learning.urlshortener.services.urlvalidation.UrlValidationService;
 
 @WebMvcTest
