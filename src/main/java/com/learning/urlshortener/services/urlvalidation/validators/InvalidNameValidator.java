@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class InvalidNameValidator implements UValidator {
 
-    private final UrlValidator urlValidator;
+    private static final UrlValidator urlValidator = new UrlValidator();
 
     @Override
     public boolean isNotValid(String url) {
