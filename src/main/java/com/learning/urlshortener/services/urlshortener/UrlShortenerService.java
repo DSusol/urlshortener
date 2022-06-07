@@ -1,4 +1,4 @@
-package com.learning.urlshortener.services;
+package com.learning.urlshortener.services.urlshortener;
 
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;

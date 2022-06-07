@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import com.learning.urlshortener.bot.utils.UrlBuilder;
 import com.learning.urlshortener.bot.utils.message.MessageHandler;
-import com.learning.urlshortener.services.UrlShortenerService;
+import com.learning.urlshortener.services.urlshortener.UrlShortenerService;
 
 public abstract class AbstractCommandExecutor implements CommandExecutor {
 

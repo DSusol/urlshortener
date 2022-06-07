@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.commands.main.create_new_link.validation;
+package com.learning.urlshortener.services.urlvalidation;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor
-public enum UrlValidationStatus {
+public enum UrlValidationResult {
 
     VALID("", false),
     INVALID_NAME("new.link.command.invalid.url", false),

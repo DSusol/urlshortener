@@ -1,11 +1,12 @@
-package com.learning.urlshortener.bot.commands.main.create_new_link.validation;
+package com.learning.urlshortener.services.urlvalidation.validators;
 
-import static com.learning.urlshortener.bot.commands.main.create_new_link.validation.UrlValidationStatus.SHORT_NAME;
+import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.SHORT_NAME;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.learning.urlshortener.bot.utils.domain.DomainProvider;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationResult;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,17 +15,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class ShortNameValidator implements UValidator {
 
+    private final int tokenLength = 6;
     private final DomainProvider domainProvider;
 
     @Override
     public boolean isNotValid(String url) {
-        final int tokenLength = 6;
         String domainName = domainProvider.getDomain();
         return url.length() <= (domainName.length() + tokenLength);
     }
 
     @Override
-    public UrlValidationStatus getUrlValidationStatus() {
+    public UrlValidationResult getUrlValidationStatus() {
         return SHORT_NAME;
     }
 }

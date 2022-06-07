@@ -1,10 +1,12 @@
-package com.learning.urlshortener.bot.commands.main.create_new_link.validation;
+package com.learning.urlshortener.services.urlvalidation.validators;
 
-import static com.learning.urlshortener.bot.commands.main.create_new_link.validation.UrlValidationStatus.INVALID_NAME;
+import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.INVALID_NAME;
 
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import com.learning.urlshortener.services.urlvalidation.UrlValidationResult;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +23,7 @@ class InvalidNameValidator implements UValidator {
     }
 
     @Override
-    public UrlValidationStatus getUrlValidationStatus() {
+    public UrlValidationResult getUrlValidationStatus() {
         return INVALID_NAME;
     }
 }

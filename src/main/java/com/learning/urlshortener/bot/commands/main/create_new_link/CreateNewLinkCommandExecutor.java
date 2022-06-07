@@ -2,15 +2,15 @@ package com.learning.urlshortener.bot.commands.main.create_new_link;
 
 import static com.learning.urlshortener.bot.commands.CommandType.DEFAULT;
 import static com.learning.urlshortener.bot.commands.CommandType.NEW_LINK;
-import static com.learning.urlshortener.bot.commands.main.create_new_link.validation.UrlValidationStatus.VALID;
+import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.VALID;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import com.learning.urlshortener.bot.commands.CommandType;
 import com.learning.urlshortener.bot.commands.main.AbstractCommandExecutor;
-import com.learning.urlshortener.bot.commands.main.create_new_link.validation.UrlValidation;
-import com.learning.urlshortener.bot.commands.main.create_new_link.validation.UrlValidationStatus;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationService;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationResult;
 import com.learning.urlshortener.bot.commands.main.state.ChatMetaData;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
@@ -22,7 +22,7 @@ import lombok.SneakyThrows;
 @RequiredArgsConstructor
 public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
 
-    private final UrlValidation urlValidation;
+    private final UrlValidationService urlValidationService;
 
     @Override
     public CommandType getExecutorCommand() {
@@ -34,13 +34,13 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
     public void execute(ChatMetaData metaData) {
         Long chatId = metaData.getChatId();
         String url = metaData.getMessage();
-        UrlValidationStatus urlStatus = urlValidation.getUrlValidationStatusFor(url);
+        UrlValidationResult urlValidationResult = urlValidationService.getUrlValidationResultFor(url);
 
-        if (urlStatus != VALID) {
-            if (urlStatus.isCommandTermination()) {
+        if (urlValidationResult != VALID) {
+            if (urlValidationResult.isCommandTermination()) {
                 metaData.setCommandType(DEFAULT);
             }
-            bot.execute(messageHandler.prepareSendMessage(chatId, urlStatus.getBotResponse()));
+            bot.execute(messageHandler.prepareSendMessage(chatId, urlValidationResult.getBotResponse()));
             return;
         }
 

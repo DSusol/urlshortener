@@ -1,4 +1,4 @@
-package com.learning.urlshortener.services;
+package com.learning.urlshortener.services.urlshortener;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
