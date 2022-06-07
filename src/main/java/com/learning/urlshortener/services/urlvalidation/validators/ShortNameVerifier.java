@@ -1,5 +1,6 @@
 package com.learning.urlshortener.services.urlvalidation.validators;
 
+import static com.learning.urlshortener.services.UrlShortenerServiceImpl.URL_TOKEN_LENGTH;
 import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.SHORT_NAME;
 
 import org.springframework.core.annotation.Order;
@@ -15,13 +16,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 class ShortNameVerifier implements UrlVerifier {
 
-    private final int tokenLength = 6;
     private final DomainProvider domainProvider;
 
     @Override
     public boolean isNotValid(String url) {
         String domainName = domainProvider.getDomain();
-        return url.length() <= (domainName.length() + tokenLength);
+        return url.length() <= (domainName.length() + URL_TOKEN_LENGTH);
     }
 
     @Override

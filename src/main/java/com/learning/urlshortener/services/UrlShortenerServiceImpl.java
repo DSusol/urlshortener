@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UrlShortenerServiceImpl implements UrlShortenerService {
 
+    public static final int URL_TOKEN_LENGTH = 6;
     private final CustomerDAO customerDAO;
     private final LinkDAO linkDAO;
 
@@ -34,7 +35,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
             return link;
         }
 
-        String token = randomAlphanumeric(6);
+        String token = randomAlphanumeric(URL_TOKEN_LENGTH);
         //todo: verify the token is unique
         link = Link.builder().url(url).token(token).clickCount(0).build();
         return linkDAO.saveLink(customer, link);
