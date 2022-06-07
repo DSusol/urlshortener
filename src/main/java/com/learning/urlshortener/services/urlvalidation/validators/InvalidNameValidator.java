@@ -1,6 +1,6 @@
 package com.learning.urlshortener.services.urlvalidation.validators;
 
-import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.INVALID_NAME;
+import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.INVALID;
 
 import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.core.annotation.Order;
@@ -24,6 +24,6 @@ class InvalidNameValidator implements UValidator {
 
     @Override
     public UrlValidationResult getUrlValidationStatus() {
-        return INVALID_NAME;
+        return INVALID;
     }
 }
