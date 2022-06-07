@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.learning.urlshortener.bot.commands.CommandType;
 import com.learning.urlshortener.bot.commands.main.AbstractCommandExecutor;
@@ -34,7 +33,6 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
         return NEW_LINK;
     }
 
-    @SneakyThrows
     @Override
     public void execute(ChatMetaData metaData) {
         String url = metaData.getMessage();
@@ -47,7 +45,8 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
         }
     }
 
-    private void processValidUrl(ChatMetaData metaData, String url) throws TelegramApiException {
+    @SneakyThrows
+    private void processValidUrl(ChatMetaData metaData, String url) {
 
         Long chatId = metaData.getChatId();
         Customer customer = urlShortenerService.getOrCreateCustomerByChatId(chatId);
@@ -61,7 +60,8 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
         metaData.setCommandType(DEFAULT);
     }
 
-    private void processNonValidUrl(UrlValidationResult validationResult, ChatMetaData metaData) throws TelegramApiException {
+    @SneakyThrows
+    private void processNonValidUrl(UrlValidationResult validationResult, ChatMetaData metaData) {
 
         if (validationResult == SHORT_NAME) {
             metaData.setCommandType(DEFAULT);
