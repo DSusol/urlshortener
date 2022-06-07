@@ -14,11 +14,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.learning.urlshortener.bot.commands.CommandType;
 import com.learning.urlshortener.bot.commands.main.AbstractCommandExecutor;
-import com.learning.urlshortener.services.urlvalidation.UrlValidationService;
-import com.learning.urlshortener.services.urlvalidation.UrlValidationResult;
 import com.learning.urlshortener.bot.commands.main.state.ChatMetaData;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationResult;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -40,7 +40,7 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
         String url = metaData.getMessage();
         UrlValidationResult urlValidationResult = urlValidationService.getUrlValidationResultFor(url);
 
-        if(urlValidationResult == VALID) {
+        if (urlValidationResult == VALID) {
             processValidUrl(metaData, url);
         } else {
             processNonValidUrl(urlValidationResult, metaData);
@@ -63,7 +63,7 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
 
     private void processNonValidUrl(UrlValidationResult validationResult, ChatMetaData metaData) throws TelegramApiException {
 
-        if(validationResult == SHORT_NAME) {
+        if (validationResult == SHORT_NAME) {
             metaData.setCommandType(DEFAULT);
         }
 

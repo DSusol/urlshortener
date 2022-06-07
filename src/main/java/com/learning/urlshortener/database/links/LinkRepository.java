@@ -3,8 +3,6 @@ package com.learning.urlshortener.database.links;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.learning.urlshortener.database.customers.CustomerEntity;

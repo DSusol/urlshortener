@@ -30,7 +30,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     @Override
     public Link saveNewLink(Customer customer, String url) {
         Link link = linkDAO.findLinkByCustomerAndUrl(customer, url).orElse(null);
-        if(link != null) {
+        if (link != null) {
             return link;
         }
 
