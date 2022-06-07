@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.services.urlvalidation.validators.UrlVerifier;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class UrlValidationServiceImpl implements UrlValidationService {
     private final List<UrlVerifier> urlVerifiers;
 
     @Override
-    public UrlValidationResult getUrlValidationResultFor(String url) {
+    public UrlValidationResult getUrlValidationResultFor(Customer customer, String url) {
         return urlVerifiers.stream()
                 .filter(urlVerifier -> urlVerifier.isNotValid(url))
                 .map(UrlVerifier::getUrlValidationStatus)

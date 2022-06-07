@@ -36,7 +36,8 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
     @Override
     public void execute(ChatMetaData metaData) {
         String url = metaData.getMessage();
-        UrlValidationResult urlValidationResult = urlValidationService.getUrlValidationResultFor(url);
+        Customer customer = urlShortenerService.getOrCreateCustomerByChatId(metaData.getChatId());
+        UrlValidationResult urlValidationResult = urlValidationService.getUrlValidationResultFor(customer, url);
 
         if (urlValidationResult == VALID) {
             processValidUrl(metaData, url);
