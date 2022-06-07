@@ -6,8 +6,11 @@ import static com.learning.urlshortener.services.urlvalidation.UrlValidationResu
 import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.SHORT_NAME;
 import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.VALID;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import com.learning.urlshortener.bot.commands.CommandType;
 import com.learning.urlshortener.bot.commands.main.AbstractCommandExecutor;
@@ -34,21 +37,19 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
     @SneakyThrows
     @Override
     public void execute(ChatMetaData metaData) {
-        Long chatId = metaData.getChatId();
         String url = metaData.getMessage();
         UrlValidationResult urlValidationResult = urlValidationService.getUrlValidationResultFor(url);
 
-        if(urlValidationResult == INVALID) {
-            bot.execute(messageUtils.prepareSendMessage(chatId, "new.link.command.invalid.url"));
-            return;
+        if(urlValidationResult == VALID) {
+            processValidUrl(metaData, url);
+        } else {
+            processNonValidUrl(urlValidationResult, metaData);
         }
+    }
 
-        if(urlValidationResult == SHORT_NAME) {
-            metaData.setCommandType(DEFAULT);
-            bot.execute(messageUtils.prepareSendMessage(chatId, "new.link.command.short.url"));
-            return;
-        }
+    private void processValidUrl(ChatMetaData metaData, String url) throws TelegramApiException {
 
+        Long chatId = metaData.getChatId();
         Customer customer = urlShortenerService.getOrCreateCustomerByChatId(chatId);
         Link newLink = urlShortenerService.saveNewLink(customer, url);
 
@@ -57,7 +58,19 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
                         + urlBuilder.buildUrlWithDomain(newLink.getToken()));
 
         bot.execute(sMessage);
-
         metaData.setCommandType(DEFAULT);
+    }
+
+    private void processNonValidUrl(UrlValidationResult validationResult, ChatMetaData metaData) throws TelegramApiException {
+
+        if(validationResult == SHORT_NAME) {
+            metaData.setCommandType(DEFAULT);
+        }
+
+        String botResponseTemplate = Map.of(
+                INVALID, "new.link.command.invalid.url",
+                SHORT_NAME, "new.link.command.short.url").get(validationResult);
+
+        bot.execute(messageUtils.prepareSendMessage(metaData.getChatId(), botResponseTemplate));
     }
 }
