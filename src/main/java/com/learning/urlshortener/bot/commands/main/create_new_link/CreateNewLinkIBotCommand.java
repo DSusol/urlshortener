@@ -31,6 +31,6 @@ class CreateNewLinkIBotCommand extends AbstractIBotCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         multiStepCommandHandler.setChatExecutingCommand(message.getChatId(), NEW_LINK);
-        absSender.execute(messageHandler.prepareSendMessage(message, "new.link.command.request.url"));
+        absSender.execute(messageUtils.prepareSendMessage(message, "new.link.command.request.url"));
     }
 }

@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.utils.message;
+package com.learning.urlshortener.bot.utils;
 
 import java.util.Locale;
 
@@ -12,27 +12,23 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-class MessageHandlerImpl implements MessageHandler {
+public class MessageUtils {
 
     private final MessageSource messageSource;
 
-    @Override
     public SendMessage prepareSendMessage(Message message, String template) {
         return prepareSendMessage(message.getChatId(), template);
     }
 
-    @Override
     public SendMessage prepareSendMessage(Long chatId, String template) {
         String messageText = getI18nMessageFor(template);
         return new SendMessage(chatId.toString(), messageText);
     }
 
-    @Override
     public String getI18nMessageFor(String template) {
         return messageSource.getMessage(template, null, LocaleContextHolder.getLocale());
     }
 
-    @Override
     public Locale resolveMessageLocale(Message message) {
         return Locale.forLanguageTag(message.getFrom().getLanguageCode());
     }

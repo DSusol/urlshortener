@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import com.learning.urlshortener.bot.commands.main.state.MultiStepCommandHandler;
-import com.learning.urlshortener.bot.utils.message.MessageHandler;
+import com.learning.urlshortener.bot.utils.MessageUtils;
 
 import lombok.SneakyThrows;
 
@@ -17,13 +17,13 @@ public class NonCommandUpdateHandler {
 
     private final AbsSender bot;
     private final MultiStepCommandHandler commandHandler;
-    private final MessageHandler messageHandler;
+    private final MessageUtils messageUtils;
 
     public NonCommandUpdateHandler(@Lazy AbsSender bot, MultiStepCommandHandler commandHandler,
-                                   MessageHandler messageHandler) {
+                                   MessageUtils messageUtils) {
         this.bot = bot;
         this.commandHandler = commandHandler;
-        this.messageHandler = messageHandler;
+        this.messageUtils = messageUtils;
     }
 
     @SneakyThrows
@@ -38,7 +38,7 @@ public class NonCommandUpdateHandler {
         }
 
         Message message = update.getMessage();
-        SendMessage sendMessage = messageHandler.prepareSendMessage(message, "bot.default.message");
+        SendMessage sendMessage = messageUtils.prepareSendMessage(message, "bot.default.message");
         bot.execute(sendMessage);
     }
 }

@@ -40,7 +40,7 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
             if (urlValidationResult.isCommandTermination()) {
                 metaData.setCommandType(DEFAULT);
             }
-            bot.execute(messageHandler.prepareSendMessage(chatId, urlValidationResult.getBotResponse()));
+            bot.execute(messageUtils.prepareSendMessage(chatId, urlValidationResult.getBotResponse()));
             return;
         }
 
@@ -48,7 +48,7 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
         Link newLink = urlShortenerService.saveNewLink(customer, url);
 
         SendMessage sMessage = new SendMessage(chatId.toString(),
-                messageHandler.getI18nMessageFor("new.link.command.response")
+                messageUtils.getI18nMessageFor("new.link.command.response")
                         + urlBuilder.buildUrlWithDomain(newLink.getToken()));
 
         bot.execute(sMessage);

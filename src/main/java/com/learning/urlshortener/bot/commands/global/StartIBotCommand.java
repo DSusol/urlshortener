@@ -27,7 +27,7 @@ public class StartIBotCommand extends AbstractIBotCommand {
     @SneakyThrows
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
-        SendMessage sendMessage = messageHandler.prepareSendMessage(message, "bot.welcome.message");
+        SendMessage sendMessage = messageUtils.prepareSendMessage(message, "bot.welcome.message");
         absSender.execute(sendMessage);
     }
 }

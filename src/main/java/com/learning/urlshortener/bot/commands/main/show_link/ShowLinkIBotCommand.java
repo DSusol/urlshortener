@@ -31,6 +31,6 @@ class ShowLinkIBotCommand extends AbstractIBotCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement link details provision
-        absSender.execute(messageHandler.prepareSendMessage(message, "show.link.command.response"));
+        absSender.execute(messageUtils.prepareSendMessage(message, "show.link.command.response"));
     }
 }

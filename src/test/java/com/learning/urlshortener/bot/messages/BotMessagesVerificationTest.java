@@ -13,19 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import com.learning.urlshortener.bot.utils.message.MessageHandler;
+import com.learning.urlshortener.bot.utils.MessageUtils;
 
 @SpringBootTest(classes = ShallowAdapterConfig.class)
 public class BotMessagesVerificationTest {
 
     @Autowired
-    MessageHandler messageHandler;
+    MessageUtils messageUtils;
 
     @ParameterizedTest(name = "Run {index}: template = {0}; language = {1}")
     @MethodSource("messageArgumentProvider")
     void i18n_message_verification(String template, String languageCode, String response) {
         LocaleContextHolder.setLocale(Locale.forLanguageTag(languageCode));
-        assertThat(messageHandler.getI18nMessageFor(template)).isEqualTo(response);
+        assertThat(messageUtils.getI18nMessageFor(template)).isEqualTo(response);
     }
 
     static Stream<Arguments> messageArgumentProvider() {

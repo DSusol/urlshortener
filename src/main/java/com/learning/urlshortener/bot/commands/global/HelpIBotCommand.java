@@ -38,10 +38,10 @@ public class HelpIBotCommand extends AbstractIBotCommand {
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         StringBuilder helpMessageBuilder = new StringBuilder();
 
-        helpMessageBuilder.append(messageHandler.getI18nMessageFor("bot.help.header"));
+        helpMessageBuilder.append(messageUtils.getI18nMessageFor("bot.help.header"));
         sortedBotCommands.forEach(command -> helpMessageBuilder.append("/")
                 .append(command.getCommandIdentifier()).append(" - ")
-                .append(messageHandler.getI18nMessageFor(command.getDescription())).append("\n"));
+                .append(messageUtils.getI18nMessageFor(command.getDescription())).append("\n"));
 
         SendMessage sendMessage = new SendMessage(message.getChatId().toString(), helpMessageBuilder.toString());
         sendMessage.enableHtml(true);

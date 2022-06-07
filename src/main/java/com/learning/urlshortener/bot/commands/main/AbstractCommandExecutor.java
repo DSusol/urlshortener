@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Lazy;
 import org.telegram.telegrambots.meta.bots.AbsSender;
 
 import com.learning.urlshortener.bot.utils.UrlBuilder;
-import com.learning.urlshortener.bot.utils.message.MessageHandler;
+import com.learning.urlshortener.bot.utils.MessageUtils;
 import com.learning.urlshortener.services.urlshortener.UrlShortenerService;
 
 public abstract class AbstractCommandExecutor implements CommandExecutor {
@@ -14,7 +14,7 @@ public abstract class AbstractCommandExecutor implements CommandExecutor {
     protected UrlShortenerService urlShortenerService;
 
     @Autowired
-    protected MessageHandler messageHandler;
+    protected MessageUtils messageUtils;
 
     @Autowired
     protected UrlBuilder urlBuilder;
