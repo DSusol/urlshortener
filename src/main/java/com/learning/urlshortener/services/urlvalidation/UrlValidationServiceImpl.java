@@ -4,13 +4,13 @@ import static com.learning.urlshortener.services.urlvalidation.UrlValidationResu
 
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.learning.urlshortener.services.urlvalidation.validators.UrlValidator;
 
 import lombok.RequiredArgsConstructor;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class UrlValidationServiceImpl implements UrlValidationService {
 

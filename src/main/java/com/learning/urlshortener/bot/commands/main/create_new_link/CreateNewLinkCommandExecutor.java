@@ -2,6 +2,8 @@ package com.learning.urlshortener.bot.commands.main.create_new_link;
 
 import static com.learning.urlshortener.bot.commands.CommandType.DEFAULT;
 import static com.learning.urlshortener.bot.commands.CommandType.NEW_LINK;
+import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.INVALID;
+import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.SHORT_NAME;
 import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.VALID;
 
 import org.springframework.stereotype.Component;
@@ -36,11 +38,14 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
         String url = metaData.getMessage();
         UrlValidationResult urlValidationResult = urlValidationService.getUrlValidationResultFor(url);
 
-        if (urlValidationResult != VALID) {
-            if (urlValidationResult.isCommandTermination()) {
-                metaData.setCommandType(DEFAULT);
-            }
-            bot.execute(messageUtils.prepareSendMessage(chatId, urlValidationResult.getBotResponse()));
+        if(urlValidationResult == INVALID) {
+            bot.execute(messageUtils.prepareSendMessage(chatId, "new.link.command.invalid.url"));
+            return;
+        }
+
+        if(urlValidationResult == SHORT_NAME) {
+            metaData.setCommandType(DEFAULT);
+            bot.execute(messageUtils.prepareSendMessage(chatId, "new.link.command.short.url"));
             return;
         }
 

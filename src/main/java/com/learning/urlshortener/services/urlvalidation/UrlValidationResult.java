@@ -14,10 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum UrlValidationResult {
 
-    VALID("", false),
-    INVALID("new.link.command.invalid.url", false),
-    SHORT_NAME("new.link.command.short.url", true);
-
-    private final String botResponse;
-    private final boolean isCommandTermination;
+    VALID,
+    INVALID,
+    SHORT_NAME
 }

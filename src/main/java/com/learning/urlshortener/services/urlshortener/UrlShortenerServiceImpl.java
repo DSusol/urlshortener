@@ -29,9 +29,14 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 
     @Override
     public Link saveNewLink(Customer customer, String url) {
+        Link link = linkDAO.findLinkByCustomerAndUrl(customer, url).orElse(null);
+        if(link != null) {
+            return link;
+        }
+
         String token = randomAlphanumeric(6);
         //todo: verify the token is unique
-        Link link = Link.builder().url(url).token(token).clickCount(0).build();
+        link = Link.builder().url(url).token(token).clickCount(0).build();
         return linkDAO.saveLink(customer, link);
     }
 

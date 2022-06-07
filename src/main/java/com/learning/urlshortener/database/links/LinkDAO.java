@@ -12,6 +12,8 @@ public interface LinkDAO {
 
     Optional<Link> findLinkByToken(String token);
 
+    Optional<Link> findLinkByCustomerAndUrl(Customer customer, String url);
+
     List<Link> findAllLinksByCustomer(Customer customer);
 
     Link saveLink(Customer customer, Link link);
