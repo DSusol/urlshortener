@@ -1,4 +1,4 @@
-package com.learning.urlshortener.services.urlvalidation.validators;
+package com.learning.urlshortener.services.urlvalidation;
 
 public abstract class UrlValidationException extends Exception {
 

@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.learning.urlshortener.domain.Customer;
-import com.learning.urlshortener.services.urlvalidation.validators.UrlValidationException;
-import com.learning.urlshortener.services.urlvalidation.validators.UrlVerifier;
 
 import lombok.RequiredArgsConstructor;
 
@@ -14,11 +12,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UrlValidation {
 
-    private final List<UrlVerifier> urlVerifiers;
+    private final List<UrlValidators> urlValidators;
 
     public void validateUrlFor(Customer customer, String url) throws UrlValidationException {
-        for(UrlVerifier urlVerifier: urlVerifiers) {
-            urlVerifier.validate(url);
+        for(UrlValidators urlValidators : this.urlValidators) {
+            urlValidators.validate(url);
         }
     }
 }

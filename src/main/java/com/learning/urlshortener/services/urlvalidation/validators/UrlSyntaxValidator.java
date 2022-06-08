@@ -4,12 +4,14 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import com.learning.urlshortener.services.urlvalidation.UrlValidators;
+
 import lombok.RequiredArgsConstructor;
 
 @Order(1)
 @Component
 @RequiredArgsConstructor
-class UrlSyntaxValidator implements UrlVerifier {
+class UrlSyntaxValidator implements UrlValidators {
 
     private static final UrlValidator urlValidator = new UrlValidator();
 

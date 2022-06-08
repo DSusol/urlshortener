@@ -6,13 +6,14 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.learning.urlshortener.bot.utils.domain.DomainProvider;
+import com.learning.urlshortener.services.urlvalidation.UrlValidators;
 
 import lombok.RequiredArgsConstructor;
 
 @Order(2)
 @Component
 @RequiredArgsConstructor
-class UrlLengthValidator implements UrlVerifier {
+class UrlLengthValidator implements UrlValidators {
 
     private final DomainProvider domainProvider;
 

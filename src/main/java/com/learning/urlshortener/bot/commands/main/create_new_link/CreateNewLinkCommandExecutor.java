@@ -15,7 +15,7 @@ import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 import com.learning.urlshortener.services.urlvalidation.validators.UrlSyntaxValidationException;
 import com.learning.urlshortener.services.urlvalidation.validators.UrlLengthValidationException;
-import com.learning.urlshortener.services.urlvalidation.validators.UrlValidationException;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

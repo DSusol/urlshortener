@@ -2,7 +2,7 @@ package com.learning.urlshortener.services;
 
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
-import com.learning.urlshortener.services.urlvalidation.validators.UrlValidationException;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationException;
 
 public interface UrlShortenerService {
 

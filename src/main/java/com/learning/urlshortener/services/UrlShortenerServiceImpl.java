@@ -10,7 +10,7 @@ import com.learning.urlshortener.database.links.LinkDAO;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 import com.learning.urlshortener.services.urlvalidation.UrlValidation;
-import com.learning.urlshortener.services.urlvalidation.validators.UrlValidationException;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationException;
 
 import lombok.RequiredArgsConstructor;
 
