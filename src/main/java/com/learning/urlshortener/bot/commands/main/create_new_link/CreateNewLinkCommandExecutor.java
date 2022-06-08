@@ -2,9 +2,6 @@ package com.learning.urlshortener.bot.commands.main.create_new_link;
 
 import static com.learning.urlshortener.bot.commands.CommandType.DEFAULT;
 import static com.learning.urlshortener.bot.commands.CommandType.NEW_LINK;
-import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.INVALID;
-import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.SHORT_NAME;
-import static com.learning.urlshortener.services.urlvalidation.UrlValidationResult.VALID;
 
 import java.util.Map;
 
@@ -16,8 +13,9 @@ import com.learning.urlshortener.bot.commands.main.AbstractCommandExecutor;
 import com.learning.urlshortener.bot.commands.main.state.ChatMetaData;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
-import com.learning.urlshortener.services.urlvalidation.UrlValidationResult;
-import com.learning.urlshortener.services.urlvalidation.UrlValidationService;
+import com.learning.urlshortener.services.urlvalidation.validators.UrlSyntaxValidationException;
+import com.learning.urlshortener.services.urlvalidation.validators.UrlLengthValidationException;
+import com.learning.urlshortener.services.urlvalidation.validators.UrlValidationException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -25,8 +23,6 @@ import lombok.SneakyThrows;
 @Component
 @RequiredArgsConstructor
 public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
-
-    private final UrlValidationService urlValidationService;
 
     @Override
     public CommandType getExecutorCommand() {
@@ -36,42 +32,39 @@ public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
     @Override
     public void execute(ChatMetaData metaData) {
         String url = metaData.getMessage();
-        Customer customer = urlShortenerService.getOrCreateCustomerByChatId(metaData.getChatId());
-        UrlValidationResult urlValidationResult = urlValidationService.getUrlValidationResultFor(customer, url);
+        Long chatId = metaData.getChatId();
+        Customer customer = urlShortenerService.getOrCreateCustomerByChatId(chatId);
 
-        if (urlValidationResult == VALID) {
-            processValidUrl(metaData, url);
-        } else {
-            processNonValidUrl(urlValidationResult, metaData);
+        try {
+            Link newLink = urlShortenerService.saveNewLink(customer, url);
+            metaData.setCommandType(DEFAULT);
+            executeBotResponseForNewLink(chatId, newLink);
+        } catch (UrlValidationException urlValidationException) {
+            processNonValidUrl(urlValidationException, metaData);
         }
     }
 
     @SneakyThrows
-    private void processValidUrl(ChatMetaData metaData, String url) {
-
-        Long chatId = metaData.getChatId();
-        Customer customer = urlShortenerService.getOrCreateCustomerByChatId(chatId);
-        Link newLink = urlShortenerService.saveNewLink(customer, url);
+    private void executeBotResponseForNewLink(Long chatId, Link newLink) {
 
         SendMessage sMessage = new SendMessage(chatId.toString(),
                 messageUtils.getI18nMessageFor("new.link.command.response")
                         + urlBuilder.buildUrlWithDomain(newLink.getToken()));
 
         bot.execute(sMessage);
-        metaData.setCommandType(DEFAULT);
     }
 
     @SneakyThrows
-    private void processNonValidUrl(UrlValidationResult validationResult, ChatMetaData metaData) {
+    private void processNonValidUrl(UrlValidationException exception, ChatMetaData metaData) {
 
-        if (validationResult == SHORT_NAME) {
+        if (exception instanceof UrlLengthValidationException) {
             metaData.setCommandType(DEFAULT);
         }
 
-        String botResponseTemplate = Map.of(
-                INVALID, "new.link.command.invalid.url",
-                SHORT_NAME, "new.link.command.short.url").get(validationResult);
+        String template = Map.of(
+                exception instanceof UrlSyntaxValidationException, "new.link.command.invalid.url",
+                exception instanceof UrlLengthValidationException, "new.link.command.short.url").get(true);
 
-        bot.execute(messageUtils.prepareSendMessage(metaData.getChatId(), botResponseTemplate));
+        bot.execute(messageUtils.prepareSendMessage(metaData.getChatId(), template));
     }
 }

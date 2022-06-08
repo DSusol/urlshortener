@@ -9,6 +9,8 @@ import com.learning.urlshortener.database.customers.CustomerDAO;
 import com.learning.urlshortener.database.links.LinkDAO;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
+import com.learning.urlshortener.services.urlvalidation.UrlValidation;
+import com.learning.urlshortener.services.urlvalidation.validators.UrlValidationException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,8 +20,10 @@ import lombok.RequiredArgsConstructor;
 public class UrlShortenerServiceImpl implements UrlShortenerService {
 
     public static final int URL_TOKEN_LENGTH = 6;
+
     private final CustomerDAO customerDAO;
     private final LinkDAO linkDAO;
+    private final UrlValidation urlValidation;
 
     @Override
     public Customer getOrCreateCustomerByChatId(Long chatId) {
@@ -31,11 +35,13 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     }
 
     @Override
-    public Link saveNewLink(Customer customer, String url) {
+    public Link saveNewLink(Customer customer, String url) throws UrlValidationException {
         Link link = linkDAO.findLinkByCustomerAndUrl(customer, url).orElse(null);
         if (link != null) {
             return link;
         }
+
+        urlValidation.validateUrlFor(customer, url);
 
         String token = randomAlphanumeric(URL_TOKEN_LENGTH);
         //todo: verify the token is unique

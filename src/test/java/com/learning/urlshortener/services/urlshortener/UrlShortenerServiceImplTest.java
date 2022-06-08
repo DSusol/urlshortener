@@ -18,6 +18,7 @@ import com.learning.urlshortener.database.links.LinkDAO;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 import com.learning.urlshortener.services.UrlShortenerServiceImpl;
+import com.learning.urlshortener.services.urlvalidation.validators.UrlValidationException;
 
 class UrlShortenerServiceImplTest {
 
@@ -33,7 +34,7 @@ class UrlShortenerServiceImplTest {
     }
 
     @Test
-    void when_saving_existing_url_then_return_existing_link_without_saving() {
+    void when_saving_existing_url_then_return_existing_link_without_saving() throws UrlValidationException {
         //given
         Customer customer = new Customer();
         String existingUrlToSave = "https://www.example.com/";
