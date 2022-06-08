@@ -36,12 +36,12 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 
     @Override
     public Link saveNewLink(Customer customer, String url) throws UrlValidationException {
+        urlValidation.validateUrlFor(customer, url);
+
         Link link = linkDAO.findLinkByCustomerAndUrl(customer, url).orElse(null);
         if (link != null) {
             return link;
         }
-
-        urlValidation.validateUrlFor(customer, url);
 
         String token = randomAlphanumeric(URL_TOKEN_LENGTH);
         //todo: verify the token is unique

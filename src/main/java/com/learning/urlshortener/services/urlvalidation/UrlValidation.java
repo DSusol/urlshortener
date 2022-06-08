@@ -14,6 +14,7 @@ public class UrlValidation {
 
     private final List<UrlValidators> urlValidators;
 
+    //todo: incorporate customer maximum allowed link count validation
     public void validateUrlFor(Customer customer, String url) throws UrlValidationException {
         for(UrlValidators urlValidators : this.urlValidators) {
             urlValidators.validate(url);
