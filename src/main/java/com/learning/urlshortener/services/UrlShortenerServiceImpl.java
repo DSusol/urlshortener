@@ -3,6 +3,7 @@ package com.learning.urlshortener.services;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.learning.urlshortener.database.customers.CustomerDAO;
 import com.learning.urlshortener.database.links.LinkDAO;
@@ -12,6 +13,7 @@ import com.learning.urlshortener.domain.Link;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UrlShortenerServiceImpl implements UrlShortenerService {
 
