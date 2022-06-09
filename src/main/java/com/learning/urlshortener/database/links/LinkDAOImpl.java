@@ -34,9 +34,12 @@ public class LinkDAOImpl implements LinkDAO {
     }
 
     @Override
-    public Optional<Link> findLinkByCustomerAndUrl(Customer customer, String url) {
+    public List<Link> findLinksByCustomerAndUrl(Customer customer, String url) {
         CustomerEntity customerEntity = customerRepository.getById(customer.getId());
-        return linkRepository.findLinkEntityByCustomerAndUrl(customerEntity, url).map(linkEntityMapper::linkEntityToLink);
+        return linkRepository.findLinkEntitiesByCustomerAndUrl(customerEntity, url)
+                .stream()
+                .map(linkEntityMapper::linkEntityToLink)
+                .collect(Collectors.toList());
     }
 
     @Override

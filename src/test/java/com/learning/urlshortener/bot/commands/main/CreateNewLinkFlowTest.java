@@ -44,7 +44,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
     @Test
     @Order(3)
     void when_url_is_provided_should_obtain_shortened_link() throws Exception {
-        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.the.longest.url.you.ever.saw.com/");
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.the.longest.test.url.com/");
 
         executeUpdate(update);
 
@@ -54,11 +54,40 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
         String shortenedUrl = extractUrlFromBotNewLinkResponse(savedMessageText);
         mockMvc.perform(get(shortenedUrl))
                 .andExpect(status().isPermanentRedirect())
-                .andExpect(redirectedUrl("https://www.the.longest.url.you.ever.saw.com/"));
+                .andExpect(redirectedUrl("https://www.the.longest.test.url.com/"));
     }
 
     @Test
     @Order(4)
+    void when_saving_existing_url_should_double_check_for_saving_duplicated_url() {
+        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
+        executeUpdate(update);
+
+        update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.the.longest.test.url.com/");
+        executeUpdate(update);
+
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
+        assertThat(savedMessageText).contains("Url already exists. Would you like to create new link with the same address (yes/no)?");
+    }
+
+    @Test
+    @Order(5)
+    void when_confirm_saving_existing_url_should_obtain_shortened_link() throws Exception {
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "Yes");
+
+        executeUpdate(update);
+
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
+        assertThat(savedMessageText).contains("Here is your shortened link:");
+
+        String shortenedUrl = extractUrlFromBotNewLinkResponse(savedMessageText);
+        mockMvc.perform(get(shortenedUrl))
+                .andExpect(status().isPermanentRedirect())
+                .andExpect(redirectedUrl("https://www.the.longest.test.url.com/"));
+    }
+
+    @Test
+    @Order(6)
     void when_bot_is_not_able_to_make_url_shorter_then_send_related_message() {
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
         executeUpdate(update);
@@ -70,7 +99,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
     }
 
     @Test
-    @Order(5)
+    @Order(7)
     void default_chat_state_verification() {
         Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "am I in new link creation stage still?");
 

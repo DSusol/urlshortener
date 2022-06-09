@@ -2,6 +2,8 @@ package com.learning.urlshortener.services;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +13,7 @@ import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 import com.learning.urlshortener.services.urlvalidation.UrlValidation;
 import com.learning.urlshortener.services.urlvalidation.UrlValidationException;
+import com.learning.urlshortener.services.urlvalidation.exceptions.ExistingUrlException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,16 +39,21 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 
     @Override
     public Link saveNewLink(Customer customer, String url) throws UrlValidationException {
+        return saveNewLink(customer, url, false);
+    }
+
+    @Override
+    public Link saveNewLink(Customer customer, String url, boolean duplicateAllowed) throws UrlValidationException {
         urlValidation.validateUrlFor(customer, url);
 
-        Link link = linkDAO.findLinkByCustomerAndUrl(customer, url).orElse(null);
-        if (link != null) {
-            return link;
+        List<Link> links = linkDAO.findLinksByCustomerAndUrl(customer, url);
+        if (!duplicateAllowed && !links.isEmpty()) {
+            throw new ExistingUrlException(url + "already exists");
         }
 
         String token = randomAlphanumeric(URL_TOKEN_LENGTH);
         //todo: verify the token is unique
-        link = Link.builder().url(url).token(token).clickCount(0).build();
+        Link link = Link.builder().url(url).token(token).clickCount(0).build();
         return linkDAO.saveLink(customer, link);
     }
 

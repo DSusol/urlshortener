@@ -50,6 +50,8 @@ public class BotMessagesVerificationTest {
                 arguments("new.link.command.invalid.url", "ru", "Некорректный url, попробуйте ещё раз:"),
                 arguments("new.link.command.short.url", "en", "I'm not able to make it shorter."),
                 arguments("new.link.command.short.url", "ru", "Не могу сделать ещё короче."),
+                arguments("new.link.command.override.url", "en", "Url already exists. Would you like to create new link with the same address (yes/no)?"),
+                arguments("new.link.command.override.url", "ru", "Такой адрес уже существует. Хотите создать новый линк с таким же адресом (да/нет)?"),
 
                 // ShowLinkCommand command messages
                 arguments("show.link.command.description", "en", "Show link details."),
@@ -67,7 +69,15 @@ public class BotMessagesVerificationTest {
                 arguments("delete.links.command.description", "en", "Delete existing link."),
                 arguments("delete.links.command.description", "ru", "Удалить линк."),
                 arguments("delete.links.command.response", "en", "Will delete existing link."),
-                arguments("delete.links.command.response", "ru", "Удалит существующий линк.")
+                arguments("delete.links.command.response", "ru", "Удалит существующий линк."),
+
+                // Yes/No question
+                arguments("yes.answer", "en", "yes"),
+                arguments("yes.answer", "ru", "да"),
+                arguments("no.answer", "en", "no"),
+                arguments("no.answer", "ru", "нет"),
+                arguments("unrecognized.answer", "en", "answer is not recognized, please try again:"),
+                arguments("unrecognized.answer", "ru", "ответ не распознан, попробуйте ещё раз:")
         );
     }
 }

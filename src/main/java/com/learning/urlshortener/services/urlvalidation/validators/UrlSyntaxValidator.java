@@ -5,6 +5,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.learning.urlshortener.services.urlvalidation.UrlValidators;
+import com.learning.urlshortener.services.urlvalidation.exceptions.UrlSyntaxValidationException;
 
 import lombok.RequiredArgsConstructor;
 

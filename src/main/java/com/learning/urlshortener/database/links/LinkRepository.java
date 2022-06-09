@@ -11,7 +11,7 @@ public interface LinkRepository extends JpaRepository<LinkEntity, Long> {
 
     Optional<LinkEntity> findLinkEntityByToken(String token);
 
-    Optional<LinkEntity> findLinkEntityByCustomerAndUrl(CustomerEntity customer, String url);
+    List<LinkEntity> findLinkEntitiesByCustomerAndUrl(CustomerEntity customer, String url);
 
     List<LinkEntity> findLinkEntitiesByCustomer(CustomerEntity customer);
 }

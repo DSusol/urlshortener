@@ -10,5 +10,7 @@ public interface UrlShortenerService {
 
     Link saveNewLink(Customer customer, String url) throws UrlValidationException;
 
+    Link saveNewLink(Customer customer, String url, boolean duplicateAllowed) throws UrlValidationException;
+
     String findUrlByToken(String token);
 }

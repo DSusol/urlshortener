@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.learning.urlshortener.bot.utils.domain.DomainProvider;
 import com.learning.urlshortener.services.urlvalidation.UrlValidators;
+import com.learning.urlshortener.services.urlvalidation.exceptions.UrlLengthValidationException;
 
 import lombok.RequiredArgsConstructor;
 
