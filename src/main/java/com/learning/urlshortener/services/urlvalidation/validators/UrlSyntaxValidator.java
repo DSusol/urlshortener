@@ -18,7 +18,7 @@ class UrlSyntaxValidator implements UrlValidators {
 
     @Override
     public void validate(String url) throws UrlSyntaxValidationException {
-        if(!urlValidator.isValid(url)) {
+        if (!urlValidator.isValid(url)) {
             throw new UrlSyntaxValidationException("Invalid url syntax.");
         }
     }

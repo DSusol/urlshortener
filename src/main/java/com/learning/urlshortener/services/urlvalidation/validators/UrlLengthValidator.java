@@ -21,7 +21,7 @@ class UrlLengthValidator implements UrlValidators {
     @Override
     public void validate(String url) throws UrlLengthValidationException {
         String domainName = domainProvider.getDomain();
-        if(url.length() <= (domainName.length() + URL_TOKEN_LENGTH)) {
+        if (url.length() <= (domainName.length() + URL_TOKEN_LENGTH)) {
             throw new UrlLengthValidationException("Url cannot be shortened.");
         }
     }

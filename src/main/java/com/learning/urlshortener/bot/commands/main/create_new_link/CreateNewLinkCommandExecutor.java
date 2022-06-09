@@ -1,27 +1,17 @@
 package com.learning.urlshortener.bot.commands.main.create_new_link;
 
-import static com.learning.urlshortener.bot.commands.CommandType.DEFAULT;
 import static com.learning.urlshortener.bot.commands.CommandType.NEW_LINK;
-import static com.learning.urlshortener.bot.commands.main.create_new_link.CreateNewLinkCommandState.DUPLICATE_URL_QUESTION;
-import static com.learning.urlshortener.bot.commands.main.create_new_link.CreateNewLinkCommandState.START;
+import static com.learning.urlshortener.bot.commands.main.create_new_link.executors.CreateNewLinkCommandState.NEW_LINK_START;
 
-import java.util.Map;
+import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import com.learning.urlshortener.bot.commands.CommandType;
 import com.learning.urlshortener.bot.commands.main.AbstractCommandExecutor;
-import com.learning.urlshortener.bot.commands.main.state.ChatMetaData;
-import com.learning.urlshortener.domain.Customer;
-import com.learning.urlshortener.domain.Link;
-import com.learning.urlshortener.services.urlvalidation.UrlValidationException;
-import com.learning.urlshortener.services.urlvalidation.exceptions.ExistingUrlException;
-import com.learning.urlshortener.services.urlvalidation.exceptions.UrlLengthValidationException;
-import com.learning.urlshortener.services.urlvalidation.exceptions.UrlSyntaxValidationException;
-
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import com.learning.urlshortener.bot.commands.main.create_new_link.executors.CreateNewLinkExecutors;
+import com.learning.urlshortener.bot.commands.main.state.AbstractCommandStateExecutor;
 
 /**
  * <b>NEW LINK COMMAND FLOW:</b><br><br>
@@ -43,96 +33,15 @@ import lombok.SneakyThrows;
  * <font color="orange">MetaData.args</font><br>
  */
 @Component
-@RequiredArgsConstructor
 public class CreateNewLinkCommandExecutor extends AbstractCommandExecutor {
+
+    @Autowired
+    public CreateNewLinkCommandExecutor(@CreateNewLinkExecutors Set<AbstractCommandStateExecutor> executors) {
+        super(executors, NEW_LINK_START);
+    }
 
     @Override
     public CommandType getExecutorCommand() {
         return NEW_LINK;
-    }
-
-    @Override
-    public void execute(ChatMetaData metaData) {
-
-        boolean isFinished = false;
-
-        if(metaData.getCommandState() == null || metaData.getCommandState() == START) {
-            isFinished = startProcessingUrl(metaData, metaData.getMessage(), false);
-        } else if(metaData.getCommandState() == DUPLICATE_URL_QUESTION){
-            isFinished = processDuplicateRespond(metaData);
-        }
-
-        if (isFinished) {
-            metaData.setCommandState(START);
-            metaData.getArgs().clear();
-            metaData.setCommandType(DEFAULT);
-        }
-    }
-
-    private boolean startProcessingUrl(ChatMetaData metaData, String urlName, boolean allowedToMakeDuplicateUrl) {
-
-        Customer customer = urlShortenerService.getOrCreateCustomerByChatId(metaData.getChatId());
-
-        try {
-            Link newLink = allowedToMakeDuplicateUrl
-                    ? urlShortenerService.saveNewLink(customer, urlName, true)
-                    : urlShortenerService.saveNewLink(customer, urlName);
-            return processNewUrl(metaData, newLink);
-        } catch (ExistingUrlException existingUrlException) {
-            return processExistingUlr(metaData);
-        } catch (UrlValidationException urlValidationException) {
-            return processInvalidUrl(metaData, urlValidationException);
-        }
-    }
-
-    @SneakyThrows
-    private boolean processNewUrl(ChatMetaData metaData, Link newLink) {
-
-        SendMessage sMessage = new SendMessage(metaData.getChatId().toString(),
-                messageUtils.getI18nMessageFor("new.link.command.response")
-                        + urlBuilder.buildUrlWithDomain(newLink.getToken()));
-
-        bot.execute(sMessage);
-        metaData.getArgs().clear();
-        return true;
-    }
-
-    @SneakyThrows
-    private boolean processExistingUlr(ChatMetaData metaData) {
-        bot.execute(messageUtils.prepareSendMessage(metaData.getChatId(), "new.link.command.override.url"));
-        metaData.setCommandState(DUPLICATE_URL_QUESTION);
-        metaData.getArgs().add(metaData.getMessage());
-        return false;
-    }
-
-    @SneakyThrows
-    private boolean processInvalidUrl(ChatMetaData metaData, UrlValidationException exception) {
-
-        String template = Map.of(
-                exception instanceof UrlSyntaxValidationException, "new.link.command.invalid.url",
-                exception instanceof UrlLengthValidationException, "new.link.command.short.url").get(true);
-
-        bot.execute(messageUtils.prepareSendMessage(metaData.getChatId(), template));
-
-        return exception instanceof UrlLengthValidationException;
-    }
-
-    @SneakyThrows
-    private boolean processDuplicateRespond(ChatMetaData metaData) {
-        String response = metaData.getMessage().toLowerCase();
-        String yesAnswer = messageUtils.getI18nMessageFor("yes.answer");
-        String noAnswer = messageUtils.getI18nMessageFor("no.answer");
-
-        if (!response.equals(yesAnswer) && !response.equals(noAnswer)) {
-            bot.execute(messageUtils.prepareSendMessage(metaData.getChatId(), "unrecognized.answer"));
-            return false;
-        }
-
-        if (response.equals(noAnswer)) {
-            metaData.getArgs().clear();
-            return true;
-        }
-
-        return startProcessingUrl(metaData, metaData.getArgs().get(0), true);
     }
 }

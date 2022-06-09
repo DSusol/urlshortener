@@ -50,8 +50,8 @@ public class BotMessagesVerificationTest {
                 arguments("new.link.command.invalid.url", "ru", "Некорректный url, попробуйте ещё раз:"),
                 arguments("new.link.command.short.url", "en", "I'm not able to make it shorter."),
                 arguments("new.link.command.short.url", "ru", "Не могу сделать ещё короче."),
-                arguments("new.link.command.override.url", "en", "Url already exists. Would you like to create new link with the same address (yes/no)?"),
-                arguments("new.link.command.override.url", "ru", "Такой адрес уже существует. Хотите создать новый линк с таким же адресом (да/нет)?"),
+                arguments("new.link.command.duplicate.url", "en", "Url already exists. Would you like to create new link with the same address (yes/no)?"),
+                arguments("new.link.command.duplicate.url", "ru", "Такой адрес уже существует. Хотите создать новый линк с таким же адресом (да/нет)?"),
 
                 // ShowLinkCommand command messages
                 arguments("show.link.command.description", "en", "Show link details."),

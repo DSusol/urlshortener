@@ -1,28 +1,40 @@
 package com.learning.urlshortener.bot.commands.main;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.telegram.telegrambots.meta.bots.AbsSender;
+import static com.learning.urlshortener.bot.commands.CommandType.DEFAULT;
 
-import com.learning.urlshortener.bot.utils.MessageUtils;
-import com.learning.urlshortener.bot.utils.UrlBuilder;
-import com.learning.urlshortener.services.UrlShortenerService;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import com.learning.urlshortener.bot.commands.main.state.AbstractCommandStateExecutor;
+import com.learning.urlshortener.bot.commands.main.state.ChatMetaData;
+import com.learning.urlshortener.bot.commands.main.state.CommandState;
 
 public abstract class AbstractCommandExecutor implements CommandExecutor {
 
-    @Autowired
-    protected UrlShortenerService urlShortenerService;
+    private final CommandState startingCommandState;
+    private final Map<CommandState, AbstractCommandStateExecutor> executors = new HashMap<>();
 
-    @Autowired
-    protected MessageUtils messageUtils;
+    public AbstractCommandExecutor(Set<AbstractCommandStateExecutor> executors, CommandState startingCommandState) {
+        executors.forEach(executor -> this.executors.put(executor.getCommandState(), executor));
+        this.startingCommandState = startingCommandState;
+    }
 
-    @Autowired
-    protected UrlBuilder urlBuilder;
+    @Override
+    public void execute(ChatMetaData metaData) {
 
-    protected AbsSender bot;
+        CommandState currentCommandState = metaData.getCommandState();
 
-    @Autowired
-    private void setBot(@Lazy AbsSender bot) {
-        this.bot = bot;
+        if (currentCommandState == null) {
+            currentCommandState = startingCommandState;
+        }
+
+        boolean isFinished = executors.get(currentCommandState).executeStateAndReturnCommandFinishStatus(metaData);
+
+        if (isFinished) {
+            metaData.setCommandState(startingCommandState);
+            metaData.getArgs().clear();
+            metaData.setCommandType(DEFAULT);
+        }
     }
 }
