@@ -32,17 +32,80 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(2)
-    void when_url_is_provided_should_obtain_shortened_link() throws Exception {
-        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://longurl_1.com/");
+    void when_invalid_url_name_is_provided_should_ask_for_another_input() {
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "invalid_url");
 
         executeUpdate(update);
 
         String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
-        assertThat(savedMessageText).contains("here is your shortened link:");
+        assertThat(savedMessageText).contains("Invalid url provided, please try again:");
+    }
+
+    @Test
+    @Order(3)
+    void when_url_is_provided_should_obtain_shortened_link() throws Exception {
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.the.longest.test.url.com/");
+
+        executeUpdate(update);
+
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
+        assertThat(savedMessageText).contains("Here is your shortened link:");
 
         String shortenedUrl = extractUrlFromBotNewLinkResponse(savedMessageText);
         mockMvc.perform(get(shortenedUrl))
                 .andExpect(status().isPermanentRedirect())
-                .andExpect(redirectedUrl("https://longurl_1.com/"));
+                .andExpect(redirectedUrl("https://www.the.longest.test.url.com/"));
+    }
+
+    @Test
+    @Order(4)
+    void when_saving_existing_url_should_double_check_for_saving_duplicated_url() {
+        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
+        executeUpdate(update);
+
+        update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.the.longest.test.url.com/");
+        executeUpdate(update);
+
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
+        assertThat(savedMessageText).contains("Url already exists. Would you like to create new link with the same address (yes/no)?");
+    }
+
+    @Test
+    @Order(5)
+    void when_confirm_saving_existing_url_should_obtain_shortened_link() throws Exception {
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "Yes");
+
+        executeUpdate(update);
+
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
+        assertThat(savedMessageText).contains("Here is your shortened link:");
+
+        String shortenedUrl = extractUrlFromBotNewLinkResponse(savedMessageText);
+        mockMvc.perform(get(shortenedUrl))
+                .andExpect(status().isPermanentRedirect())
+                .andExpect(redirectedUrl("https://www.the.longest.test.url.com/"));
+    }
+
+    @Test
+    @Order(6)
+    void when_bot_is_not_able_to_make_url_shorter_then_send_related_message() {
+        Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
+        executeUpdate(update);
+        update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.srt.ru/");
+        executeUpdate(update);
+
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
+        assertThat(savedMessageText).contains("I'm not able to make it shorter");
+    }
+
+    @Test
+    @Order(7)
+    void default_chat_state_verification() {
+        Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "am I in new link creation stage still?");
+
+        executeUpdate(update);
+
+        String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(CHAT_ID);
+        assertThat(savedMessageText).contains("The command is not recognized. See /help for available options.");
     }
 }

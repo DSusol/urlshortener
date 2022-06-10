@@ -14,7 +14,7 @@ import lombok.SneakyThrows;
 @Configuration
 @AllArgsConstructor
 @Profile("!test")
-public class AppConfig {
+public class BotConfig {
 
     private final UrlShortenerBot urlShortenerBot;
 

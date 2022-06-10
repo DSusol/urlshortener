@@ -46,6 +46,7 @@ dependencies {
 	implementation "org.telegram:telegrambots:$telegrambotsVersion"
 	implementation "org.telegram:telegrambotsextensions:$telegrambotsVersion"
 	implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
+	implementation "commons-validator:commons-validator:$commonsValidator"
 
 	implementation "org.mapstruct:mapstruct:$mapstructVersion"
 	annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"

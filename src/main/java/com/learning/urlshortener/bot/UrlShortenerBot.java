@@ -14,8 +14,8 @@ import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import com.learning.urlshortener.bot.commands.noncommand.NonCommandUpdateHandler;
+import com.learning.urlshortener.bot.utils.MessageUtils;
 import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
-import com.learning.urlshortener.bot.utils.message.MessageHandler;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +32,7 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
 
     private final List<IBotCommand> sortedBotCommands;
     private final TgIncomingUpdateLogger logger;
-    private final MessageHandler messageHandler;
+    private final MessageUtils messageUtils;
     private final NonCommandUpdateHandler nonCommandUpdateHandler;
 
     @PostConstruct
@@ -56,7 +56,7 @@ public class UrlShortenerBot extends TelegramLongPollingCommandBot {
             logger.logIncomingUpdate(update);
             try {
                 LocaleContextHolder.setLocale(update.hasMessage()
-                        ? messageHandler.resolveMessageLocale(update.getMessage())
+                        ? messageUtils.resolveMessageLocale(update.getMessage())
                         : Locale.getDefault());
                 this.onUpdateReceived(update);
             } finally {

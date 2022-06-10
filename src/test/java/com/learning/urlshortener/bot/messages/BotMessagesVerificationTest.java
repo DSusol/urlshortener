@@ -13,19 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.i18n.LocaleContextHolder;
 
-import com.learning.urlshortener.bot.utils.message.MessageHandler;
+import com.learning.urlshortener.bot.utils.MessageUtils;
 
 @SpringBootTest(classes = ShallowAdapterConfig.class)
 public class BotMessagesVerificationTest {
 
     @Autowired
-    MessageHandler messageHandler;
+    MessageUtils messageUtils;
 
     @ParameterizedTest(name = "Run {index}: template = {0}; language = {1}")
     @MethodSource("messageArgumentProvider")
     void i18n_message_verification(String template, String languageCode, String response) {
         LocaleContextHolder.setLocale(Locale.forLanguageTag(languageCode));
-        assertThat(messageHandler.getI18nMessageFor(template)).isEqualTo(response);
+        assertThat(messageUtils.getI18nMessageFor(template)).isEqualTo(response);
     }
 
     static Stream<Arguments> messageArgumentProvider() {
@@ -40,30 +40,44 @@ public class BotMessagesVerificationTest {
                 arguments("bot.default.message", "ru", "Неправильная команда. Введите /help чтобы получить список допустимых команд."),
 
                 // CreateNewLinkCommand command messages
-                arguments("new.link.command.description", "en", "create new link"),
-                arguments("new.link.command.description", "ru", "создать новый линк"),
-                arguments("new.link.command.response", "en", "here is your shortened link:\n"),
-                arguments("new.link.command.response", "ru", "короткий линк:\n"),
+                arguments("new.link.command.description", "en", "Create new link."),
+                arguments("new.link.command.description", "ru", "Создать новый линк."),
+                arguments("new.link.command.response", "en", "Here is your shortened link:\n"),
+                arguments("new.link.command.response", "ru", "Короткий линк:\n"),
                 arguments("new.link.command.request.url", "en", "Please provide full link:"),
                 arguments("new.link.command.request.url", "ru", "Пожалуйста, введите полный адрес:"),
+                arguments("new.link.command.invalid.url", "en", "Invalid url provided, please try again:"),
+                arguments("new.link.command.invalid.url", "ru", "Некорректный url, попробуйте ещё раз:"),
+                arguments("new.link.command.short.url", "en", "I'm not able to make it shorter."),
+                arguments("new.link.command.short.url", "ru", "Не могу сделать ещё короче."),
+                arguments("new.link.command.duplicate.url", "en", "Url already exists. Would you like to create new link with the same address (yes/no)?"),
+                arguments("new.link.command.duplicate.url", "ru", "Такой адрес уже существует. Хотите создать новый линк с таким же адресом (да/нет)?"),
 
                 // ShowLinkCommand command messages
-                arguments("show.link.command.description", "en", "show link details"),
-                arguments("show.link.command.description", "ru", "свойства линка"),
-                arguments("show.link.command.response", "en", "will show link details"),
-                arguments("show.link.command.response", "ru", "покажет детали линка"),
+                arguments("show.link.command.description", "en", "Show link details."),
+                arguments("show.link.command.description", "ru", "Свойства линка."),
+                arguments("show.link.command.response", "en", "Will show link details."),
+                arguments("show.link.command.response", "ru", "Покажет детали линка."),
 
                 // FindAllLinksCommand command messages
-                arguments("find.all.links.command.description", "en", "show all links"),
-                arguments("find.all.links.command.description", "ru", "список всех линков"),
-                arguments("find.all.links.command.response", "en", "will show list of created links"),
-                arguments("find.all.links.command.response", "ru", "покажет список созданных линков"),
+                arguments("find.all.links.command.description", "en", "Show all links."),
+                arguments("find.all.links.command.description", "ru", "Список всех линков."),
+                arguments("find.all.links.command.response", "en", "Will show list of created links."),
+                arguments("find.all.links.command.response", "ru", "Покажет список созданных линков."),
 
                 // DeleteLinkCommand command messages
-                arguments("delete.links.command.description", "en", "delete existing link"),
-                arguments("delete.links.command.description", "ru", "удалить линк"),
-                arguments("delete.links.command.response", "en", "will delete existing link"),
-                arguments("delete.links.command.response", "ru", "удалит существующий линк")
+                arguments("delete.links.command.description", "en", "Delete existing link."),
+                arguments("delete.links.command.description", "ru", "Удалить линк."),
+                arguments("delete.links.command.response", "en", "Will delete existing link."),
+                arguments("delete.links.command.response", "ru", "Удалит существующий линк."),
+
+                // Yes/No question
+                arguments("yes.answer", "en", "yes"),
+                arguments("yes.answer", "ru", "да"),
+                arguments("no.answer", "en", "no"),
+                arguments("no.answer", "ru", "нет"),
+                arguments("unrecognized.answer", "en", "answer is not recognized, please try again:"),
+                arguments("unrecognized.answer", "ru", "ответ не распознан, попробуйте ещё раз:")
         );
     }
 }

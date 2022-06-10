@@ -31,6 +31,6 @@ class FindAllLinksIBotCommand extends AbstractIBotCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement link list provision
-        absSender.execute(messageHandler.prepareSendMessage(message, "find.all.links.command.response"));
+        absSender.execute(messageUtils.prepareSendMessage(message, "find.all.links.command.response"));
     }
 }

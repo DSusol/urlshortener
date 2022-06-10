@@ -34,6 +34,12 @@ public class LinkDAOImpl implements LinkDAO {
     }
 
     @Override
+    public boolean existsLinkEntitiesByCustomerAndUrl(Customer customer, String url) {
+        CustomerEntity customerEntity = customerRepository.getById(customer.getId());
+        return linkRepository.existsLinkEntitiesByCustomerAndUrl(customerEntity, url);
+    }
+
+    @Override
     public List<Link> findAllLinksByCustomer(Customer customer) {
         return linkRepository.findLinkEntitiesByCustomer(
                         customerRepository.getById(customer.getId()))

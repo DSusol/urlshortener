@@ -6,6 +6,7 @@ import org.springframework.boot.web.servlet.context.ServletWebServerApplicationC
 import org.springframework.context.annotation.ComponentScan;
 
 import com.learning.urlshortener.services.UrlShortenerService;
+import com.learning.urlshortener.services.urlvalidation.UrlValidation;
 
 @WebMvcTest
 @ComponentScan(basePackages = "com.learning.urlshortener.bot")
@@ -13,6 +14,9 @@ public class ShallowAdapterConfig {
 
     @MockBean
     ServletWebServerApplicationContext servletWebServerApplicationContext;
+
+    @MockBean
+    UrlValidation urlValidation;
 
     @MockBean
     UrlShortenerService urlShortenerService;

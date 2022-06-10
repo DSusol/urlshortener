@@ -31,6 +31,6 @@ class DeleteLinkIBotCommand extends AbstractIBotCommand {
     @Override
     public void processMessage(AbsSender absSender, Message message, String[] arguments) {
         //todo: implement link removal
-        absSender.execute(messageHandler.prepareSendMessage(message, "delete.links.command.response"));
+        absSender.execute(messageUtils.prepareSendMessage(message, "delete.links.command.response"));
     }
 }
