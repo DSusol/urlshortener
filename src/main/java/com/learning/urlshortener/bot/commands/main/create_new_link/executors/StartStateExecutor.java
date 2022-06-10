@@ -16,8 +16,8 @@ import com.learning.urlshortener.bot.commands.main.state.ChatMetaData;
 import com.learning.urlshortener.bot.commands.main.state.CommandState;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
-import com.learning.urlshortener.services.urlvalidation.UrlValidationExceptionCause;
 import com.learning.urlshortener.services.urlvalidation.UrlValidationException;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationExceptionCause;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -47,16 +47,16 @@ public class StartStateExecutor extends AbstractCommandStateExecutor {
         } catch (UrlValidationException urlValidationException) {
             UrlValidationExceptionCause cause = urlValidationException.getUrlValidationExceptionCause();
 
-            if(cause == SHORT_LENGTH) {
+            if (cause == SHORT_LENGTH) {
                 senMessageForInvalidUrl(metaData, SHORT_LENGTH);
                 return true;
             }
 
-            if(cause == INVALID_SYNTAX) {
+            if (cause == INVALID_SYNTAX) {
                 senMessageForInvalidUrl(metaData, INVALID_SYNTAX);
             }
 
-            if(cause == EXISTING_URL) {
+            if (cause == EXISTING_URL) {
                 processExistingUlr(metaData);
             }
 

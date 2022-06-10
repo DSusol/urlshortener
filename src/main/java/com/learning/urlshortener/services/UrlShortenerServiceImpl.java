@@ -3,8 +3,6 @@ package com.learning.urlshortener.services;
 import static com.learning.urlshortener.services.urlvalidation.UrlValidationExceptionCause.EXISTING_URL;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,18 +37,18 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 
     @Override
     public Link saveNewLink(Customer customer, String url) throws UrlValidationException {
-        return saveNewLink(customer, url, false);
-    }
-
-    @Override
-    public Link saveNewLink(Customer customer, String url, boolean duplicateAllowed) throws UrlValidationException {
         urlValidation.validateUrlFor(customer, url);
 
         boolean duplicateExists = linkDAO.existsLinkEntitiesByCustomerAndUrl(customer, url);
-        if (!duplicateAllowed && duplicateExists) {
+        if (duplicateExists) {
             throw new UrlValidationException(EXISTING_URL, url + "already exists");
         }
 
+        return saveValidatedNewLink(customer, url);
+    }
+
+    @Override
+    public Link saveValidatedNewLink(Customer customer, String url) {
         String token = randomAlphanumeric(URL_TOKEN_LENGTH);
         //todo: verify the token is unique
         Link link = Link.builder().url(url).token(token).clickCount(0).build();

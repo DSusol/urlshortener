@@ -43,7 +43,7 @@ public class DuplicateUrlStateExecutor extends AbstractCommandStateExecutor {
         }
 
         Customer customer = urlShortenerService.getOrCreateCustomerByChatId(metaData.getChatId());
-        Link newLink = urlShortenerService.saveNewLink(customer, metaData.getArgs().get(0), true);
+        Link newLink = urlShortenerService.saveValidatedNewLink(customer, metaData.getArgs().get(0));
         bot.execute(newLinkUtils.prepareNewLinkSendMessage(metaData, newLink));
 
         return true;
