@@ -46,8 +46,8 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     public Link saveNewLink(Customer customer, String url, boolean duplicateAllowed) throws UrlValidationException {
         urlValidation.validateUrlFor(customer, url);
 
-        List<Link> links = linkDAO.findLinksByCustomerAndUrl(customer, url);
-        if (!duplicateAllowed && !links.isEmpty()) {
+        boolean duplicateExists = linkDAO.existsLinkEntitiesByCustomerAndUrl(customer, url);
+        if (!duplicateAllowed && duplicateExists) {
             throw new UrlValidationException(EXISTING_URL, url + "already exists");
         }
 

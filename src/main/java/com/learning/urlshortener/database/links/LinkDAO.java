@@ -12,7 +12,7 @@ public interface LinkDAO {
 
     Optional<Link> findLinkByToken(String token);
 
-    List<Link> findLinksByCustomerAndUrl(Customer customer, String url);
+    boolean existsLinkEntitiesByCustomerAndUrl(Customer customer, String url);
 
     List<Link> findAllLinksByCustomer(Customer customer);
 
