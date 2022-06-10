@@ -2,9 +2,9 @@ package com.learning.urlshortener.bot.commands.main.create_new_link.executors;
 
 import static com.learning.urlshortener.bot.commands.main.create_new_link.executors.CreateNewLinkCommandState.DUPLICATE_URL_QUESTION;
 import static com.learning.urlshortener.bot.commands.main.create_new_link.executors.CreateNewLinkCommandState.NEW_LINK_START;
-import static com.learning.urlshortener.services.urlvalidation.exceptions.UrlExceptionCause.EXISTING_URL;
-import static com.learning.urlshortener.services.urlvalidation.exceptions.UrlExceptionCause.INVALID_SYNTAX;
-import static com.learning.urlshortener.services.urlvalidation.exceptions.UrlExceptionCause.SHORT_LENGTH;
+import static com.learning.urlshortener.services.urlvalidation.UrlValidationExceptionCause.EXISTING_URL;
+import static com.learning.urlshortener.services.urlvalidation.UrlValidationExceptionCause.INVALID_SYNTAX;
+import static com.learning.urlshortener.services.urlvalidation.UrlValidationExceptionCause.SHORT_LENGTH;
 
 import java.util.Map;
 
@@ -16,8 +16,8 @@ import com.learning.urlshortener.bot.commands.main.state.ChatMetaData;
 import com.learning.urlshortener.bot.commands.main.state.CommandState;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
-import com.learning.urlshortener.services.urlvalidation.exceptions.UrlExceptionCause;
-import com.learning.urlshortener.services.urlvalidation.exceptions.UrlValidationException;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationExceptionCause;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -45,7 +45,7 @@ public class StartStateExecutor extends AbstractCommandStateExecutor {
             sendMessageForNewUrl(metaData, newLink);
             return true;
         } catch (UrlValidationException urlValidationException) {
-            UrlExceptionCause cause = urlValidationException.getUrlExceptionCause();
+            UrlValidationExceptionCause cause = urlValidationException.getUrlValidationExceptionCause();
 
             if(cause == SHORT_LENGTH) {
                 senMessageForInvalidUrl(metaData, SHORT_LENGTH);
@@ -70,7 +70,7 @@ public class StartStateExecutor extends AbstractCommandStateExecutor {
     }
 
     @SneakyThrows
-    private void senMessageForInvalidUrl(ChatMetaData metaData, UrlExceptionCause cause) {
+    private void senMessageForInvalidUrl(ChatMetaData metaData, UrlValidationExceptionCause cause) {
 
         String template = Map.of(
                 INVALID_SYNTAX, "new.link.command.invalid.url",

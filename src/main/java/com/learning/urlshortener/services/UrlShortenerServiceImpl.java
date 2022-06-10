@@ -1,6 +1,6 @@
 package com.learning.urlshortener.services;
 
-import static com.learning.urlshortener.services.urlvalidation.exceptions.UrlExceptionCause.EXISTING_URL;
+import static com.learning.urlshortener.services.urlvalidation.UrlValidationExceptionCause.EXISTING_URL;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import com.learning.urlshortener.database.links.LinkDAO;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 import com.learning.urlshortener.services.urlvalidation.UrlValidation;
-import com.learning.urlshortener.services.urlvalidation.exceptions.UrlValidationException;
+import com.learning.urlshortener.services.urlvalidation.UrlValidationException;
 
 import lombok.RequiredArgsConstructor;
 
