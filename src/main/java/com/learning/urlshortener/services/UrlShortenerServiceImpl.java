@@ -1,5 +1,6 @@
 package com.learning.urlshortener.services;
 
+import static com.learning.urlshortener.services.urlvalidation.exceptions.UrlExceptionCause.EXISTING_URL;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric;
 
 import java.util.List;
@@ -12,8 +13,7 @@ import com.learning.urlshortener.database.links.LinkDAO;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
 import com.learning.urlshortener.services.urlvalidation.UrlValidation;
-import com.learning.urlshortener.services.urlvalidation.UrlValidationException;
-import com.learning.urlshortener.services.urlvalidation.exceptions.ExistingUrlException;
+import com.learning.urlshortener.services.urlvalidation.exceptions.UrlValidationException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -48,7 +48,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
 
         List<Link> links = linkDAO.findLinksByCustomerAndUrl(customer, url);
         if (!duplicateAllowed && !links.isEmpty()) {
-            throw new ExistingUrlException(url + "already exists");
+            throw new UrlValidationException(EXISTING_URL, url + "already exists");
         }
 
         String token = randomAlphanumeric(URL_TOKEN_LENGTH);

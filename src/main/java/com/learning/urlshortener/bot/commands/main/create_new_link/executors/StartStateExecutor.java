@@ -2,6 +2,9 @@ package com.learning.urlshortener.bot.commands.main.create_new_link.executors;
 
 import static com.learning.urlshortener.bot.commands.main.create_new_link.executors.CreateNewLinkCommandState.DUPLICATE_URL_QUESTION;
 import static com.learning.urlshortener.bot.commands.main.create_new_link.executors.CreateNewLinkCommandState.NEW_LINK_START;
+import static com.learning.urlshortener.services.urlvalidation.exceptions.UrlExceptionCause.EXISTING_URL;
+import static com.learning.urlshortener.services.urlvalidation.exceptions.UrlExceptionCause.INVALID_SYNTAX;
+import static com.learning.urlshortener.services.urlvalidation.exceptions.UrlExceptionCause.SHORT_LENGTH;
 
 import java.util.Map;
 
@@ -13,10 +16,8 @@ import com.learning.urlshortener.bot.commands.main.state.ChatMetaData;
 import com.learning.urlshortener.bot.commands.main.state.CommandState;
 import com.learning.urlshortener.domain.Customer;
 import com.learning.urlshortener.domain.Link;
-import com.learning.urlshortener.services.urlvalidation.UrlValidationException;
-import com.learning.urlshortener.services.urlvalidation.exceptions.ExistingUrlException;
-import com.learning.urlshortener.services.urlvalidation.exceptions.UrlLengthValidationException;
-import com.learning.urlshortener.services.urlvalidation.exceptions.UrlSyntaxValidationException;
+import com.learning.urlshortener.services.urlvalidation.exceptions.UrlExceptionCause;
+import com.learning.urlshortener.services.urlvalidation.exceptions.UrlValidationException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -43,14 +44,22 @@ public class StartStateExecutor extends AbstractCommandStateExecutor {
             Link newLink = urlShortenerService.saveNewLink(customer, metaData.getMessage());
             sendMessageForNewUrl(metaData, newLink);
             return true;
-        } catch (UrlSyntaxValidationException urlSyntaxValidationException) {
-            senMessageForInvalidUrl(metaData, urlSyntaxValidationException);
-            return false;
-        } catch (UrlLengthValidationException urlLengthValidationException) {
-            senMessageForInvalidUrl(metaData, urlLengthValidationException);
-            return true;
-        } catch (ExistingUrlException existingUrlException) {
-            processExistingUlr(metaData);
+        } catch (UrlValidationException urlValidationException) {
+            UrlExceptionCause cause = urlValidationException.getUrlExceptionCause();
+
+            if(cause == SHORT_LENGTH) {
+                senMessageForInvalidUrl(metaData, SHORT_LENGTH);
+                return true;
+            }
+
+            if(cause == INVALID_SYNTAX) {
+                senMessageForInvalidUrl(metaData, INVALID_SYNTAX);
+            }
+
+            if(cause == EXISTING_URL) {
+                processExistingUlr(metaData);
+            }
+
             return false;
         }
     }
@@ -61,11 +70,11 @@ public class StartStateExecutor extends AbstractCommandStateExecutor {
     }
 
     @SneakyThrows
-    private void senMessageForInvalidUrl(ChatMetaData metaData, UrlValidationException exception) {
+    private void senMessageForInvalidUrl(ChatMetaData metaData, UrlExceptionCause cause) {
 
         String template = Map.of(
-                exception instanceof UrlSyntaxValidationException, "new.link.command.invalid.url",
-                exception instanceof UrlLengthValidationException, "new.link.command.short.url").get(true);
+                INVALID_SYNTAX, "new.link.command.invalid.url",
+                SHORT_LENGTH, "new.link.command.short.url").get(cause);
 
         bot.execute(messageUtils.prepareSendMessage(metaData.getChatId(), template));
     }

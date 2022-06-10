@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.learning.urlshortener.domain.Customer;
+import com.learning.urlshortener.services.urlvalidation.exceptions.UrlValidationException;
 
 import lombok.RequiredArgsConstructor;
 
