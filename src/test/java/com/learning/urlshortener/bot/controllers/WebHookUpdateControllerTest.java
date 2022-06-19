@@ -16,8 +16,15 @@ class WebHookUpdateControllerTest extends BaseFullContextTest {
     @Value("${telegram-bot.token}")
     private String botToken;
 
+    @Value("${telegram-bot.receive.update.mode}")
+    private String receiveUpdateOption;
+
     @Test
     void when_requesting_help_through_update_post_method_should_show_help_response() throws Exception {
+        if(!receiveUpdateOption.equals("webhook")) {
+            return;
+        }
+
         //given
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(666L, "/help");
         update.getMessage().getFrom().setLanguageCode("en");

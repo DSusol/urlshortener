@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learning.urlshortener.bot.UrlShortenerBot;
 import com.learning.urlshortener.bot.utils.WebHookSetter;
 
@@ -21,7 +22,10 @@ public class BotConfig {
     @Value("${telegram-bot.receive.update.mode}")
     private String receiveUpdateOption;
 
-    private final WebHookSetter webHookSetter;
+    @Value("${telegram-bot.webhook.path:no webhook provided}")
+    private String webhookPath;
+
+    private final ObjectMapper objectMapper;
     private final UrlShortenerBot bot;
 
     @Autowired
@@ -33,7 +37,7 @@ public class BotConfig {
         }
 
         if (receiveUpdateOption.equals("webhook")) {
-            webHookSetter.setWebHookFor(bot.getBotToken());
+            new WebHookSetter(objectMapper).setWebHookFor(bot.getBotToken(), webhookPath);
             return;
         }
 
