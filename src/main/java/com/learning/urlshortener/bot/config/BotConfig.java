@@ -18,7 +18,7 @@ import lombok.SneakyThrows;
 @Profile("!test")
 public class BotConfig {
 
-    @Value("${telegram-bot.receive.update.option}")
+    @Value("${telegram-bot.receive.update.mode}")
     private String receiveUpdateOption;
 
     private final WebHookSetter webHookSetter;
@@ -27,16 +27,16 @@ public class BotConfig {
     @SneakyThrows
     @Bean
     void telegramBotRegistration() {
-        if (receiveUpdateOption.equals("getUpdates")) {
+        if (receiveUpdateOption.equals("polling")) {
             new TelegramBotsApi(DefaultBotSession.class).registerBot(bot);
             return;
         }
 
-        if (receiveUpdateOption.equals("webhooks")) {
+        if (receiveUpdateOption.equals("webhook")) {
             webHookSetter.setWebHookFor(bot.getBotToken());
             return;
         }
 
-        throw new IllegalArgumentException("Invalid telegram-bot.receive.update.option. Check application properties");
+        throw new IllegalArgumentException("Invalid telegram-bot.receive.update.mode. Check application properties. Available options: polling/webhook.");
     }
 }
