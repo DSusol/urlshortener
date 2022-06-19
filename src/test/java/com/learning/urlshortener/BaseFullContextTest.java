@@ -30,9 +30,6 @@ public class BaseFullContextTest extends TestContainerSupplier {
     protected UrlShortenerService urlShortenerService;
 
     @Autowired
-    protected ObjectMapper objectMapper;
-
-    @Autowired
     protected MockMvc mockMvc;
 
     @BeforeEach
