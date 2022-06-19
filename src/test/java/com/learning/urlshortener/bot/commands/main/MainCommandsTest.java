@@ -18,7 +18,7 @@ public class MainCommandsTest extends BaseFullContextTest {
     // temporary test implementation for the not-yet-incorporated main commands:
     @ParameterizedTest(name = "Run {index}: verified command = {0}")
     @MethodSource("commandArgumentProvider")
-    void when_requesting_command_should_show_command_response(String command) {
+    void when_requesting_command_should_show_command_response(String command) throws Exception {
         //given
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(666L, command);
 

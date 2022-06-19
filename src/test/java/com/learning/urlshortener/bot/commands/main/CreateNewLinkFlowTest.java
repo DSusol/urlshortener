@@ -21,7 +21,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(1)
-    void when_sending_new_link_command_should_prompt_url() {
+    void when_sending_new_link_command_should_prompt_url() throws Exception {
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
 
         executeUpdate(update);
@@ -32,7 +32,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(2)
-    void when_invalid_url_name_is_provided_should_ask_for_another_input() {
+    void when_invalid_url_name_is_provided_should_ask_for_another_input() throws Exception {
         Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "invalid_url");
 
         executeUpdate(update);
@@ -59,7 +59,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(4)
-    void when_saving_existing_url_should_double_check_for_saving_duplicated_url() {
+    void when_saving_existing_url_should_double_check_for_saving_duplicated_url() throws Exception {
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
         executeUpdate(update);
 
@@ -88,7 +88,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(6)
-    void when_bot_is_not_able_to_make_url_shorter_then_send_related_message() {
+    void when_bot_is_not_able_to_make_url_shorter_then_send_related_message() throws Exception {
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
         executeUpdate(update);
         update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.srt.ru/");
@@ -100,7 +100,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(7)
-    void default_chat_state_verification() {
+    void default_chat_state_verification() throws Exception {
         Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "am I in new link creation stage still?");
 
         executeUpdate(update);

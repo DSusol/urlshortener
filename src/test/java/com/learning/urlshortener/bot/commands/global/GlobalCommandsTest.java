@@ -13,7 +13,7 @@ class GlobalCommandsTest extends BaseFullContextTest {
     private final Long CHAT_ID = 666L;
 
     @Test
-    void when_starting_using_bot_then_get_welcome_message() {
+    void when_starting_using_bot_then_get_welcome_message() throws Exception {
         //given
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/start");
         update.getMessage().getFrom().setLanguageCode("en");
@@ -29,7 +29,7 @@ class GlobalCommandsTest extends BaseFullContextTest {
     }
 
     @Test
-    void when_requesting_help_should_show_help_response() {
+    void when_requesting_help_should_show_help_response() throws Exception {
         //given
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(666L, "/help");
         update.getMessage().getFrom().setLanguageCode("en");
