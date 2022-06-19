@@ -20,7 +20,7 @@ public class WebHookUpdateController {
 
     private final UrlShortenerBot urlShortenerBot;
 
-    @PostMapping("/")
+    @PostMapping("/updates/${telegram-bot.token}")
     @ResponseStatus(OK)
     public void receiveUpdate(@RequestBody Update update) {
         urlShortenerBot.onUpdatesReceived(List.of(update));
