@@ -18,6 +18,8 @@ import com.learning.urlshortener.bot.testbot.ExecutedTgTestMethodsRegistry;
 import com.learning.urlshortener.bot.testbot.UrlShortenerTestBot;
 import com.learning.urlshortener.services.UrlShortenerService;
 
+import lombok.SneakyThrows;
+
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureMockMvc
 public class BaseFullContextTest extends TestContainerSupplier {
@@ -48,7 +50,8 @@ public class BaseFullContextTest extends TestContainerSupplier {
         executedUpdates.clearAllSendMessages();
     }
 
-    protected void executeUpdate(Update update) throws Exception {
+    @SneakyThrows
+    protected void executeUpdate(Update update) {
         if (!receiveUpdateOption.equals("webhook")) {
             fail("Set up 'telegram-bot.receive.update.mode' test property to 'webhook'");
         }

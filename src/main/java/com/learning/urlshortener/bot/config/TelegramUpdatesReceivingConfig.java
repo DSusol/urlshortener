@@ -16,7 +16,7 @@ import lombok.SneakyThrows;
 @Configuration
 @RequiredArgsConstructor
 @Profile("!test")
-public class BotConfig {
+public class TelegramUpdatesReceivingConfig {
 
     @Value("${telegram-bot.receive.update.mode}")
     private String receiveUpdateOption;

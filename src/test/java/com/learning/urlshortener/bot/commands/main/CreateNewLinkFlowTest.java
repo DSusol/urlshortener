@@ -14,6 +14,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import com.learning.urlshortener.BaseFullContextTest;
 import com.learning.urlshortener.bot.BotTestUtils;
 
+import lombok.SneakyThrows;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CreateNewLinkFlowTest extends BaseFullContextTest {
 
@@ -21,7 +23,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(1)
-    void when_sending_new_link_command_should_prompt_url() throws Exception {
+    void when_sending_new_link_command_should_prompt_url() {
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
 
         executeUpdate(update);
@@ -32,7 +34,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(2)
-    void when_invalid_url_name_is_provided_should_ask_for_another_input() throws Exception {
+    void when_invalid_url_name_is_provided_should_ask_for_another_input() {
         Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "invalid_url");
 
         executeUpdate(update);
@@ -43,7 +45,8 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(3)
-    void when_url_is_provided_should_obtain_shortened_link() throws Exception {
+    @SneakyThrows
+    void when_url_is_provided_should_obtain_shortened_link() {
         Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.the.longest.test.url.com/");
 
         executeUpdate(update);
@@ -59,7 +62,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(4)
-    void when_saving_existing_url_should_double_check_for_saving_duplicated_url() throws Exception {
+    void when_saving_existing_url_should_double_check_for_saving_duplicated_url() {
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
         executeUpdate(update);
 
@@ -72,7 +75,8 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(5)
-    void when_confirm_saving_existing_url_should_obtain_shortened_link() throws Exception {
+    @SneakyThrows
+    void when_confirm_saving_existing_url_should_obtain_shortened_link() {
         Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "Yes");
 
         executeUpdate(update);
@@ -88,7 +92,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(6)
-    void when_bot_is_not_able_to_make_url_shorter_then_send_related_message() throws Exception {
+    void when_bot_is_not_able_to_make_url_shorter_then_send_related_message() {
         Update update = BotTestUtils.createCommandUpdateWithMessageFromChat(CHAT_ID, "/new_link");
         executeUpdate(update);
         update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.srt.ru/");
@@ -100,7 +104,7 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(7)
-    void default_chat_state_verification() throws Exception {
+    void default_chat_state_verification() {
         Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "am I in new link creation stage still?");
 
         executeUpdate(update);

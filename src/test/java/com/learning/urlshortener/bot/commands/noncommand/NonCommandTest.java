@@ -11,7 +11,7 @@ import com.learning.urlshortener.bot.BotTestUtils;
 public class NonCommandTest extends BaseFullContextTest {
 
     @Test
-    void when_sending_unrecognized_command_should_prompt_help_option() throws Exception {
+    void when_sending_unrecognized_command_should_prompt_help_option() {
         //given
         Update update = BotTestUtils.createUpdateWithMessageFromChat(666L, "invalid command");
 
