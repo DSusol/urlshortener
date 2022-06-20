@@ -12,3 +12,7 @@ http://t.me/simple_url_shortener_bot
 - run docker container using docker-compose.yml file
 - make sure BOT_NAME & BOT_TOKEN env variable are set for test bot version
 - database credentials must be consistent between _docker-compose.yml_ and _application-dev.properties_ files.
+<br><br>
+- set polling mode in property file for telegram updates delivery
+<br>-or-
+- use webhook for telegram updates delivery, utilize ngrok for update redirection to local host

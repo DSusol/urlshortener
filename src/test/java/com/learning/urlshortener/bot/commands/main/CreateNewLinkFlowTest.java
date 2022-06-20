@@ -14,6 +14,8 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import com.learning.urlshortener.BaseFullContextTest;
 import com.learning.urlshortener.bot.BotTestUtils;
 
+import lombok.SneakyThrows;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CreateNewLinkFlowTest extends BaseFullContextTest {
 
@@ -43,7 +45,8 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(3)
-    void when_url_is_provided_should_obtain_shortened_link() throws Exception {
+    @SneakyThrows
+    void when_url_is_provided_should_obtain_shortened_link() {
         Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "https://www.the.longest.test.url.com/");
 
         executeUpdate(update);
@@ -72,7 +75,8 @@ class CreateNewLinkFlowTest extends BaseFullContextTest {
 
     @Test
     @Order(5)
-    void when_confirm_saving_existing_url_should_obtain_shortened_link() throws Exception {
+    @SneakyThrows
+    void when_confirm_saving_existing_url_should_obtain_shortened_link() {
         Update update = BotTestUtils.createUpdateWithMessageFromChat(CHAT_ID, "Yes");
 
         executeUpdate(update);
