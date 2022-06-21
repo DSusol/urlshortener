@@ -11,6 +11,7 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 
 import com.learning.urlshortener.bot.UrlShortenerBot;
 import com.learning.urlshortener.bot.commands.noncommand.NonCommandUpdateHandler;
+import com.learning.urlshortener.bot.commands.noncommand.UpdateFailureProcessor;
 import com.learning.urlshortener.bot.utils.MessageUtils;
 import com.learning.urlshortener.bot.utils.TgIncomingUpdateLogger;
 
@@ -23,8 +24,9 @@ public class UrlShortenerTestBot extends UrlShortenerBot {
     @Autowired
     public UrlShortenerTestBot(List<IBotCommand> sortedBotCommands, TgIncomingUpdateLogger logger,
                                MessageUtils messageUtils, NonCommandUpdateHandler nonCommandUpdateHandler,
+                               UpdateFailureProcessor updateFailureProcessor,
                                ExecutedTgTestMethodsRegistry executedTgTestMethodsRegistry) {
-        super(sortedBotCommands, logger, messageUtils, nonCommandUpdateHandler);
+        super(sortedBotCommands, logger, messageUtils, nonCommandUpdateHandler, updateFailureProcessor);
         this.executedTgTestMethodsRegistry = executedTgTestMethodsRegistry;
     }
 
