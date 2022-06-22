@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.commands.noncommand;
+package com.learning.urlshortener.bot;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
