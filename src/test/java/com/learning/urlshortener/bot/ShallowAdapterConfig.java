@@ -1,4 +1,4 @@
-package com.learning.urlshortener.bot.messages;
+package com.learning.urlshortener.bot;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

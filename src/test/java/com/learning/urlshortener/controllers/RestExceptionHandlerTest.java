@@ -18,10 +18,10 @@ class RestExceptionHandlerTest extends BaseFullContextTest {
     public void when_requesting_url_by_invalid_token_should_respond_with_bad_request_status() {
 
         MvcResult result = mockMvc.perform(get("/invalid_token"))
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isInternalServerError())
                 .andReturn();
 
         String content = result.getResponse().getContentAsString();
-        assertThat(content).contains("message", "status", "status_code");
+        assertThat(content).contains("status", "status_code");
     }
 }
