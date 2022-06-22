@@ -6,37 +6,22 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.learning.urlshortener.bot.ShallowAdapterConfig;
 import com.learning.urlshortener.services.UrlShortenerService;
 
 import lombok.SneakyThrows;
 
-class RestExceptionHandlerTest {
+class RestExceptionHandlerTest extends ShallowAdapterConfig {
 
-    @Mock
+    @Autowired
     UrlShortenerService urlShortenerService;
 
-    @InjectMocks
-    LinkController linkController;
-
-    RestExceptionHandler underTest;
-
+    @Autowired
     MockMvc mockMvc;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-
-        underTest = new RestExceptionHandler();
-        mockMvc = MockMvcBuilders.standaloneSetup(linkController).setControllerAdvice(underTest).build();
-    }
 
     @Test
     @SneakyThrows
