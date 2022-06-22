@@ -24,7 +24,7 @@ class UpdateFailureProcessorTest extends ShallowAdapterConfig {
 
     @SneakyThrows
     @Test
-    void when_sending_update_that_would_cause_exception_then_exception_is_handled() {
+    void when_sending_update_that_would_cause_unexpected_exception_then_exception_is_handled() {
         //given
         Update newLinkCommandUpdate = BotTestUtils.createCommandUpdateWithMessageFromChat(666L, "/new_link");
         underTest.onUpdatesReceived(List.of(newLinkCommandUpdate));
