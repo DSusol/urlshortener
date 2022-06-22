@@ -21,9 +21,20 @@ public class RestExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleDefaultException(Exception exception) {
         log.warn("Bad request handling.", exception);
+        return getMapResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @SneakyThrows
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> handleNotFoundException(Exception exception) {
+        log.warn("Not found request handling.", exception);
+        return getMapResponseEntity(HttpStatus.NOT_FOUND);
+    }
+
+    private ResponseEntity<Map<String, Object>> getMapResponseEntity(HttpStatus httpStatus) {
         Map<String, Object> errorInfo = new HashMap<>();
-        errorInfo.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
-        errorInfo.put("status_code", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        return new ResponseEntity<>(errorInfo, HttpStatus.INTERNAL_SERVER_ERROR);
+        errorInfo.put("status", httpStatus);
+        errorInfo.put("status_code", httpStatus.value());
+        return new ResponseEntity<>(errorInfo, httpStatus);
     }
 }

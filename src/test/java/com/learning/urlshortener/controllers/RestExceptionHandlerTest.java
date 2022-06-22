@@ -34,4 +34,16 @@ class RestExceptionHandlerTest extends ShallowAdapterConfig {
                 .andExpect(jsonPath("status").value("INTERNAL_SERVER_ERROR"))
                 .andExpect(jsonPath("status_code").value(500));
     }
+
+    @Test
+    @SneakyThrows
+    public void when_requesting_sort_url_with_invalid_token_should_respond_with_not_found_status() {
+
+        when(urlShortenerService.findUrlByToken(any())).thenThrow(new IllegalArgumentException());
+
+        mockMvc.perform(get("/invalid_token"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("status").value("NOT_FOUND"))
+                .andExpect(jsonPath("status_code").value(404));
+    }
 }
