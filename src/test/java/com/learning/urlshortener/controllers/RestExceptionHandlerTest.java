@@ -11,7 +11,7 @@ import com.learning.urlshortener.BaseFullContextTest;
 
 import lombok.SneakyThrows;
 
-class ExceptionHandlerControllerTest extends BaseFullContextTest {
+class RestExceptionHandlerTest extends BaseFullContextTest {
 
     @Test
     @SneakyThrows

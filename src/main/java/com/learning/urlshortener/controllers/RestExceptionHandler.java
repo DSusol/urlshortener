@@ -15,16 +15,15 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 @Slf4j
 @RequiredArgsConstructor
-public class ExceptionHandlerController {
+public class RestExceptionHandler {
 
     @SneakyThrows
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleDefaultException(Exception exception) {
-        log.info("Bad request handling: " + exception.getMessage());
+        log.warn("Bad request handling.", exception);
         Map<String, Object> errorInfo = new HashMap<>();
-        errorInfo.put("message", exception.getMessage());
-        errorInfo.put("status", HttpStatus.BAD_REQUEST);
-        errorInfo.put("status_code", HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
+        errorInfo.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
+        errorInfo.put("status_code", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return new ResponseEntity<>(errorInfo, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
