@@ -24,6 +24,6 @@ class UpdateFailureProcessorTest extends BaseFullContextTest {
 
         //then
         String savedMessageText = executedUpdates.getLastSendMessageTextForChatId(666L);
-        assertThat(savedMessageText).contains("Something bad happened. Error message:");
+        assertThat(savedMessageText).contains("Something bad happened.");
     }
 }

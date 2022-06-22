@@ -2,10 +2,8 @@ package com.learning.urlshortener.bot;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import com.learning.urlshortener.bot.UrlShortenerBot;
 import com.learning.urlshortener.bot.utils.MessageUtils;
 
 import lombok.SneakyThrows;
@@ -25,11 +23,7 @@ public class UpdateFailureProcessor {
 
     @SneakyThrows
     public void handleFailedUpdate(Update update, Exception exception) {
-        log.error("Handling exception for update id {} : {}", update.getUpdateId(), exception.getMessage());
-        String defaultErrorResponse = messageUtils.getI18nMessageFor("default.exception.message");
-        urlShortenerBot.execute(new SendMessage(
-                update.getMessage().getChatId().toString(),
-                defaultErrorResponse + exception.getMessage()
-        ));
+        log.warn("Handling exception for update {}", update, exception);
+        urlShortenerBot.execute(messageUtils.prepareSendMessage(update.getMessage(), "default.exception.message"));
     }
 }

@@ -80,8 +80,8 @@ public class BotMessagesVerificationTest {
                 arguments("unrecognized.answer", "ru", "ответ не распознан, попробуйте ещё раз:"),
 
                 // Exception handling
-                arguments("default.exception.message", "en", "Something bad happened. Error message:\n"),
-                arguments("default.exception.message", "ru", "Что-то пошло не так. Ошибка:\n")
+                arguments("default.exception.message", "en", "Something bad happened."),
+                arguments("default.exception.message", "ru", "Что-то пошло не так.")
         );
     }
 }
